@@ -1,2 +1,2 @@
-heroku ps:scale web=2
+heroku ps:scale
 web: gunicorn fiberhomes.wsgi
