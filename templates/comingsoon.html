@@ -1,0 +1,54 @@
+{% load static %}
+<link rel="stylesheet" href='{% static "blog/comingsoon.css" %}'/>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<head>
+    <link rel="icon" type="image/png" href="{% static 'blog/images/Clear BG-04.png' %}"/>
+    <title>Unspammable</title>
+</head>
+<div class="wrapper">
+    <header>
+      <img class="header__logo" src="{% static 'blog/images/Clear BG-03 white.png' %}" />
+    </header>
+  
+    <main class="content">
+      <h1>Under Construction</h1>
+  
+      <div class="countdown">
+        <div class="countdown__days">
+          <div class="number"></div>
+          <span class>Days</span>
+        </div>
+  
+        <div class="countdown__hours">
+          <div class="number"></div>
+          <span class>Hours</span>
+        </div>
+  
+        <div class="countdown__minutes">
+          <div class="number"></div>
+          <span class>Minutes</span>
+        </div>
+  
+        <div class="countdown__seconds">
+          <div class="number"></div>
+          <span class>Seconds</span>
+        </div>
+      </div>
+  
+      <p>The website is under construction. Subscribe to be notified once it's live.</p>
+  
+      <form action="">
+        <input id="form-email" name="form-email" type="email" placeholder="Your email address" />
+        <input type="submit" value="Notify me" />
+      </form>
+    </main>
+  
+    <footer>
+      <ul class="footer__links">
+        <li><a href="https://twitter.com/unspammable"><span class="fa fa-twitter"></span></a></li>
+        <li><a href="https://github.com/gcox32"><span class="fa fa-github"></span></a></li>
+      </ul>
+    </footer>
+</div>
+
+<script type="text/javascript" src='{% static "blog/comingsoon.js" %}'></script>
