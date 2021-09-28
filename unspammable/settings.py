@@ -28,6 +28,20 @@ except ImportError:
     SECURE_SSL_REDIRECT = True
     SECRET_KEY = os.environ['SECRET_KEY']
 
+    # Database
+    # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['DB'],
+            'USER': os.environ['USER'],
+            'PASSWORD': os.environ['PASSWORD'],
+            'HOST': os.environ['HOST'],
+            'PORT': '5432'
+        }
+    }
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -59,7 +73,7 @@ ROOT_URLCONF = 'unspammable.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(BASE_DIR.joinpath('templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,17 +87,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'unspammable.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
