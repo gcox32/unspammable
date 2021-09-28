@@ -15,17 +15,27 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+try:
+    from .localsettings import *
+except ImportError:
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
+    DEBUG_PROPAGATE_EXCEPTIONS = True
+
+    # Honor the 'X-Forwarded-Proto' header for request.is_secure()
+    # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # SECURE_SSL_REDIRECT = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*w$kzhs3*p2enw9gho5tt!(2q3u2lo&oosim0oiunz%3p^6%q_'
+# SECRET_KEY = 'django-insecure-*w$kzhs3*p2enw9gho5tt!(2q3u2lo&oosim0oiunz%3p^6%q_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
