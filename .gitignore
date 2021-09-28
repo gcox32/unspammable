@@ -2,3 +2,4 @@ venv/
 *.DS_Store
 *.pyc
 *localsettings.py
+*unspammable/.env
