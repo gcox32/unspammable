@@ -1,2 +1,2 @@
 heroku ps:scale web=1
-web: gunicorn fiberhomes.wsgi
+web: gunicorn unspammable.wsgi
