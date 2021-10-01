@@ -88,7 +88,7 @@ body {
   z-index: 1;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
-  transition: 0.3s;
+  transition: 500ms;
 }
 .tl-phase p {
   font-family: "Pathway Gothic One", Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -97,7 +97,8 @@ body {
 }
 .tl-phase:hover {
   cursor:pointer;
-  color: #1779cf;
+  border-radius: 25% 25% 25% 25%;
+  border-color: white;
 }
 
 
