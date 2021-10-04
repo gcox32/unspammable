@@ -2,15 +2,14 @@ body {
     font-family: "Source Sans Pro", Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 1.75;
+    margin: 0 0 0 0 !important;
 }
 
 #timeline {
   display: flex;
   background-color: #031625;
 }
-/* #timeline:hover .tl-item {
-  width: 23.3333%;
-} */
+
 
 .tl-item {
   transform: translate3d(0, 0, 0);
@@ -35,6 +34,10 @@ body {
   background: rgba(3, 22, 37, 0.85);
   opacity: 1;
   transition: opacity 0.5s ease;
+  animation: fadein 1s;
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
 }
 .tl-item:before {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, black 75%);
@@ -89,7 +92,44 @@ body {
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
   transition: 500ms;
+  animation: fadein 1s;
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
 }
+@keyframes fadein {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+  }
+@-moz-keyframes fadein { /* Firefox */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+  }
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+  }
+@-o-keyframes fadein { /* Opera */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity: 1;
+  }
+  }
+
 .tl-phase p {
   font-family: "Pathway Gothic One", Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 1.5rem;
