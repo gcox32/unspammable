@@ -13,15 +13,25 @@
     <link rel="stylesheet" href='{% static "blog/comingsoon.css" %}'/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 </head>
+
 <div class="wrapper">
     <header>
 
-        <!-- <a onclick='transitionToPage("/marvel")'> -->
+        <a class='marvel_btn' onclick="transitionToPage('/marvel')" >
             <img class="header__logo" src="{% static 'blog/images/clear_bg_3_white.png' %}" />
         </a>
 
     </header>
-  
+
+        <!-- marvel page transition -->
+        <div class="loader loader--active">
+          <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-0-original-x-men.jpg)"></div>
+          <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-1-three-part.jpg)"></div>
+          <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-2-age-of-ultron.jfif)"></div>
+          <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-3-endgame.jpg)"></div>  
+          <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-4-summary.jpg)"></div>
+        </div>
+
     <main class="content">
       <h1>Under Construction</h1>
   

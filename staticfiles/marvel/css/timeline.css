@@ -2,18 +2,15 @@ body {
     font-family: "Source Sans Pro", Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 1.75;
-
-    opacity: 0;
-    transition: opacity .5s;
 }
 
 #timeline {
   display: flex;
   background-color: #031625;
 }
-#timeline:hover .tl-item {
+/* #timeline:hover .tl-item {
   width: 23.3333%;
-}
+} */
 
 .tl-item {
   transform: translate3d(0, 0, 0);
