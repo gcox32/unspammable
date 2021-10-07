@@ -1,0 +1,90 @@
+html,body {
+    padding: 0;
+    margin: 0;
+    animation: fadein 0s;
+    /* transition: 500ms; */
+    -moz-animation: fadein 0s; /* Firefox */
+    -webkit-animation: fadein 0s; /* Safari and Chrome */
+    -o-animation: fadein 0s; /* Opera */
+    display: flex;
+    background-color: #031625;
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.tl-bg {
+    transform: translate3d(0, 0, 0);
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    transition: filter 0.5s ease;
+    filter: grayscale(100%);
+    z-index: 0;
+
+  }
+.bg-wrapper {
+    transform: translate3d(0, 0, 0);
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    /* color: #fff; */
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+.bg-wrapper:before, .bg-wrapper:after{
+    transform: translate3d(0, 0, 0);
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+.bg-wrapper::before{
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, black 75%);
+    z-index: 1;
+    opacity: 0;
+    transform: translate3d(0, 0, 0) translateY(50%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.bg-wrapper::after{
+    background: rgba(3, 22, 37, 0.85);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    animation: fadein 1s;
+    -moz-animation: fadein 1s; /* Firefox */
+    -webkit-animation: fadein 1s; /* Safari and Chrome */
+    -o-animation: fadein 1s; /* Opera */
+}

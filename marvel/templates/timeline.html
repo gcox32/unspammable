@@ -1,5 +1,17 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'marvel/css/timeline.css' %}">
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+
+  <!-- title -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="{% static 'blog/images/clear_bg_4.png' %}"/>
+  <title>unspammable</title>
+  <link rel="stylesheet" href="{% static 'marvel/css/timeline.css' %}">
+</head>
 
 <section id="timeline">
   
@@ -7,7 +19,7 @@
       
       <div class="tl-bg" style="background-image: url(/staticfiles/marvel/images/phase-0-original-x-men.jpg)"></div>
       
-      <div class="tl-phase">
+      <div class="tl-phase" onmousedown="contractDiv(this)" onmouseup="transitionToPhase('/marvel/0', this)">
         <p class="f2 heading--sanSerif">Legacy</p>
       </div>
   
@@ -24,7 +36,7 @@
       
       <div class="tl-bg" style="background-image: url(/staticfiles/marvel/images/phase-1-three-part.jpg)"></div>
       
-      <div class="tl-phase">
+      <div class="tl-phase" onmousedown="contractDiv(this)" onmouseup="transitionToPhase('/marvel/1', this)">
         <p class="f2 heading--sanSerif">Phase One</p>
       </div>
   
@@ -41,7 +53,7 @@
       
       <div class="tl-bg" style="background-image: url(/staticfiles/marvel/images/phase-2-age-of-ultron.jfif)"></div>
       
-      <div class="tl-phase">
+      <div class="tl-phase" onmousedown="contractDiv(this)" onmouseup="transitionToPhase('/marvel/2', this)">
         <p class="f2 heading--sanSerif">Phase Two</p>
       </div>
   
@@ -58,7 +70,7 @@
       
       <div class="tl-bg" style="background-image: url(/staticfiles/marvel/images/phase-3-endgame.jpg)"></div>
       
-      <div class="tl-phase">
+      <div class="tl-phase" onmousedown="contractDiv(this)" onmouseup="transitionToPhase('/marvel/3', this)">
         <p class="f2 heading--sanSerif">Phase Three</p>
       </div>
   
@@ -75,7 +87,7 @@
       
         <div class="tl-bg" style="background-image: url(/staticfiles/marvel/images/phase-4-summary.jpg)"></div>
         
-        <div class="tl-phase">
+        <div class="tl-phase" onmousedown="contractDiv(this)" onmouseup="transitionToPhase('/marvel/4', this)">
           <p class="f2 heading--sanSerif">Phase Four</p>
         </div>
     
@@ -88,5 +100,6 @@
     
       </div>
   </section>
-  
-  
+
+  <script type="text/javascript" src="{% static 'marvel/js/timeline.js' %}"></script>
+  </html>
