@@ -59,7 +59,11 @@ INSTALLED_APPS = [
 
     'accounts',
     'blog',
+    'datascience',
+    'finance',
+    'fitness',
     'marvel',
+    'unspammable',
 ]
 
 MIDDLEWARE = [

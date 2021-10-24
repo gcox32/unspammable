@@ -1,6 +1,6 @@
 from django.shortcuts import render
+from .src.dbUtils import *
 
-# Create your views here.
 
 def timeline(request):
     return render(request, 'timeline.html')
@@ -14,4 +14,8 @@ def phase(request, n):
         {'background': '/staticfiles/marvel/images/phase-3-endgame.jpg',},
         {'background': '/staticfiles/marvel/images/phase-4-summary.jpg',}
         ]
-    return render(request, 'phase.html', context=phase_list[n])
+    context = phase_list[n]
+    title_list = movies_by_phase(n)
+    context['titles'] = title_list
+
+    return render(request, 'phase.html', context=context)

@@ -13,8 +13,11 @@
 </head>
 
 <body>
-    <div class="bg-wrapper">
-        <div class="tl-bg" style="background-image: url('{{ background }}');">
+    <div class="bg-wrapper" style="z-index: -1;">
+        <div class="tl-bg" style="background-image: url('{{ background }}'); ">
         </div>
     </div>
+    {% for title in titles %}
+      <li><a href="{{ title.url }}" target="_blank" style="color:white;">{{ title.title_text }}</a></li>
+    {% endfor %}
 </body>
