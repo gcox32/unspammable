@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # apps
     'accounts',
     'blog',
     'datascience',
@@ -64,6 +65,9 @@ INSTALLED_APPS = [
     'fitness',
     'marvel',
     'unspammable',
+
+    # websocket
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -94,6 +98,19 @@ TEMPLATES = [
         },
     },
 ]
+
+# for streaming data, websockets
+ASGI_APPLICATION = 'unspammable.routing.application'
+
+# channel settings
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+    },
+}
 
 WSGI_APPLICATION = 'unspammable.wsgi.application'
 
@@ -147,3 +164,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/'

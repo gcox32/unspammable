@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'finance/scrolling.css' %}"/>
+    <link rel="stylesheet" href="{% static 'finance/dashboard.css' %}"/>
+</head>
+    <!-- ticker -->
+    <div class="hwrap" id="row">
+        <div class="row-move" id="row-move">
+        {% for headline in news %}
+          <div class="news-card" onclick="$('#{{headline.id}}').modal('show');">
+              <div class="news-content">
+                  <a class="news-headline">
+                      {{ headline.headline }}
+                  </a>
+              </div>
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+    
+    {% for card in news %}
+      <!-- modal -->
+      <div class="modal" id="{{ card.id }}" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <img src="{{ card.image }}" alt="{{ card.source }}" style="border-top-left-radius: 16px; border-top-right-radius: 16px;"/>
+              <div class="modal-title" style="padding-left: 8px; padding-right: 8px;">
+                  <strong>{{ card.headline }}</strong>
+              </div>
+              <div class="model-body" style="padding:10px;">
+                  {{ card.summary }} (Source: <a href="{{ card.url }}" target="_blank">{{ card.source }}</a>)
+              </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+<div class="dashboard">
+    <div class="accounts">
+        Accounts
+    </div>
+    <div class="charts" style="width: 100%;">
+        <h1 id="main">placeholder</h1>
+    </div>
+    <div class="third" style="width:200px; margin-left: auto; margin-right: 0px;">
+        Third section
+    </div>
+</div>
+
+<!-- websocket js -->
+<script>
+    number_one=document.getElementById('main')
+    var wsStart='ws://'
+    var endpoint=wsStart + window.location.host + window.location.pathname
+    var socket=new WebSocket(endpoint)
+
+    socket.onopen=function(e){
+    socket.send(1)
+    }
+
+    socket.onmessage=function(e){
+    number_one.innerHTML=e.data
+    socket.send(1)
+    }
+</script>
+
+</html>

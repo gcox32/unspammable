@@ -1,3 +1,12 @@
 from django.db import models
 
-# Create your models here.
+class Goal(models.Model):
+    pass
+
+class Account(models.Model):
+    pass
+
+class Asset(models.Model):
+    pass
+
+

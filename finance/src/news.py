@@ -5,8 +5,10 @@ token = 'c5qa9fiad3iaqkuej3vg'
 finnhub_client = finnhub.Client(api_key=f"{token}")
 
 # first parameter can be 'general', 'forex', 'crypto'
-raw = finnhub_client.general_news('crypto', min_id=0)
-news = json.dumps(raw, indent=4)
+crypto_news = finnhub_client.general_news('crypto', min_id=0)
+clean_crypto_news = json.dumps(crypto_news, indent=4)
+general_news = finnhub_client.general_news('general', min_id=0)
+clean_general_news = json.dumps(general_news, indent=4)
 
 raw = finnhub_client.stock_social_sentiment('AAPL')
 

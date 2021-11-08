@@ -16,11 +16,15 @@
 
 <div class="wrapper">
     <header>
-
-        <!-- <a class='marvel_btn' onclick="transitionToPage('/marvel')" > -->
+      {% if user.is_authenticated %}
+        <a class='marvel_btn' onclick="transitionToPage('/marvel')" >
             <img class="header__logo" src="{% static 'unspammable/images/clear_bg_3_white.png' %}" />
         </a>
-
+      {% else %}
+        <a href="{% url 'login' %}">
+          <img class="header__logo" src="{% static 'unspammable/images/clear_bg_3_white.png' %}" />
+        </a>
+      {% endif %}
     </header>
 
         <!-- marvel page transition -->
