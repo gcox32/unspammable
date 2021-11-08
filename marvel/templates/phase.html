@@ -11,8 +11,6 @@
   <title>unspammable</title>
   <link rel="stylesheet" href="{% static 'marvel/css/phases.css' %}">
 </head>
-
-<body>
     <div class="bg-wrapper" style="z-index: -1;">
         <div class="tl-bg" style="background-image: url('{{ background }}'); ">
         </div>
@@ -20,4 +18,23 @@
     {% for title in titles %}
       <li><a href="{{ title.url }}" target="_blank" style="color:white;">{{ title.title_text }}</a></li>
     {% endfor %}
-</body>
+
+    <section class="timeline">
+      <ol>
+        <li>
+          <div>
+            <time>1934</time> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+          </div>
+        </li>
+        <li></li>
+      </ol>
+      
+      <div class="arrows">
+        <button class="arrow arrow__prev disabled" disabled>
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrow_prev.svg" alt="prev timeline arrow">
+        </button>
+        <button class="arrow arrow__next">
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrow_next.svg" alt="next timeline arrow">
+        </button>
+      </div>
+    </section>

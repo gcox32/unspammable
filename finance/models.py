@@ -9,4 +9,7 @@ class Account(models.Model):
 class Asset(models.Model):
     pass
 
+class Liability(models.Model):
+    pass
+
 

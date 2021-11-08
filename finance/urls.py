@@ -6,4 +6,5 @@ from . import views
 
 urlpatterns = [
     path('', views.dashboard),
+    path('/giving', views.giving),
 ]
