@@ -7,34 +7,25 @@
 
   <!-- title -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" href="{% static 'blog/images/clear_bg_4.png' %}"/>
+  <link rel="icon" type="image/png" href="{% static 'unspammable/images/clear_bg_4.png' %}"/>
   <title>unspammable</title>
   <link rel="stylesheet" href="{% static 'marvel/css/phases.css' %}">
 </head>
-    <div class="bg-wrapper" style="z-index: -1;">
-        <div class="tl-bg" style="background-image: url('{{ background }}'); ">
-        </div>
-    </div>
-    {% for title in titles %}
-      <li><a href="{{ title.url }}" target="_blank" style="color:white;">{{ title.title_text }}</a></li>
-    {% endfor %}
 
-    <section class="timeline">
-      <ol>
-        <li>
-          <div>
-            <time>1934</time> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-          </div>
-        </li>
-        <li></li>
-      </ol>
-      
-      <div class="arrows">
-        <button class="arrow arrow__prev disabled" disabled>
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrow_prev.svg" alt="prev timeline arrow">
-        </button>
-        <button class="arrow arrow__next">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrow_next.svg" alt="next timeline arrow">
-        </button>
-      </div>
-    </section>
+<div class="bg-wrapper" style="z-index: -1;">
+    <div class="tl-bg" style="background-image: url('{{ background }}'); ">
+    </div>
+</div>
+
+<section class="timeline">
+  <div class="container">
+    {% for title in titles %}
+    <a class='tl-card' 
+      href="{{ title.url }}" target="_blank"
+      style="background-image:url('/staticfiles/marvel/images/{{ title.image }}')" 
+      title="{{title.title_text}} ({{title.release_date}})"
+      >
+    </a>
+    {% endfor %}
+  </div>
+</section>

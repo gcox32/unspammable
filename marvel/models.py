@@ -39,6 +39,7 @@ class Movie(models.Model):
     title_text = models.CharField(max_length=64)
     release_date = models.DateField(null=True, blank=True)
     url = models.CharField(max_length=256, null=True, blank=True)
+    image = models.CharField(max_length=256, null=True, blank=True)
     phase = models.ForeignKey(
         Phase, 
         null=True, 

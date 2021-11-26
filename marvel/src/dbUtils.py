@@ -49,6 +49,7 @@ def movies_by_phase(phase):
             JOIN "marvel_phase" as p
             ON m.phase_id = p.id
             WHERE phase_id = '{}'
+            ORDER BY m.release_date;
         """.format(phase + 1)
     conn = create_connection()
     cursor = conn.cursor()
