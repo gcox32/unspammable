@@ -1,7 +1,7 @@
 html,body {
     padding: 0;
     margin: 0;
-    font-family: proxima-nova, sans-serif;
+    font-family: Avenir-heavy, proxima-nova, sans-serif;
     animation: fadein 0s;
     /* transition: 500ms; */
     -moz-animation: fadein 0s; /* Firefox */
@@ -42,7 +42,6 @@ html,body {
         opacity: 1;
     }
 }
-
 
 .tl-bg {
     transform: translate3d(0, 0, 0);
@@ -131,6 +130,9 @@ section {
 @media only screen and (max-width: 1400px) {
     .tl-card {
         margin: 1em 1em 0 1em
+    }
+    section {
+        min-width: 400px;
     }
 }
 
