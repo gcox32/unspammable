@@ -10,11 +10,27 @@
   <link rel="icon" type="image/png" href="{% static 'unspammable/images/clear_bg_4.png' %}"/>
   <title>unspammable</title>
   <link rel="stylesheet" href="{% static 'marvel/css/phases.css' %}">
+  <link rel="stylesheet" href="{% static 'marvel/css/transition.css' %}">
 </head>
+
+<!-- loader -->
+<div class="loader loader--active">
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-0-original-x-men.jpg)"></div>
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-1-three-part.jpg)"></div>
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-2-age-of-ultron.jfif)"></div>
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-3-endgame.jpg)"></div>  
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-4-summary.jpg)"></div>
+</div>
 
 <div class="bg-wrapper" style="z-index: -1;">
     <div class="tl-bg" style="background-image: url('{{ background }}'); ">
     </div>
+</div>
+
+<div class="header">
+  <a onclick="transitionToPage('/marvel')" class="header-item">
+    <h2>Timeline</h2>
+  </a>
 </div>
 
 <section class="timeline">
@@ -29,3 +45,5 @@
     {% endfor %}
   </div>
 </section>
+
+<script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
