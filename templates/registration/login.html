@@ -1,10 +1,13 @@
 {% load static %}
+<head>
+  <link rel="stylesheet" href='{% static "unspammable/css/login.css" %}'>
+</head>
+
 <div class="login-card">
-  <img src="{% static 'unspammable/images/clear_bg_3_white.png' %}">
   <form method="post">
     {% csrf_token %}
     <input name="username">
     <input name="password" type="password">
-
+    <button type="submit">Let Me In</button>
   </form>
 </div>

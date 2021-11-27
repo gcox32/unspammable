@@ -7,7 +7,7 @@
 
   <!-- title -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" href="{% static 'unspammable/images/clear_bg_4.png' %}"/>
+  <link rel="icon" type="image/png" href="{% static 'unspammable/images/icons/clear_bg_4.png' %}"/>
   <title>unspammable</title>
   <link rel="stylesheet" href="{% static 'marvel/css/phases.css' %}">
   <link rel="stylesheet" href="{% static 'marvel/css/transition.css' %}">
@@ -28,9 +28,19 @@
 </div>
 
 <div class="header">
-  <a onclick="transitionToPage('/marvel')" class="header-item">
-    <h2>Timeline</h2>
-  </a>
+  <div class="header-item">
+    <a onclick="transitionToPage('/marvel')" >
+      <h2>Timeline</h2>
+    </a>
+  </div>
+  <div class="header-item" >
+    <h2>|</h2>
+  </div>
+  <div class="header-item">
+    <a href="/" style="text-decoration: none; color: white;">
+      <h2>Home</h2>
+    </a>
+  </div>
 </div>
 
 <section class="timeline">

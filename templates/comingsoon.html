@@ -7,7 +7,7 @@
 
     <!-- title -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="{% static 'unspammable/images/clear_bg_4.png' %}"/>
+    <link rel="icon" type="image/png" href="{% static 'unspammable/images/icons/clear_bg_4.png' %}"/>
     <title>unspammable</title>
 
     <link rel="stylesheet" href='{% static "unspammable/css/main.css" %}'/>
@@ -19,11 +19,11 @@
     <header>
       {% if user.is_authenticated %}
         <a class='marvel_btn' onclick="transitionToPage('/marvel')" >
-            <img class="header__logo" src="{% static 'unspammable/images/clear_bg_3_white.png' %}" />
+            <img class="header__logo" src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" />
         </a>
       {% else %}
         <a href="{% url 'login' %}">
-          <img class="header__logo" src="{% static 'unspammable/images/clear_bg_3_white.png' %}" />
+          <img class="header__logo" src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" />
         </a>
       {% endif %}
     </header>
@@ -36,31 +36,6 @@
           <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-3-endgame.jpg)"></div>  
           <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-4-summary.jpg)"></div>
         </div>
-
-    <main class="content">
-      <h1>Under Construction</h1>
-  
-      <div class="countdown">
-        <div class="countdown__days">
-          <div class="number"></div>
-          <span class>Days</span>
-        </div>
-  
-        <div class="countdown__hours">
-          <div class="number"></div>
-          <span class>Hours</span>
-        </div>
-  
-        <div class="countdown__minutes">
-          <div class="number"></div>
-          <span class>Minutes</span>
-        </div>
-  
-        <div class="countdown__seconds">
-          <div class="number"></div>
-          <span class>Seconds</span>
-        </div>
-      </div>
   
       <!-- <p>The website is under construction.</p> -->
   
@@ -79,6 +54,5 @@
     </footer>
 </div>
 
-<script type="text/javascript" src='{% static "unspammable/js/comingsoon.js" %}'></script>
 <script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
 </html>

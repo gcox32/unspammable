@@ -2,11 +2,12 @@ html,body {
     padding: 0;
     margin: 0;
     font-family: Avenir-heavy, proxima-nova, sans-serif;
-    animation: fadein 0s;
+    animation: fadein 250ms;
+    /* background-color: #031625; */
     /* transition: 500ms; */
-    -moz-animation: fadein 0s; /* Firefox */
-    -webkit-animation: fadein 0s; /* Safari and Chrome */
-    -o-animation: fadein 0s; /* Opera */
+    -moz-animation: fadein 250ms; /* Firefox */
+    -webkit-animation: fadein 250ms; /* Safari and Chrome */
+    -o-animation: fadein 250ms; /* Opera */
     display: flex;
     justify-content: center;
 }
@@ -171,11 +172,17 @@ section {
 .header-item {
     transition: 0.25s ease-in-out;
     opacity: 0.5;
+    text-decoration: none;
+    padding: 0 1em 0 1em;
 }
 
-.header-item:hover {
+.header-item:nth-child(odd):hover {
     cursor: pointer;
     opacity: 0.75;
+}
+
+.header-item:nth-child(even):hover {
+    cursor: default;
 }
 
 @media only screen and (max-width: 1400px) {
