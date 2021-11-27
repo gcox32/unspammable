@@ -40,6 +40,9 @@ class Movie(models.Model):
     release_date = models.DateField(null=True, blank=True)
     url = models.CharField(max_length=256, null=True, blank=True)
     image = models.CharField(max_length=256, null=True, blank=True)
+    directors = models.CharField(max_length=256, null=True, blank=True)
+    screenwriters = models.CharField(max_length=256, null=True, blank=True)
+    producers = models.CharField(max_length=256, null=True, blank=True)
     phase = models.ForeignKey(
         Phase, 
         null=True, 
@@ -59,7 +62,13 @@ class Movie(models.Model):
 class Series(models.Model):
     title_text = models.CharField(max_length=64)
     release_date = models.DateField(null=True, blank=True)
-    phase = models.CharField(max_length=64, null=True, blank=True)
+    url = models.CharField(max_length=256, null=True, blank=True)
+    image = models.CharField(max_length=256, null=True, blank=True)
+    phase = models.ForeignKey(
+        Phase, 
+        null=True, 
+        blank=True,
+        on_delete=models.SET_NULL)
     
     platform = models.ForeignKey(
         Platform,
@@ -67,6 +76,9 @@ class Series(models.Model):
         blank=True,
         on_delete=models.SET_NULL
     )
+
+    def __str__(self):
+        return self.title_text
 
 class Character(models.Model):
     alias_text = models.CharField(max_length=64)
@@ -79,3 +91,6 @@ class Character(models.Model):
     series = models.ManyToManyField(
         Series,
     )
+
+    def __str__(self):
+        return self.alias_text

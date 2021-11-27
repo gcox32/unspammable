@@ -155,3 +155,22 @@ body {
   transition: filter 0.5s ease;
   filter: grayscale(100%);
 }
+
+@media only screen and (max-width: 1200px) {
+  #timeline {
+    flex-direction: column;
+  }
+  .tl-item {
+    width: 100%;
+  }
+  .tl-item:hover {
+    width: 100%;
+  }
+  .tl-item:hover::after {
+    width: 100%;
+  }
+  .tl-item::after {
+    animation: none;
+    width: 100%;
+  }
+}
