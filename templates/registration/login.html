@@ -1,13 +1,33 @@
+<!DOCTYPE html>
 {% load static %}
+<html lang="en">
 <head>
-  <link rel="stylesheet" href='{% static "unspammable/css/login.css" %}'>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+
+    <!-- title -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="{% static 'unspammable/images/icons/clear_bg_4.png' %}"/>
+    <title>unspammable</title>
+
+    <link rel="stylesheet" href='{% static "unspammable/css/main.css" %}'/>
+    <link rel="stylesheet" href='{% static "unspammable/css/login.css" %}'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 </head>
 
 <div class="login-card">
   <form method="post">
     {% csrf_token %}
-    <input name="username">
-    <input name="password" type="password">
+    <input name="username" placeholder="username">
+    <input name="password" type="password" placeholder="password">
     <button type="submit">Let Me In</button>
   </form>
 </div>
+
+<footer>
+  <ul class="footer__links" style="padding-inline-start: 0%;">
+    <li><a href="https://twitter.com/unspammable"><span class="fa fa-twitter"></span></a></li>
+    <li><a href="https://github.com/gcox32"><span class="fa fa-github"></span></a></li>
+    <li><a href="https://www.linkedin.com/in/gcoxexcel/"><span class="fa fa-linkedin"></span></a></li>
+  </ul>
+</footer>
