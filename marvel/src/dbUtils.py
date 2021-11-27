@@ -44,13 +44,15 @@ def make_dict(result, columns):
 
 def movies_by_phase(phase):
     query = """
-        SELECT *
-            FROM "marvel_movie" as m
-            JOIN "marvel_phase" as p
-            ON m.phase_id = p.id
-            WHERE phase_id = '{}'
-            ORDER BY m.release_date;
-        """.format(phase + 1)
+        SELECT title_text, url, platform_id, release_date, image
+        FROM marvel_movie m
+        WHERE m.phase_id = {}
+        UNION
+        SELECT title_text, url, platform_id, release_date, image
+        FROM marvel_series s
+        WHERE s.phase_id = {}
+        ORDER BY release_date;
+    """.format(phase + 1, phase + 1)
     conn = create_connection()
     cursor = conn.cursor()
     cursor.execute(query)
