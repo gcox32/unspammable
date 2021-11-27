@@ -1,7 +1,9 @@
 contractDiv = function(phase) {
     var box = phase.parentElement;
     var tl = box.parentElement;
-    box.style.width = '36%';
+    if (window.innerWidth > 1200) {
+        box.style.width = '36%';
+    };
 };
 
 expandDiv = function(phase) {
