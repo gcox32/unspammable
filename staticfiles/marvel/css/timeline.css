@@ -78,7 +78,8 @@ body {
 .tl-content h1 {
   font-family: Avenir-heavy, proxima-nova, sans-serif;
   text-transform: uppercase;
-  color: #1779cf;
+  color: white;
+  opacity: 0.8;
   font-size: 1.44rem;
   font-weight: normal;
 }
@@ -86,7 +87,7 @@ body {
 .tl-phase {
   position: absolute;
   text-align: center;
-  min-width: 140px;
+  min-width: 150px;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);

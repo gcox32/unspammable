@@ -5,6 +5,7 @@ from django.views.generic.base import TemplateView
 from . import views
 
 urlpatterns = [
-    path('', views.timeline, name='timeline'),
-    path('<n>', views.phase, name='phase'),
+    path('', views.home, name='marvel'),
+    path('timeline', views.timeline, name='timeline'),
+    path('timeline/<n>', views.phase, name='phase'),
 ]

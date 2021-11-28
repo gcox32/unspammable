@@ -1,29 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from unspammable.src.auth import auth_check
 from .src.dbUtils import *
+from .src.timeline import timeline_list
 
+def home(request):
+    return auth_check(request, 'marvelHome.html')
 
 def timeline(request):
-    if request.user.is_authenticated:
-        return render(request, 'timeline.html')
-    else:
-        return HttpResponseRedirect('/accounts/login')
+    return auth_check(request, 'timeline.html', context={'phases': timeline_list})
 
 def phase(request, n):
-    if request.user.is_authenticated:
-        n = int(n)
-        phase_list = [
-            {'background': '/staticfiles/marvel/images/phase-0-original-x-men.jpg',},
-            {'background': '/staticfiles/marvel/images/phase-1-three-part.jpg',},
-            {'background': '/staticfiles/marvel/images/phase-2-age-of-ultron.jfif',},
-            {'background': '/staticfiles/marvel/images/phase-3-endgame.jpg',},
-            {'background': '/staticfiles/marvel/images/phase-4-summary.jpg',}
-            ]
-        context = phase_list[n]
-        title_list = movies_by_phase(n)
-        context['titles'] = title_list
+    n = int(n)
+    context = timeline_list[n]
+    title_list = movies_by_phase(n)
+    context['titles'] = title_list
 
-
-        return render(request, 'phase.html', context=context)
-    else:
-        return HttpResponseRedirect('/accounts/login')
+    return auth_check(request, 'phase.html', context=context)
