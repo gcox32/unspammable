@@ -27,14 +27,15 @@ def phase(request, n):
     n = int(n)
     context = timeline_list[n]
     title_list = movies_by_phase(n)
-    context['titles'] = title_list
-    context['platforms'] = Platform.objects.values()
 
     try:
-        credentials = Credential.objects.filter(user_id=request.user.id).values()
+        credentials = Credential.objects.filter(user_id=request.user.id).values_list()
+        credentials = list(credentials)
     except:
         credentials = [None]
-
+        
+    context['titles'] = title_list
+    context['platforms'] = Platform.objects.values()
     context['credentials'] = credentials
 
     return auth_check(request, 'phase.html', context=context)
