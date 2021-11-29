@@ -65,10 +65,9 @@ function copyToClipboard(id, n) {
 
   var tooltip = document.getElementsByClassName("tooltiptext")[n];
   tooltip.innerHTML = "Copied";
-
 }
 
-function outFunc() {
-  var tooltip = document.getElementById("copyTooltip");
+function outFunc(n) {
+  var tooltip = document.getElementsByClassName("tooltiptext")[n];
   tooltip.innerHTML = "Copy";
 }

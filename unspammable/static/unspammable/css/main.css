@@ -239,7 +239,7 @@ footer {
   left: 50%;
   margin-left: -55px;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .tooltip .tooltiptext::after {

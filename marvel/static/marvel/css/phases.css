@@ -181,6 +181,11 @@ section {
     cursor: pointer;
     opacity: 0.75;
 }
+.header-item:first-child {
+    left: 10px;
+    position: absolute;
+    z-index: 2;
+}
 
 .header-item:nth-child(even):hover {
     cursor: default;

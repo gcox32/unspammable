@@ -8,7 +8,7 @@
     <a class='tl-card' 
       href="{{ title.url }}" target="_blank"
       style="background-image:url('/staticfiles/marvel/images/{{ title.image }}')" 
-      title="{{title.title_text}} ({{title.release_date}})"
+      title="{{title.title_text}} ({{title.release_date.year}})"
       >
     </a>
     {% endfor %}

@@ -57,7 +57,12 @@ class Movie(models.Model):
     )
 
     def __str__(self):
-        return self.title_text
+        release_date = self.release_date
+        try:
+            release_year = release_date.year
+            return self.title_text + f' ({release_year})'
+        except:
+            return self.title_text
 
 class Series(models.Model):
     title_text = models.CharField(max_length=64)
