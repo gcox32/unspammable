@@ -5,6 +5,6 @@ from django.views.generic.base import TemplateView
 from . import views
 
 urlpatterns = [
-    path('', views.dashboard),
+    path('', views.dashboard, name='finance'),
     path('giving', views.giving),
 ]

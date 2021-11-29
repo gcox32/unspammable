@@ -8,6 +8,7 @@ body {
 #timeline {
   display: flex;
   background-color: #031625;
+  width: 100vw;
 }
 
 

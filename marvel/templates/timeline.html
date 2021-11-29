@@ -1,18 +1,6 @@
+{% extends 'marvelBase.html' %}
 {% load static %}
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-
-  <!-- title -->
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" href="{% static 'unspammable/images/icons/clear_bg_4.png' %}"/>
-  <title>unspammable</title>
-  <link rel="stylesheet" href="{% static 'marvel/css/timeline.css' %}">
-  <link rel="stylesheet" href="{% static 'marvel/css/transition.css' %}">
-</head>
+{% block content %}
 
 <section id="timeline">
   {% for phase in phases %}
@@ -37,4 +25,5 @@
   </section>
 
   <script type="text/javascript" src="{% static 'marvel/js/timeline.js' %}"></script>
-  </html>
+
+  {% endblock %}

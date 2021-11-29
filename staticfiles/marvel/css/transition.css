@@ -68,7 +68,6 @@
   .loader--active {
     height: 100%;
     transition-delay: 0s;
-  
   }
   .loader--active .loader__icon {
     /* opacity: 1; */

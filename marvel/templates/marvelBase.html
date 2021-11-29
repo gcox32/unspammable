@@ -9,10 +9,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="{% static 'unspammable/images/icons/clear_bg_4.png' %}"/>
   <title>unspammable</title>
+
+  <link rel="stylesheet" href="{% static 'marvel/css/timeline.css' %}">
   <link rel="stylesheet" href="{% static 'marvel/css/phases.css' %}">
   <link rel="stylesheet" href="{% static 'marvel/css/transition.css' %}">
-  <link rel="stylesheet" href="{% static 'unspammable/css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'marvel/css/modal.css' %}">
+  <link rel="stylesheet" href="{% static 'unspammable/css/header.css' %}">
 
+  
   <script type="text/javascript" src='{% static "marvel/js/phase.js" %}'></script>
   <script type="text/javascript" src='{% static "marvel/js/timeline.js" %}'></script>
 </head>
@@ -31,6 +35,7 @@
     </div>
 </div>
 
+<!-- marvel header -->
 <div class="header">
     <div class="header-item" id="home">
       <a href="/">
@@ -38,19 +43,19 @@
       </a>
     </div>
     <div class="header-item" style="display: none;">
-      <h2>|</h2>
+      <h3>|</h3>
     </div>
     <div class="header-item">
       <a onclick="transitionToPage('/marvel/timeline')" >
-        <h2>Timeline</h2>
+        <h3>Timeline</h3>
       </a>
     </div>
     <div class="header-item" >
-      <h2>|</h2>
+      <h3>|</h3>
     </div>
     <div class="header-item">
         <a onclick="toggleModal()" style="text-decoration: none; color: white;" id="modal_opener">
-          <h2>Credentials</h2>
+          <h3>Credentials</h3>
         </a>
     </div>
 </div>
@@ -103,6 +108,7 @@
 
 {% load js %}
 <script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
+<script type="text/javascript" src='{% static "unspammable/js/modal.js" %}'></script>
 <script type="text/javascript">
   function getCredentials() {
     var platform = document.getElementById('platform').value;

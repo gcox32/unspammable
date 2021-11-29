@@ -2,50 +2,8 @@ html,body {
     padding: 0;
     margin: 0;
     font-family: Avenir-heavy, proxima-nova, sans-serif;
-    animation: fadein 250ms;
-    /* background-color: #031625; */
-    /* transition: 500ms; */
-    -moz-animation: fadein 250ms; /* Firefox */
-    -webkit-animation: fadein 250ms; /* Safari and Chrome */
-    -o-animation: fadein 250ms; /* Opera */
     display: flex;
     justify-content: center;
-}
-@keyframes fadein {
-    from {
-        opacity:0;
-    }
-    to {
-        opacity:1;
-    }
-}
-@-moz-keyframes fadein { /* Firefox */
-    from {
-        opacity:0;
-    }
-    to {
-        opacity:1;
-    }
-}
-@-webkit-keyframes fadein { /* Safari and Chrome */
-    from {
-        opacity:0;
-    }
-    to {
-        opacity:1;
-    }
-}
-@-o-keyframes fadein { /* Opera */
-    from {
-        opacity:0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-html {
-    overflow-y:scroll;
 }
 
 .tl-bg {
@@ -56,8 +14,6 @@ html {
     transition: filter 0.5s ease;
     filter: grayscale(100%);
     z-index: 0;
-    /* overflow: hidden; */
-
   }
 .bg-wrapper {
     transform: translate3d(0, 0, 0);
@@ -65,7 +21,6 @@ html {
     width: 100%;
     height: 100vh;
     min-height: 600px;
-    /* overflow: hidden; */
     transition: all 0.5s ease;
 }
 .bg-wrapper:before, .bg-wrapper:after{
@@ -96,7 +51,7 @@ html {
 }
 
 /* phase timeline */
-section {
+.timeline {
     padding: 100px 0;
     max-width: 60%;
 }
@@ -107,7 +62,6 @@ section {
 
 .timeline::before {
     content:"";
-    background: #c5cae9;
     width: 3px;
     height: 95%;
     position: absolute;
@@ -158,48 +112,12 @@ section {
     text-align: center;
 }
 
-.header {
-    height: 60px;
-    width: 100%;
-    position: fixed;
-    color: white;
-    display: flex;
-    justify-content: right;
-    padding-right: 5%;
-    text-transform: uppercase;
-    z-index: 2;
-}
-
-.header-item {
-    transition: 0.25s ease-in-out;
-    opacity: 0.5;
-    text-decoration: none;
-    padding: 0 1em 0 1em;
-}
-
-.header-item:nth-child(odd):hover {
-    cursor: pointer;
-    opacity: 0.75;
-}
-.header-item:first-child {
-    left: 10px;
-    position: absolute;
-    z-index: 2;
-}
-
-.header-item:nth-child(even):hover {
-    cursor: default;
-}
-
-.modal-content {
-    border-radius: 16px;
-}
 
 @media only screen and (max-width: 1400px) {
     .tl-card {
         margin: 1em 1em 0 1em
     }
-    section {
+    .timeline {
         min-width: 400px;
     }
 }
