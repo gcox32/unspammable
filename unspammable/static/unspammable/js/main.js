@@ -64,11 +64,11 @@ function copyToClipboard(id, n) {
   navigator.clipboard.writeText(copyText.innerHTML);
 
   var tooltip = document.getElementsByClassName("tooltiptext")[n];
-  tooltip.innerHTML = "Copied " + id;
+  tooltip.innerHTML = "Copied";
 
 }
 
 function outFunc() {
   var tooltip = document.getElementById("copyTooltip");
-  tooltip.innerHTML = "Copy to clipboard";
+  tooltip.innerHTML = "Copy";
 }
