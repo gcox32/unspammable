@@ -49,13 +49,71 @@
         <h2>|</h2>
     </div>
     <div class="header-item">
-        <a href="/" style="text-decoration: none; color: white;">
+        <a onclick="toggleModal()" style="text-decoration: none; color: white;" id="modal_opener">
           <h2>Credentials</h2>
         </a>
     </div>
 </div>
 
+<!-- modal -->
+<div class="modal" style="display: none;">
+  <div class="overlay"></div>
+  <div class="modal_content">
+    <!-- Dynamic Section -->
+    <div class="modal_select">
+      <label for="platform">Choose a Platform:</label>
+      <select name="platform" id="platform">
+        {% for platform in platforms %}
+          <option value="{{platform.id}}">{{ platform.name_text }}</option>
+        {% endfor %}
+      </select>
+      <button onclick="getCredentials()">
+        <img src="{% static 'unspammable/images/search.png' %}" style="object-fit: cover; height: 17px; padding-top: 2px;"/>
+      </button>
+    </div>
+    <label for="username">Username:</label>
+    <div class="return-info">
+      <div id="username" value="username" style="position: absolute; font-size: 14px; padding-left: 5px;">username</div>
+      <div class="tooltip">
+      <button onclick="copyToClipboard('username', 0)" onmouseout="outFunc()">
+        <span class="tooltiptext" id="copyTooltip">Copy to clipboard</span>
+        copy
+      </button>
+      </div>
+    </div>
+    <label for="password">Password:</label>
+    <div class="return-info">
+      <div id="password" value="password" style="position: absolute; font-size: 14px; padding-left: 5px;">password</div>
+      <div class="tooltip">
+      <button onclick="copyToClipboard('password', 1)" onmouseout="outFunc()">
+        <span class="tooltiptext" id="copyTooltip">Copy to clipboard</span>
+        copy
+      </button>
+      </div>
+    </div>
+    <!-- End of Dynamic Section -->
+    <button title="Close" class="close_modal">
+      x
+    </button>
+  </div>
+</div>
+
 {% block content %}
 {% endblock %}
 
+{% load js %}
 <script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
+<script type="text/javascript">
+  function getCredentials() {
+    var platform = document.getElementById('platform').value;
+    var credentials = {{ credentials | js }};
+    var username = document.getElementById('username');
+    var password = document.getElementById('password');
+    for (let i = 0; i < credentials.length; i++) {
+      if (credentials[i][0] == platform) {
+        username.innerHTML = credentials[i][2];
+        password.innerHTML = credentials[i][1];
+      }
+    };
+  }
+</script>

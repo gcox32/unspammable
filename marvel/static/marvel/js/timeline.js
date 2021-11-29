@@ -12,7 +12,7 @@ expandDiv = function(phase) {
     for (let i = 0, len = content.length; i<len; i++) {
         content[i].style.display = 'none';
     }
-    box.style.transition = 'all 1s ease 0s';
+    box.style.transition = 'all 1s ease-in-out';
     box.style.width = '1000000vw';
     box.style.zIndex = '2';
     phase.style.display = 'none';

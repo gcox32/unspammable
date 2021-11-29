@@ -186,6 +186,10 @@ section {
     cursor: default;
 }
 
+.modal-content {
+    border-radius: 16px;
+}
+
 @media only screen and (max-width: 1400px) {
     .tl-card {
         margin: 1em 1em 0 1em
@@ -199,5 +203,11 @@ section {
     .tl-card {
         float: none;
         margin: 1em 0 1em 0;
+    }
+    .header {
+        justify-content: center;
+    }
+    .header-item {
+        padding: 0 0.3em 0 0.3em;
     }
 }

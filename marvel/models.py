@@ -27,7 +27,7 @@ class Credential(models.Model):
     )
 
     def __str__(self):
-        return self.platform + '_creds'
+        return self.platform.name_text + '_creds'
 
 class Phase(models.Model):
     name_text = models.CharField(max_length=64, null=True, blank=True)
