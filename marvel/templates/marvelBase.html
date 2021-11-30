@@ -16,8 +16,6 @@
   <link rel="stylesheet" href="{% static 'marvel/css/modal.css' %}">
   <link rel="stylesheet" href="{% static 'unspammable/css/header.css' %}">
 
-  
-  <script type="text/javascript" src='{% static "marvel/js/phase.js" %}'></script>
   <script type="text/javascript" src='{% static "marvel/js/timeline.js" %}'></script>
 </head>
 
@@ -107,8 +105,8 @@
 {% endblock %}
 
 {% load js %}
-<script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
-<script type="text/javascript" src='{% static "unspammable/js/modal.js" %}'></script>
+<script type="text/javascript" src='{% static "marvel/js/phase.js" %}'></script>
+<script type="text/javascript" src='{% static "marvel/js/modal.js" %}'></script>
 <script type="text/javascript">
   function getCredentials() {
     var platform = document.getElementById('platform').value;

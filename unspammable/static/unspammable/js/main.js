@@ -1,28 +1,23 @@
-document.addEventListener('DOMContentLoaded', function(event) {
-    document.querySelector('body').style.opacity = 1;
-});
+// toggle off menu by clicking off menu
+var menu = document.getElementById('menuToggle');
 
-// marvel page transition
-var $loader = document.querySelector('.loader')
+function attachMenuListener() {
+  document.getElementById('wrapper').addEventListener('click', toggleMenuOff);
+}
 
-window.onload = function() {
-  $loader.classList.remove('loader--active');
-  $loader.style.display = 'flex';
-};
+function detachMenuListener() {
+  document.getElementById('wrapper').removeEventListener('click', toggleMenuOff);
+}
 
-marvel_transition = function () {
-  $loader.classList.add('loader--active')
-};
-
-transitionToPage = async function(href) {
-  // marvel_transition();
-
-  // document.querySelector('body').style.opacity = 0;
-  await setTimeout(marvel_transition(), 500);
-  // setTimeout(() => 3000);
-  setTimeout(function() { 
-      window.location.href = href;
-  }, 1500);
-  
-};
-
+function toggleMenuOff() {
+  var currentState = menu.style.display;
+  console.log(currentState);
+  if (currentState === "block") {
+    menu.style.display = "";
+    attachMenuListener();
+    console.log('yep');
+  } else {
+    detachMenuListener();
+    console.log('nope');
+  };
+}
