@@ -1,23 +1,32 @@
 // toggle off menu by clicking off menu
-var menu = document.getElementById('menuToggle');
+window.onload = function get_body() {
+
+  body = document.getElementById('wrapper');
+  menu = document.getElementById('menuToggle');
+
+};
 
 function attachMenuListener() {
-  document.getElementById('wrapper').addEventListener('click', toggleMenuOff);
+  body.addEventListener('click', toggleMenuOff);
 }
 
 function detachMenuListener() {
-  document.getElementById('wrapper').removeEventListener('click', toggleMenuOff);
+  body.removeEventListener('click', toggleMenuOff);
 }
 
 function toggleMenuOff() {
-  var currentState = menu.style.display;
+  var currentState = menu.style.transform;
   console.log(currentState);
-  if (currentState === "block") {
-    menu.style.display = "";
+  if (currentState == "translate(-100%, 0)") {
+    menu.style.transform = "none";
     attachMenuListener();
     console.log('yep');
   } else {
+    menu.style.transform = "translate(-100%, 0)";
     detachMenuListener();
     console.log('nope');
   };
 }
+
+
+
