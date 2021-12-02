@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.home, name='marvel'),
     path('timeline', views.timeline, name='timeline'),
     path('timeline/<n>', views.phase, name='phase'),
+    path('recommender', views.recommend, name='recommend'),
 ]

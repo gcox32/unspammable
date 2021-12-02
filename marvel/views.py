@@ -13,34 +13,33 @@ def get_platforms_credentials(request):
         credentials = list(credentials)
     except:
         credentials = [None]
-    return platforms, credentials
+    context = {
+        'platforms': platforms,
+        'credentials': credentials,
+    }
+    return context
 
 def home(request):
-    platforms, credentials = get_platforms_credentials(request)
-    
-    context = {
-        'platforms':platforms,
-        'credentials':credentials,
-    }
+    context = get_platforms_credentials(request)
     return auth_check(request, 'marvelHome.html', context=context)
 
+def recommend(request):
+    context = get_platforms_credentials(request)
+    return auth_check(request, 'recommender.html', context=context)
+
 def timeline(request):
-    platforms, credentials = get_platforms_credentials(request)
-    context = {
-        'phases': timeline_list,
-        'platforms':platforms,
-        'credentials':credentials,
-    }
+    context = get_platforms_credentials(request)
+    context['phases'] = timeline_list
     return auth_check(request, 'timeline.html', context=context)
 
 def phase(request, n):
     n = int(n)
     context = timeline_list[n]
     title_list = movies_by_phase(n)
-    platforms, credentials = get_platforms_credentials(request)
-        
+    creds = get_platforms_credentials(request)
+
     context['titles'] = title_list
-    context['platforms'] = platforms
-    context['credentials'] = credentials
+    context['platforms'] = creds['platforms']
+    context['credentials'] = creds['credentials']
 
     return auth_check(request, 'phase.html', context=context)

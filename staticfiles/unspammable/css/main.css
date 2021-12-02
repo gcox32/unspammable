@@ -66,38 +66,8 @@ body {
   background-color: rgba(33, 33, 33, 0.25);
 }
 
-header,
-.content,
-footer {
-  position: absolute;
-}
-
-header,
-footer {
-  width: 100%;
-}
-
-header {
-  top: 0;
-  text-align: center;
-}
-
 button:hover {
   cursor: pointer;
-}
-
-.header__logo {
-  max-width: 65px;
-  fill: #fff;
-}
-
-header img {
-  transition: 0.25s ease-in-out;
-}
-
-header img:hover {
-  cursor: pointer;
-  opacity: 0.5;
 }
 
 footer {

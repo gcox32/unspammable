@@ -1,5 +1,19 @@
 {% extends 'marvelBase.html' %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'marvel/css/marvel.css' %}"/>
+
+<section>
+<div class="choice-card">
+    <img src="">
+    <a href="{% url 'recommend' %}" style="text-decoration: none;">
+        <button>Recommend</button>
+    </a>
+</div>
+<div class="choice-card">
+    <img src="">
+    <button onclick="transitionToPage('/marvel/timeline')">Timeline</button>
+</div>
+</section>
 
 {% endblock %}
