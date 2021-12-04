@@ -74,18 +74,17 @@
     </div>
 </div>
 
-<!-- <ul class="menu" >
+<ul class="menu" >
   <li><a class="menuItem" href="{% url 'marvel' %}">Marvel Home</a></li>
   <li><a class="menuItem" href="{% url 'recommend' %}">Recommender</a></li>
   <li><a class="menuItem" onclick="transitionToPage('/marvel/timeline')">Timeline</a></li>
   <li><a class="menuItem" onclick="toggleModal()">Credentials</a></li>
-</ul> -->
-  <button class="hamburger menuIcon">
-    <i class="menuIcon material-icons">menu</i>
-  </button>
-  <button class="hamburger closeIcon">
-    <i class="closeIcon material-icons">close</i>
-  </button>
+</ul>
+<button class="hamburger">
+  <i class="menuIcon material-icons"></i>
+  <i class="closeIcon material-icons"></i>
+</button>
+
 <!-- modal -->
 <div class="modal" style="display: none;">
   <div class="overlay"></div>
@@ -153,8 +152,8 @@
 <script>
   const menu = document.querySelector(".menu");
   const menuItems = document.querySelectorAll(".menuItem");
-  const hamburger= document.querySelector(".hamburger");
-  const closeIcon= document.querySelector(".closeIcon");
+  const hamburger = document.querySelector(".hamburger");
+  const closeIcon = document.querySelector(".closeIcon");
   const menuIcon = document.querySelector(".menuIcon");
 
   function toggleMenu() {
@@ -162,10 +161,12 @@
       menu.classList.remove("showMenu");
       closeIcon.style.display = "none";
       menuIcon.style.display = "block";
+      console.log('this');
     } else {
       menu.classList.add("showMenu");
       closeIcon.style.display = "block";
       menuIcon.style.display = "none";
+      console.log('that');
     }
   }
 
