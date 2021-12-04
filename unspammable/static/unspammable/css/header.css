@@ -198,7 +198,7 @@ header img:hover {
 }
 
 .hamburger {
-
+  display: none;
   position: fixed;
   z-index: 100;
   top: 1rem;
@@ -220,7 +220,7 @@ header img:hover {
 
 .menu {
   position: fixed;
-  transform: translateX(-100%);
+  transform: translateX(-200%);
   transition: transform 0.2s;
   top: 0;
   left: 0;
@@ -235,6 +235,18 @@ header img:hover {
   margin: 0;
 }
 
+.overlay {
+  display: none;
+  position: fixed;
+  opacity: 0;
+  background: lightcoral;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 30vw;
+  z-index: 5;
+}
+
 .showMenu {
   transform: translateX(0);
 }
@@ -246,5 +258,4 @@ header img:hover {
   .hamburger {
     display: block;
   }
-
 }

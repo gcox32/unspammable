@@ -6,6 +6,7 @@ html,body {
     justify-content: center;
     font-size: 16px;
     line-height: 1.75;
+    overflow: hidden;
     margin: 0 0 0 0 !important;
     background: url('/staticfiles/marvel/images/wallpaper3.jpg') fixed !important;
 }
@@ -32,14 +33,14 @@ section::before, section::after {
 .choice-card {
     border-radius: 20px;
     box-shadow: 0px 8px 16px rgb(0 0 0 / 25%);
-    min-height: 70vh;
+    min-height: 80vh;
     width: 30%;
     background: white;
     opacity: 0.8;
     transition: all 0.25s ease-in-out;
     min-width: 275px;
+    min-height: 600px;
     margin: 5% 2em 5% 2em;
-    padding: 2em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,8 +54,7 @@ section::before, section::after {
 
 .choice-card img {
     object-fit: cover;
-    height: 400px;
-    width: 400px;
+    width: 85%;
     margin: 1em;
     border-radius: 16px;
     border: 2px gray solid;
