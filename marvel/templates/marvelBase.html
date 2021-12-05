@@ -16,8 +16,6 @@
   <link rel="stylesheet" href="{% static 'marvel/css/modal.css' %}">
   <link rel="stylesheet" href="{% static 'unspammable/css/header.css' %}">
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
   <script type="text/javascript" src='{% static "marvel/js/timeline.js" %}'></script>
 </head>
 
@@ -80,10 +78,9 @@
   <li><a class="menuItem" onclick="transitionToPage('/marvel/timeline')">Timeline</a></li>
   <li><a class="menuItem" onclick="toggleModal()">Credentials</a></li>
 </ul>
-<button class="hamburger">
-  <i class="menuIcon material-icons"></i>
-  <i class="closeIcon material-icons"></i>
-</button>
+<a class="hamburger">
+  <img src="{% static 'unspammable/images/hamburger.png' %}" style="height: 30px;" class="hamburger-image"/>
+</a>
 <div class="overlay"></div>
 
 <!-- modal -->

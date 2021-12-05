@@ -12,7 +12,7 @@ function toggleMenu() {
   } else {
     menu.classList.add("showMenu");
     overlay.style.display = "block";
-    img.setAttribute("src", "/staticfiles/unspammable/images/exit.png");
+    img.setAttribute("src", "/staticfiles/unspammable/images/close.png");
   };
 };
 

@@ -8,8 +8,9 @@ html,
 body {
   padding: 0;
   margin: 0;
+  font-family: Avenir-heavy, proxima-nova, sans-serif;
   animation: fadein 250ms;
-  transition: opacity 250ms ease;
+  transition: opacity 250ms;
   -moz-animation: fadein 250ms; /* Firefox */
   -webkit-animation: fadein 250ms; /* Safari and Chrome */
   -o-animation: fadein 250ms; /* Opera */
@@ -46,10 +47,6 @@ body {
       opacity: 1;
   }
   }
-
-body {
-  font-family: Avenir-heavy, proxima-nova, sans-serif;
-}
 
 /* coming soon */
 .wrapper {
@@ -93,10 +90,11 @@ footer {
   color: #fff;
   border: 1px solid;
   border-radius: 50%;
+  opacity: 0.5;
   transition: opacity 0.25s ease-in-out;
 }
 .footer__links a:hover {
-  opacity: 0.5;
+  opacity: 1;
 }
 .footer__links .fa {
   vertical-align: middle;
