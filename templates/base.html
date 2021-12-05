@@ -12,11 +12,59 @@
 
     <link rel="stylesheet" href='{% static "unspammable/css/main.css" %}'/>
     <link rel="stylesheet" href='{% static "unspammable/css/header.css" %}'/>
-    <script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <link rel="apple-touch-icon" sizes="128x128" href="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}"/>
 </head>
+
+<div class="header">
+    <div class="header-item">
+      <a href="{% url 'marvel' %}" style="text-decoration: none; color: white;">
+        <h3>Marvel</h3>
+      </a>
+    </div>
+    <div class="header-item" >
+      <h3>|</h3>
+    </div>
+    <div class="header-item">
+      <a href="{% url 'finance' %}" style="text-decoration: none; color: white;">
+        <h3>Finance</h3>
+      </a>
+    </div>
+    <div class="header-item" >
+      <h3>|</h3>
+    </div>
+    <div class="header-item">
+        <a href="#" style="text-decoration: none; color: white;">
+            <h3>Fitness</h3>
+          </a>
+    </div>
+    <div class="header-item" >
+      <h3>|</h3>
+    </div>
+    <div class="header-item">
+        <a href="#" style="text-decoration: none; color: white;">
+            <h3>Data Science</h3>
+          </a>
+    </div>
+
+    <div class="return-home" id="home">
+      <a href="/">
+        <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="64px">
+      </a>
+    </div>
+</div>
+
+<ul class="menu" >
+  <li><a class="menuItem" href="{% url 'marvel' %}">Marvel</a></li>
+  <li><a class="menuItem" href="{% url 'finance' %}">Finance</a></li>
+  <li><a class="menuItem" href="#">Fitness</a></li>
+  <li><a class="menuItem" href="#">Data Science</a></li>
+</ul>
+<a class="hamburger">
+  <img src="{% static 'unspammable/images/hamburger.png' %}" style="height: 30px;" class="hamburger-image"/>
+</a>
+<div class="overlay"></div>
 
 {% block content %}
 {% endblock %}
@@ -28,5 +76,7 @@
     <li><a href="https://www.linkedin.com/in/gcoxexcel/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
     </ul>
 </footer>
+
+<script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
 
 </html>

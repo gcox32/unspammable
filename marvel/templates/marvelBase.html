@@ -135,6 +135,7 @@
 {% load js %}
 <script type="text/javascript" src='{% static "marvel/js/phase.js" %}'></script>
 <script type="text/javascript" src='{% static "marvel/js/modal.js" %}'></script>
+<script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
 <script type="text/javascript">
   function getCredentials() {
     var platform = document.getElementById('platform').value;
@@ -148,38 +149,4 @@
       }
     };
   }
-</script>
-
-<script>
-  const menu = document.querySelector(".menu");
-  const menuItems = document.querySelectorAll(".menuItem");
-  const hamburger = document.querySelector(".hamburger");
-  const closeIcon = document.querySelector(".closeIcon");
-  const menuIcon = document.querySelector(".menuIcon");
-  const overlay = document.querySelector(".overlay");
-
-  function toggleMenu() {
-    if (menu.classList.contains("showMenu")) {
-      menu.classList.remove("showMenu");
-      closeIcon.style.display = "none";
-      menuIcon.style.display = "block";
-      overlay.style.display = "none";
-    } else {
-      menu.classList.add("showMenu");
-      closeIcon.style.display = "block";
-      menuIcon.style.display = "none";
-      overlay.style.display = "block";
-    }
-  }
-
-  hamburger.addEventListener("click", toggleMenu);
-  overlay.addEventListener("click", toggleMenu);
-
-  
-  // retract menu before leaving page
-  menuItems.forEach( 
-    function(menuItem) { 
-      menuItem.addEventListener("click", toggleMenu);
-    }
-  )
 </script>
