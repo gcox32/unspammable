@@ -43,6 +43,7 @@ class Movie(models.Model):
     directors = models.CharField(max_length=256, null=True, blank=True)
     screenwriters = models.CharField(max_length=256, null=True, blank=True)
     producers = models.CharField(max_length=256, null=True, blank=True)
+    description = models.CharField(max_length=1024, null=True, blank=True)
     phase = models.ForeignKey(
         Phase, 
         null=True, 

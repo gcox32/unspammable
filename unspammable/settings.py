@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'fitness',
     'marvel',
     'unspammable',
+    'genone',
 
     # websocket
     'channels',
