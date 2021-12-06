@@ -11,7 +11,7 @@
   z-index: 2;
 }
 
-.header-item, .return-home {
+.header-item {
   transition: 0.25s ease-in-out;
   opacity: 0.5;
   text-decoration: none;
@@ -21,16 +21,6 @@
 .header-item:nth-child(odd):hover {
   cursor: pointer;
   opacity: 0.9;
-}
-
-/* return home */
-.return-home {
-  right: 15vw;
-  position: absolute;
-  z-index: 2;
-}
-.return-home:hover {
-  opacity: 1;
 }
 
 .header-item:first-child:hover {
@@ -57,7 +47,6 @@ header {
   text-align: center;
 }
 
-
 header img {
   transition: 0.25s ease-in-out;
 }
@@ -71,20 +60,6 @@ header img:hover {
   padding: 0 0.3em 0 0.3em;
 }
 
-.menuItem {
-  display: block;
-  font-size: 1rem;
-  color: white;
-  text-decoration: none;
-  transition: 0.25s ease-in-out;
-}
-
-.menuItem:hover {
-  text-decoration: none;
-  cursor: pointer;
-  color: lightcoral;
-}
-
 .hamburger {
   display: none;
   position: fixed;
@@ -92,32 +67,88 @@ header img:hover {
   top: 1rem;
   left: 1rem;
   background: none;
-  /* padding: 4px; */
-  /* border: black solid 1px; */
-  /* background: white; */
+  transition: 250ms ease-in-out;
   cursor: pointer;
   opacity: 0.7;
 }
 
 .hamburger:hover {
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .menu {
   position: fixed;
   transform: translateX(-200%);
   transition: transform 0.2s;
+  display: flex;
+  align-items: flex-start;
   top: 0;
   left: 0;
   right: 70vw;
   bottom: 0;
   z-index: 3;
-  background: black;
+  background: #111;
   color: white;
-  list-style: none;
   padding-top: 4rem;
   opacity: 0.8;
   margin: 0;
+}
+
+.menuItem, ul label.title, ul {
+  width: 100%;
+	color: #FFF;
+	display: block;
+	font-weight: bold;
+}
+
+ul {
+  padding-inline-start: 0 !important;
+}
+
+ul label {
+  height: 20px;
+}
+ul .menuItem{
+	height: 35px;
+	overflow: hidden;
+	transition: all .3s ease;
+}
+.menuItem {
+	display: block;
+	background-color: #363636;
+}
+label.title {
+	font-size: 14px;
+	background: linear-gradient(#111, #2f2f2f);
+	padding: 10px 15px;
+	cursor: pointer;
+  transition: all .25s;
+}
+.submenuItem {
+	font-size: 12px;
+	text-decoration: none;
+	color: #FFF;
+	display: block;
+	padding: 10px 25px;
+	transition: all .25s;
+}
+.submenuItem:hover {
+	background-color: #444;
+  box-shadow: inset 5px 0px 0px 0px #fff;
+  cursor: pointer;
+}
+label:hover {
+	text-shadow: 0px 0px 10px #fff;
+  cursor: pointer;
+}
+input[type="radio"] {
+	display: none;
+}
+#marvel:checked + .menuItem, 
+#finance:checked + .menuItem, 
+#fitness:checked + .menuItem, 
+#datascience:checked + .menuItem {
+	height: 179px;
 }
 
 .overlay {

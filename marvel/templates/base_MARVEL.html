@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<head>
+  <link rel="stylesheet" href="{% static 'marvel/css/timeline.css' %}">
+  <link rel="stylesheet" href="{% static 'marvel/css/phases.css' %}">
+  <link rel="stylesheet" href="{% static 'marvel/css/marvel.css' %}"/>
+</head>
+
+<div class="bg-wrapper" style="z-index: -1;">
+    <div class="tl-bg" style="background-image: url('{{ background }}'); ">
+    </div>
+</div>
+
+{% block marvel %}
+{% endblock marvel %}
+
+{% endblock content %}

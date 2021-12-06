@@ -1,6 +1,6 @@
-{% extends 'marvelBase.html' %}
+{% extends 'base_MARVEL.html' %}
 {% load static %}
-{% block content %}
+{% block marvel %}
 
 <section id="timeline">
   {% for phase in phases %}
@@ -26,4 +26,4 @@
 
   <script type="text/javascript" src="{% static 'marvel/js/timeline.js' %}"></script>
 
-  {% endblock %}
+  {% endblock marvel %}

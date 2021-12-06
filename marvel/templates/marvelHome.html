@@ -1,7 +1,6 @@
-{% extends 'marvelBase.html' %}
+{% extends 'base_MARVEL.html' %}
 {% load static %}
-{% block content %}
-<link rel="stylesheet" href="{% static 'marvel/css/marvel.css' %}"/>
+{% block marvel %}
 
 <section>
     <div class="choice-card" id="jarvis-card">
@@ -35,4 +34,4 @@
         document.getElementById("title-gif").setAttribute("src", "{% static 'marvel/images/marvel-title.png' %}");
     });
 </script>
-{% endblock %}
+{% endblock marvel %}

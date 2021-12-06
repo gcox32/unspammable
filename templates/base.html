@@ -12,9 +12,12 @@
 
     <link rel="stylesheet" href='{% static "unspammable/css/main.css" %}'/>
     <link rel="stylesheet" href='{% static "unspammable/css/header.css" %}'/>
+    <link rel="stylesheet" href="{% static 'marvel/css/modal.css' %}">
+    <link rel="stylesheet" href="{% static 'marvel/css/transition.css' %}">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <link rel="apple-touch-icon" sizes="128x128" href="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}"/>
+
 </head>
 
 <div class="header">
@@ -47,22 +50,83 @@
             <h3>Data Science</h3>
           </a>
     </div>
-
-      <a href="/" class="return-home">
-        <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="64px">
-      </a>
 </div>
 
-<ul class="menu" >
-  <li><a class="menuItem" href="{% url 'marvel' %}">Marvel</a></li>
-  <li><a class="menuItem" href="{% url 'finance' %}">Finance</a></li>
-  <li><a class="menuItem" href="#">Fitness</a></li>
-  <li><a class="menuItem" href="#">Data Science</a></li>
-</ul>
+<nav class="menu">
+  <ul>
+    <input type="radio" name="menu" id="marvel">
+      <li class="menuItem">
+        <label for="marvel" class="title">Marvel</label>
+          <a class="submenuItem" href="{% url 'marvel' %}">Marvel Home</a>
+          <a class="submenuItem" href="{% url 'recommend' %}">Movie Recommender</a>
+          <a class="submenuItem" onclick="transitionToPage('/marvel/timeline')">Timeline</a>
+          <a class="submenuItem" onclick="toggleModal()">Credentials</a>
+      </li>
+    </input>
+    <input type="radio" name="menu" id="finance">
+      <li class="menuItem">
+        <label for="finance" class="title">Finance</label>
+          <a class="submenuItem" href="{% url 'finance' %}">Finance</a>
+      </li>
+    </ul>
+  </nav>
+
 <a class="hamburger">
-  <img src="{% static 'unspammable/images/hamburger.png' %}" style="height: 30px;" class="hamburger-image"/>
+  <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="64px" class="hamburger-image"/>
 </a>
 <div class="overlay"></div>
+
+<!-- loader -->
+<div class="loader loader--active">
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-0-original-x-men.jpg)"></div>
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-1-three-part.jpg)"></div>
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-2-age-of-ultron.jfif)"></div>
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-3-endgame.jpg)"></div>  
+  <div class="loader__tile" style="background-image:url(https://www.unspammable.com/staticfiles/marvel/images/phase-4-summary.jpg)"></div>
+</div>
+
+<!-- modal -->
+<div class="modal" style="display: none;">
+  <div class="modal_overlay"></div>
+  <div class="modal_content">
+    <!-- Dynamic Section -->
+    <div class="modal_select">
+      <label for="platform" style="padding-bottom: 2px;">Choose a Platform:</label>
+      <select name="platform" id="platform">
+        {% for platform in platforms %}
+          <option value="{{platform.id}}">{{ platform.name_text }}</option>
+        {% endfor %}
+      </select>
+      <button onclick="getCredentials()" style="float:right; margin-right: 11%; height: 30px;">
+        <img src="{% static 'unspammable/images/search.png' %}" style="object-fit: cover; height: 17px; padding-top: 2px;"/>
+      </button>
+    </div>
+    <label for="username">Username:</label>
+    <div class="return-info">
+      <div id="username" value="username" style="position: absolute; font-size: 14px; padding: 2px  5px;"></div>
+      <div class="tooltip">
+      <button onclick="copyToClipboard('username', 0)" onmouseout="outFunc(0)">
+        <span class="tooltiptext" id="copyTooltip">Copy</span>
+        <img src="{% static 'unspammable/images/copy.png' %}" style="object-fit: cover; height: 17px;">
+      </button>
+      </div>
+    </div>
+    <label for="password">Password:</label>
+    <div class="return-info">
+      <div id="password" value="password" style="position: absolute; font-size: 14px; padding: 2px  5px; letter-spacing: 0px;"></div>
+      <div class="tooltip">
+      <button onclick="copyToClipboard('password', 1)" onmouseout="outFunc(1)">
+        <span class="tooltiptext" id="copyTooltip">Copy</span>
+        <img src="{% static 'unspammable/images/copy.png' %}" style="object-fit: cover; height: 17px;">
+      </button>
+      </div>
+    </div>
+    <!-- End of Dynamic Section -->
+    <button title="Close" class="close_modal">
+      x
+    </button>
+  </div>
+</div>
 
 {% block content %}
 {% endblock %}
@@ -75,6 +139,22 @@
     </ul>
 </footer>
 
+{% load js %}
 <script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
-
+<script type="text/javascript" src='{% static "marvel/js/phase.js" %}'></script>
+<script type="text/javascript" src='{% static "marvel/js/modal.js" %}'></script>
+<script type="text/javascript">
+  function getCredentials() {
+    var platform = document.getElementById('platform').value;
+    var credentials = {{ credentials | js }};
+    var username = document.getElementById('username');
+    var password = document.getElementById('password');
+    for (let i = 0; i < credentials.length; i++) {
+      if (credentials[i][0] == platform) {
+        username.innerHTML = credentials[i][2];
+        password.innerHTML = credentials[i][1];
+      }
+    };
+  }
+</script>
 </html>

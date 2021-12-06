@@ -4,12 +4,12 @@ var modal = document.querySelector('.modal');
 
 function attachModalListeners(modalElm) {
   modalElm.querySelector('.close_modal').addEventListener('click', toggleModal);
-  modalElm.querySelector('.overlay').addEventListener('click', toggleModal);
+  modalElm.querySelector('.modal_overlay').addEventListener('click', toggleModal);
 }
 
 function detachModalListeners(modalElm) {
   modalElm.querySelector('.close_modal').removeEventListener('click', toggleModal);
-  modalElm.querySelector('.overlay').removeEventListener('click', toggleModal);
+  modalElm.querySelector('.modal_overlay').removeEventListener('click', toggleModal);
 }
 
 function toggleModal() {
@@ -25,7 +25,7 @@ function toggleModal() {
   }
 }
 
-btn.addEventListener('onclick', toggleModal);
+// btn.addEventListener('onclick', toggleModal);
 
 // copy to clipboard
 

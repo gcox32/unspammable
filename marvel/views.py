@@ -25,6 +25,7 @@ def home(request):
 
 def recommend(request):
     context = get_platforms_credentials(request)
+    context['background'] = '/staticfiles/marvel/images/lab-background.jpg'
     return auth_check(request, 'recommender.html', context=context)
 
 def timeline(request):
