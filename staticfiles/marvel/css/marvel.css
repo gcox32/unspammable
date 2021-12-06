@@ -4,8 +4,6 @@ html,body {
     font-family: Avenir-heavy, proxima-nova, sans-serif;
     display: flex;
     justify-content: center;
-    font-size: 16px;
-    line-height: 1.75;
     overflow-x: hidden;
     margin: 0 0 0 0 !important;
     background: url('/staticfiles/marvel/images/wallpaper3.jpg') fixed !important;
