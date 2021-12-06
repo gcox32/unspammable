@@ -179,6 +179,7 @@
   padding-top: 4rem;
   opacity: 0.8;
   margin: 0;
+  min-width: 170px;
 }
 
 .menuItem, ul label.title, ul {
