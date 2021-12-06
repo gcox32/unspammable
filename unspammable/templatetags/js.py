@@ -4,6 +4,6 @@ import json
 
 register = Library()
 
-@register.filter(is_safe=True)
+@register.filter(is_safe=True, name='js')
 def js(obj):
     return mark_safe(json.dumps(obj))

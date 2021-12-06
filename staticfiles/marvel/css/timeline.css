@@ -1,14 +1,9 @@
-body {
-    font-family: Avenir-heavy, proxima-nova, sans-serif;
-    font-size: 16px;
-    line-height: 1.75;
-    margin: 0 0 0 0 !important;
-}
-
 #timeline {
   display: flex;
   background-color: #031625;
   width: 100vw;
+  justify-content: normal !important;
+  flex-wrap: nowrap !important;
 }
 
 .tl-item {

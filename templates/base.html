@@ -19,46 +19,36 @@
     <link rel="apple-touch-icon" sizes="128x128" href="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}"/>
 
 </head>
-
-<div class="header">
-    <div class="header-item">
-      <a href="{% url 'marvel' %}" style="text-decoration: none; color: white;">
-        <h3>Marvel</h3>
-      </a>
-    </div>
-    <div class="header-item" >
-      <h3>|</h3>
-    </div>
-    <div class="header-item">
-      <a href="{% url 'finance' %}" style="text-decoration: none; color: white;">
-        <h3>Finance</h3>
-      </a>
-    </div>
-    <div class="header-item" >
-      <h3>|</h3>
-    </div>
-    <div class="header-item">
-        <a href="#" style="text-decoration: none; color: white;">
-            <h3>Fitness</h3>
-          </a>
-    </div>
-    <div class="header-item" >
-      <h3>|</h3>
-    </div>
-    <div class="header-item">
-        <a href="#" style="text-decoration: none; color: white;">
-            <h3>Data Science</h3>
-          </a>
-    </div>
+<div class="header-wrap">
+<ul class="header">
+    <li class="header-item">
+      <a href="/">Home</a>
+    </li>
+    <li class="header-item">
+      <a href="{% url 'marvel' %}">Marvel</a>
+      <ul class="header-subItems">
+        <li class="header-subItem"><a href="{% url 'marvel' %}">Marvel Home</a></li>
+        <li class="header-subItem"><a href="{% url 'recommend' %}">Recommender</a></li>
+        <li class="header-subItem"><a onclick="transitionToPage('/marvel/timeline')">Timeline</a></li>
+        <li class="header-subItem"><a onclick="toggleModal()">Credentials</a></li>
+      </ul>
+    </li>
+    <li class="header-item">
+      <a href="{% url 'finance' %}" >Finance</a>
+    </li>
+  </ul>
 </div>
 
 <nav class="menu">
   <ul>
+    <li class="menuItem">
+      <label for="home" class="title"><a href="/" style="text-decoration: none; color: white;">Home</a></label>
+    </li>
     <input type="radio" name="menu" id="marvel">
       <li class="menuItem">
         <label for="marvel" class="title">Marvel</label>
           <a class="submenuItem" href="{% url 'marvel' %}">Marvel Home</a>
-          <a class="submenuItem" href="{% url 'recommend' %}">Movie Recommender</a>
+          <a class="submenuItem" href="{% url 'recommend' %}">Recommender</a>
           <a class="submenuItem" onclick="transitionToPage('/marvel/timeline')">Timeline</a>
           <a class="submenuItem" onclick="toggleModal()">Credentials</a>
       </li>
@@ -130,14 +120,6 @@
 
 {% block content %}
 {% endblock %}
- 
-<footer>
-    <ul class="footer__links" style="padding-inline-start: 0%;">
-    <li><a href="https://twitter.com/unspammable" target="_blank"><span class="fa fa-twitter"></span></a></li>
-    <li><a href="https://github.com/gcox32" target="_blank"><span class="fa fa-github"></span></a></li>
-    <li><a href="https://www.linkedin.com/in/gcoxexcel/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
-    </ul>
-</footer>
 
 {% load js %}
 <script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>

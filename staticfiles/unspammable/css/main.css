@@ -9,11 +9,14 @@ body {
   padding: 0;
   margin: 0;
   font-family: Avenir-heavy, proxima-nova, sans-serif;
-  animation: fadein 250ms;
-  transition: opacity 250ms;
-  -moz-animation: fadein 250ms; /* Firefox */
-  -webkit-animation: fadein 250ms; /* Safari and Chrome */
-  -o-animation: fadein 250ms; /* Opera */
+  transition: opacity 500ms;
+  /* animation: fadein 1s; */
+  /* Firefox */
+  /* -moz-animation: fadein 1s;  */
+  /* Safari and Chrome */
+  /* -webkit-animation: fadein 1s;  */
+  /* Opera */
+  /* -o-animation: fadein 1s;  */
 }
 @keyframes fadein {
   from {
@@ -70,6 +73,8 @@ button:hover {
 footer {
   padding-bottom: 12px;
   bottom: 0;
+  width: 100%;
+  position: absolute;
 }
 
 .footer__links {

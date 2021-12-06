@@ -2,22 +2,7 @@ from django.shortcuts import render
 from unspammable.src.auth import auth_check
 from .src.dbUtils import *
 from .src.timeline import timeline_list
-from .models import Platform, Credential
-
-
-def get_platforms_credentials(request):
-    """helper function for loading in creds"""
-    platforms = Platform.objects.values()
-    try:
-        credentials = Credential.objects.filter(user_id=request.user.id).values_list()
-        credentials = list(credentials)
-    except:
-        credentials = [None]
-    context = {
-        'platforms': platforms,
-        'credentials': credentials,
-    }
-    return context
+from unspammable.src.creds import get_platforms_credentials
 
 def home(request):
     context = get_platforms_credentials(request)

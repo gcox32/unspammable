@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .src.news import finnhub_client
+# from .src.news import finnhub_client
 from unspammable.src.auth import auth_check
 
 def dashboard(request):
