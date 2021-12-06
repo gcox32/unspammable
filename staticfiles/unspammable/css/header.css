@@ -15,7 +15,7 @@
 .header {
   display: flex;
   justify-content: center;
-  width: 800px;
+  width: 1000px;
   margin: 15px auto;
   border: 1px solid #222;
   background-color: #111;
@@ -39,9 +39,16 @@
 .header .header-item {
   transition: 0.25s ease-in-out;
   float: left;
+  border-left: 1px solid #222;
   border-right: 1px solid #222;
   box-shadow: 1px 0 0 #444;
   position: relative;
+}
+.header-item:first-child {
+  border-left: none;
+}
+.header-item:last-child {
+  border-right: none;
 }
 
 .header a {
@@ -94,7 +101,6 @@
 }
 .header ul a {
   padding: 10px;
-  width: 130px;
   display: block;
   white-space: nowrap;
   float: none;
@@ -204,6 +210,7 @@ label.title {
 	padding: 10px 15px;
 	cursor: pointer;
   transition: all .25s;
+  text-transform: uppercase;
 }
 .submenuItem {
 	font-size: 12px;
@@ -225,10 +232,14 @@ label:hover {
 input[type="radio"] {
 	display: none;
 }
+
+#unspammable:checked + .menuItem,
 #marvel:checked + .menuItem, 
 #finance:checked + .menuItem, 
 #fitness:checked + .menuItem, 
-#datascience:checked + .menuItem {
+#datascience:checked + .menuItem,
+#basketball:checked + .menuItem,
+#gen-one:checked + .menuItem {
 	height: 175px;
 }
 
@@ -248,7 +259,7 @@ input[type="radio"] {
   transform: translateX(0);
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1050px) {
   .header-wrap {
     transform: translateY(-200%);
     overflow-x: hidden;

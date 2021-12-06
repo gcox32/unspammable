@@ -19,10 +19,18 @@
     <link rel="apple-touch-icon" sizes="128x128" href="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}"/>
 
 </head>
+
+<!-- header bar -->
 <div class="header-wrap">
 <ul class="header">
     <li class="header-item">
-      <a href="/">Home</a>
+      <a href="/">Unspammable</a>
+      <ul class="header-subItems">
+        <li class="header-subItem"><a href="/">Home</a></li>
+        <li class="header-subItem"><a href="#">About</a></li>
+        <li class="header-subItem"><a href="#">Resume</a></li>
+        <li class="header-subItem"><a href="#">Contact</a></li>
+      </ul>
     </li>
     <li class="header-item">
       <a href="{% url 'marvel' %}">Marvel</a>
@@ -35,28 +43,85 @@
     </li>
     <li class="header-item">
       <a href="{% url 'finance' %}" >Finance</a>
+      <ul class="header-subItems">
+        <li class="header-subItem"><a href="{% url 'finance' %}">Finance Home</a></li>
+        <li class="header-subItem"><a href="#">Dashboard</a></li>
+        <li class="header-subItem"><a href="#">Robo Advisor</a></li>
+      </ul>
+    </li>
+    <li class="header-item">
+      <a href="#">Fitness</a>
+      <ul class="header-subItems">
+        <li class="header-subItem"><a href="#">Fitness Home</a></li>
+      </ul>
+    </li>
+    <li class="header-item">
+      <a href="#">Data Science</a>
+      <ul class="header-subItems">
+        <li class="header-subItem"><a href="#">Data Science Home</a></li>
+      </ul>
+    </li>
+    <li class="header-item">
+      <a href="#">Basketball</a>
+      <ul class="header-subItems">
+        <li class="header-subItem"><a href="#">Basketball Home</a></li>
+      </ul>
+    </li>
+    <li class="header-item">
+      <a href="#">Gen One</a>
+      <ul class="header-subItems">
+        <li class="header-subItem"><a href="#">Gen One Home</a></li>
+      </ul>
     </li>
   </ul>
 </div>
 
+<!-- accordion menu -->
 <nav class="menu">
   <ul>
+    <input type="radio" name="menu" id="unspammable" checked>
     <li class="menuItem">
-      <label for="home" class="title"><a href="/" style="text-decoration: none; color: white;">Home</a></label>
+      <label for="unspammable" class="title">Unspammable</label>
+      <a class="submenuItem" href="/">Home</a>
+      <a class="submenuItem" href="#">About</a>
+      <a class="submenuItem" href="#">Resume</a>
+      <a class="submenuItem" href="#">Contact</a>
     </li>
     <input type="radio" name="menu" id="marvel">
       <li class="menuItem">
         <label for="marvel" class="title">Marvel</label>
-          <a class="submenuItem" href="{% url 'marvel' %}">Marvel Home</a>
-          <a class="submenuItem" href="{% url 'recommend' %}">Recommender</a>
-          <a class="submenuItem" onclick="transitionToPage('/marvel/timeline')">Timeline</a>
-          <a class="submenuItem" onclick="toggleModal()">Credentials</a>
+        <a class="submenuItem" href="{% url 'marvel' %}">Marvel Home</a>
+        <a class="submenuItem" href="{% url 'recommend' %}">Recommender</a>
+        <a class="submenuItem" onclick="transitionToPage('/marvel/timeline')">Timeline</a>
+        <a class="submenuItem" onclick="toggleModal()">Credentials</a>
       </li>
-    </input>
     <input type="radio" name="menu" id="finance">
       <li class="menuItem">
         <label for="finance" class="title">Finance</label>
-          <a class="submenuItem" href="{% url 'finance' %}">Finance</a>
+        <a class="submenuItem" href="{% url 'finance' %}">Finance Home</a>
+        <a class="submenuItem" href="#">Dashboard</a>
+        <a class="submenuItem" href="#">Robo Advisor</a>
+      </li>
+    <input type="radio" name="menu" id="fitness">
+      <li class="menuItem">
+        <label for="fitness" class="title">Fitness</label>
+        <a class="submenuItem" href="#">Fitness Home</a>
+      </li>
+    </input>
+    <input type="radio" name="menu" id="datascience">
+      <li class="menuItem">
+        <label for="datascience" class="title">Data Science</label>
+        <a class="submenuItem" href="#">Data Science Home</a>
+      </li>
+    <input type="radio" name="menu" id="basketball">
+      <li class="menuItem">
+        <label for="basketball" class="title">Basketball</label>
+        <a class="submenuItem" href="#">Basketball Home</a>
+      </li>
+    <input type="radio" name="menu" id="gen-one">
+      <li class="menuItem">
+        <label for="gen-one" class="title">Gen One</label>
+        <a class="submenuItem" href="#">Gen One Home</a>
       </li>
     </ul>
   </nav>
