@@ -3,6 +3,7 @@ from unspammable.src.auth import auth_check
 from .src.dbUtils import *
 from .src.timeline import timeline_list
 from unspammable.src.creds import get_platforms_credentials
+from marvel.models import Series, Movie
 
 def home(request):
     context = get_platforms_credentials(request)
@@ -11,6 +12,15 @@ def home(request):
 def recommend(request):
     context = get_platforms_credentials(request)
     context['background'] = '/staticfiles/marvel/images/lab-background.jpg'
+    try:
+        search = request.GET['search-terms']
+        movies = list(Movie.objects.filter(title_text__icontains=search))
+        # series = list(Series.objects.filter(title_text__icontains=search))
+        suggestions = movies
+        context['suggestions'] = suggestions
+    except:
+        suggestions = None
+
     return auth_check(request, 'recommender.html', context=context)
 
 def timeline(request):

@@ -241,7 +241,7 @@ input[type="radio"] {
 #datascience:checked + .menuItem,
 #basketball:checked + .menuItem,
 #gen-one:checked + .menuItem {
-	height: 175px;
+	height: 179px;
 }
 
 .overlay {

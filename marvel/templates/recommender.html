@@ -2,4 +2,33 @@
 {% load static %}
 {% block marvel %}
 
+<form class="search">
+    <input type="search" class="search-box" name="search-terms" autocomplete="off"/>
+    <span class="search-button" style="box-sizing: border-box;">
+      <span type="submit" class="search-icon"></span>
+    </span>
+</form>
+
+<section id="suggestions">
+{% for title in suggestions %}
+  <a class='suggest-card' 
+    href="{{ title.url }}" target="_blank"
+    style="background-image:url('/staticfiles/marvel/images/{{ title.image }}')" 
+    title="{{title.title_text}} ({{title.release_date.year}})"
+    >
+  </a>
+{% endfor %}
+</section>
+
+<script>
+    const searchbtn = document.getElementsByClassName('search-button')[0];
+    const search = document.getElementsByClassName('search')[0];
+    
+    function toggle() {
+        search.classList.toggle('open');
+    };
+
+    searchbtn.addEventListener('click', toggle);
+</script>
+
 {% endblock marvel %}

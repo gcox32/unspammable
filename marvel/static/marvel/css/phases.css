@@ -22,6 +22,7 @@ html,body {
     height: 100vh;
     min-height: 600px;
     transition: all 0.5s ease;
+    overflow: hidden;
 }
 .bg-wrapper:before, .bg-wrapper:after{
     transform: translate3d(0, 0, 0);
@@ -70,7 +71,6 @@ html,body {
     opacity: 0.5;
 }
 
-
 .tl-card {
     border-radius: 16px;
     box-shadow: 0px 8px 16px rgb(0 0 0 / 25%);
@@ -89,11 +89,11 @@ html,body {
 .tl-card:hover {
     transform: scale(1.01);
     cursor: pointer;
-    border: 3px white solid;
+    outline: 3px white solid;
 }
 
 .tl-card:active {
-    transform: scale(1.00);
+    transform: scale(.99);
 }
 
 .tl-card:nth-child(odd) {

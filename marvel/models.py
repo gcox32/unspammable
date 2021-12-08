@@ -70,6 +70,7 @@ class Series(models.Model):
     release_date = models.DateField(null=True, blank=True)
     url = models.CharField(max_length=256, null=True, blank=True)
     image = models.CharField(max_length=256, null=True, blank=True)
+    description = models.CharField(max_length=1024, null=True, blank=True)
     phase = models.ForeignKey(
         Phase, 
         null=True, 
