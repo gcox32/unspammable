@@ -23,12 +23,21 @@
 <script>
     const searchbtn = document.getElementsByClassName('search-button')[0];
     const search = document.getElementsByClassName('search')[0];
+    const searchbox = document.getElementsByClassName('search-box')[0];
     
     function toggle() {
         search.classList.toggle('open');
+        searchbox.select();
     };
 
     searchbtn.addEventListener('click', toggle);
+
+    search.addEventListener('submit', function(subm) {
+      if (searchbox.value === "") {
+        subm.preventDefault();
+      };
+      toggle();
+    });
 </script>
 
 {% endblock marvel %}

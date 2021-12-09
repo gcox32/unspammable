@@ -14,12 +14,22 @@ def recommend(request):
     context['background'] = '/staticfiles/marvel/images/lab-background.jpg'
     try:
         search = request.GET['search-terms']
-        movies = list(Movie.objects.filter(title_text__icontains=search))
-        # series = list(Series.objects.filter(title_text__icontains=search))
-        suggestions = movies
-        context['suggestions'] = suggestions
     except:
-        suggestions = None
+        search = None
+    if search:
+        try:
+            movies = list(Movie.objects.filter(title_text__icontains=search))
+        except:
+            movies = []
+        try:
+            series = list(Series.objects.filter(title_text__icontains=search))
+        except:
+            series = []
+        suggestions = movies + series
+    else:
+        suggestions = []
+
+    context['suggestions'] = suggestions
 
     return auth_check(request, 'recommender.html', context=context)
 
