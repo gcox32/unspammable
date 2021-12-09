@@ -260,7 +260,7 @@ input[type="radio"] {
   transform: translateX(0);
 }
 
-@media only screen and (max-width: 1050px) {
+@media only screen and (max-width: 1180px) {
   .header-wrap {
     transform: translateY(-200%);
     overflow-x: hidden;
