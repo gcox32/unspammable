@@ -269,3 +269,9 @@ input[type="radio"] {
     display: block;
   }
 }
+
+@media only screen and (max-height: 500px) {
+  .menu {
+    overflow-y: scroll;
+  }
+}

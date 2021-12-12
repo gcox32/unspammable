@@ -52,7 +52,7 @@
     <li class="header-item">
       <a href="#">Fitness</a>
       <ul class="header-subItems">
-        <li class="header-subItem"><a href="#">Fitness Home</a></li>
+        <li class="header-subItem"><a href="{% url 'fitness' %}">Fitness Home</a></li>
         <li class="header-subItem"><a href="#">Anthropometry</a></li>
         <li class="header-subItem"><a href="#">Training</a></li>
       </ul>
@@ -107,7 +107,7 @@
     <input type="radio" name="menu" id="fitness">
       <li class="menuItem">
         <label for="fitness" class="title">Fitness</label>
-        <a class="submenuItem" href="#">Fitness Home</a>
+        <a class="submenuItem" href="{% url 'fitness' %}">Fitness Home</a>
         <a class="submenuItem" href="#">Anthropometry</a>
         <a class="submenuItem" href="#">Training</a>
       </li>
