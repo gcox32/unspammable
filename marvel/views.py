@@ -11,7 +11,7 @@ def home(request):
 
 def recommend(request):
     context = get_platforms_credentials(request)
-    context['background'] = '/staticfiles/marvel/images/lab-background.jpg'
+    context['background'] = '/staticfiles/marvel/images/JARVIS/lab-background.jpg'
     try:
         search = request.GET['search-terms']
     except:
@@ -41,7 +41,7 @@ def timeline(request):
 def phase(request, n):
     n = int(n)
     context = timeline_list[n]
-    title_list = movies_by_phase(n)
+    title_list = Movie.objects.filter(phase=n).order_by('release_date')
     creds = get_platforms_credentials(request)
 
     context['titles'] = title_list

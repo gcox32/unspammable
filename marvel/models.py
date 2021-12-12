@@ -30,6 +30,7 @@ class Credential(models.Model):
         return self.platform.name_text + '_creds'
 
 class Phase(models.Model):
+    id = models.CharField(max_length=4, primary_key=True)
     name_text = models.CharField(max_length=64, null=True, blank=True)
 
     def __str__(self):
@@ -44,6 +45,7 @@ class Movie(models.Model):
     screenwriters = models.CharField(max_length=256, null=True, blank=True)
     producers = models.CharField(max_length=256, null=True, blank=True)
     description = models.CharField(max_length=1024, null=True, blank=True)
+    tags = models.CharField(max_length=256, null=True, blank=True)
     phase = models.ForeignKey(
         Phase, 
         null=True, 
@@ -71,6 +73,7 @@ class Series(models.Model):
     url = models.CharField(max_length=256, null=True, blank=True)
     image = models.CharField(max_length=256, null=True, blank=True)
     description = models.CharField(max_length=1024, null=True, blank=True)
+    tags = models.CharField(max_length=256, null=True, blank=True)
     phase = models.ForeignKey(
         Phase, 
         null=True, 

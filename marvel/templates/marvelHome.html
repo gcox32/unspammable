@@ -4,7 +4,7 @@
 
 <section>
     <div class="choice-card" id="jarvis-card">
-        <img src="{% static 'marvel/images/jarvis.png' %}" id="jarvis-gif">
+        <img src="{% static 'marvel/images/JARVIS/jarvis.png' %}" id="jarvis-gif">
         <a href="{% url 'recommend' %}" style="text-decoration: none;">
             <button>Recommend</button>
         </a>
@@ -21,14 +21,14 @@
     const title = document.querySelector("#browse-card");
 
     jarvis.addEventListener("mouseover", event => {
-        document.getElementById("jarvis-gif").setAttribute("src", "{% static 'marvel/images/jarvis.gif' %}"); 
+        document.getElementById("jarvis-gif").setAttribute("src", "{% static 'marvel/images/JARVIS/jarvis.gif' %}"); 
     });
     title.addEventListener("mouseover", event => {
         document.getElementById("title-gif").setAttribute("src", "{% static 'marvel/images/marvel-title.gif' %}");
     });
 
     jarvis.addEventListener("mouseout", event => {
-        document.getElementById("jarvis-gif").setAttribute("src", "{% static 'marvel/images/jarvis.png' %}");
+        document.getElementById("jarvis-gif").setAttribute("src", "{% static 'marvel/images/JARVIS/jarvis.png' %}");
     });
     title.addEventListener("mouseout", event => {
         document.getElementById("title-gif").setAttribute("src", "{% static 'marvel/images/marvel-title.png' %}");
