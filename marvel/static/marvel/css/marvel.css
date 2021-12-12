@@ -149,7 +149,7 @@ section::before, section::after {
 .search-icon:before {
     content: "";
     width: 3px;
-    height: 17px;
+    height: 15px;
     position: absolute;
     right: -1px;
     top: 33px;

@@ -7,7 +7,7 @@ from marvel.models import Series, Movie
 
 def home(request):
     context = get_platforms_credentials(request)
-    return auth_check(request, 'marvelHome.html', context=context)
+    return auth_check(request, 'marvel_home.html', context=context)
 
 def recommend(request):
     context = get_platforms_credentials(request)
