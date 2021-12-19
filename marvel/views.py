@@ -41,10 +41,13 @@ def timeline(request):
 def phase(request, n):
     n = int(n)
     context = timeline_list[n]
-    title_list = Movie.objects.filter(phase=n).order_by('release_date')
+    movie_list = list(Movie.objects.filter(phase=n))
+    series_list = list(Series.objects.filter(phase=n))
     creds = get_platforms_credentials(request)
 
-    context['titles'] = title_list
+    titles = movie_list + series_list
+
+    context['titles'] = sorted(titles, key=lambda i: i.release_date)
     context['platforms'] = creds['platforms']
     context['credentials'] = creds['credentials']
 

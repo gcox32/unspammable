@@ -6,7 +6,6 @@ html,body {
     justify-content: center;
     overflow-x: hidden;
     margin: 0 0 0 0 !important;
-    background: url('/staticfiles/marvel/images/wallpaper3.jpg') fixed !important;
 }
 
 section {
