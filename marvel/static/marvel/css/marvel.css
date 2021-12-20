@@ -252,3 +252,9 @@ section::before, section::after {
     transform: scale(1.01);
     outline: 3px white solid;
 }
+
+@media only screen and (max-width: 400px) {
+    .search.open {
+        width: 310px;
+    }
+}

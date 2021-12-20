@@ -27,7 +27,7 @@ class Credential(models.Model):
     )
 
     def __str__(self):
-        return self.platform.name_text + '_creds'
+        return self.user.username + '_' + self.platform.name_text + '_creds'
 
 class Phase(models.Model):
     id = models.CharField(max_length=4, primary_key=True)

@@ -37,7 +37,7 @@
       <ul class="header-subItems">
         <li class="header-subItem"><a href="{% url 'marvel' %}">Marvel Home</a></li>
         <li class="header-subItem"><a href="{% url 'recommend' %}">Recommender</a></li>
-        <li class="header-subItem"><a onclick="transitionToPage('/marvel/timeline')">Timeline</a></li>
+        <li class="header-subItem"><a onclick="transitionToPage('/marvel/timeline')">MCU Timeline</a></li>
         <li class="header-subItem"><a onclick="toggleModal()">Credentials</a></li>
       </ul>
     </li>
@@ -50,10 +50,10 @@
       </ul>
     </li>
     <li class="header-item">
-      <a href="#">Fitness</a>
+      <a href="{% url 'fitness' %}">Fitness</a>
       <ul class="header-subItems">
         <li class="header-subItem"><a href="{% url 'fitness' %}">Fitness Home</a></li>
-        <li class="header-subItem"><a href="#">Anthropometry</a></li>
+        <li class="header-subItem"><a href="#">Measurements</a></li>
         <li class="header-subItem"><a href="#">Training</a></li>
       </ul>
     </li>
@@ -94,7 +94,7 @@
         <label for="marvel" class="title">Marvel</label>
         <a class="submenuItem" href="{% url 'marvel' %}">Marvel Home</a>
         <a class="submenuItem" href="{% url 'recommend' %}">Recommender</a>
-        <a class="submenuItem" onclick="transitionToPage('/marvel/timeline')">Timeline</a>
+        <a class="submenuItem" onclick="transitionToPage('/marvel/timeline')">MCU Timeline</a>
         <a class="submenuItem" onclick="toggleModal()">Credentials</a>
       </li>
     <input type="radio" name="menu" id="finance">
@@ -108,7 +108,7 @@
       <li class="menuItem">
         <label for="fitness" class="title">Fitness</label>
         <a class="submenuItem" href="{% url 'fitness' %}">Fitness Home</a>
-        <a class="submenuItem" href="#">Anthropometry</a>
+        <a class="submenuItem" href="#">Measurements</a>
         <a class="submenuItem" href="#">Training</a>
       </li>
     </input>

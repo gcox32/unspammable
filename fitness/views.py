@@ -8,7 +8,7 @@ def home(request):
     context = get_platforms_credentials(request)
     return auth_check(request, 'fitness_home.html', context=context)
 
-def anthropometry(request):
+def measurements(request):
     pass
 
 def training(request):

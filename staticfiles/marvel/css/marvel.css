@@ -6,7 +6,6 @@ html,body {
     justify-content: center;
     overflow-x: hidden;
     margin: 0 0 0 0 !important;
-    background: url('/staticfiles/marvel/images/wallpaper3.jpg') fixed !important;
 }
 
 section {
@@ -252,4 +251,10 @@ section::before, section::after {
     cursor: pointer;
     transform: scale(1.01);
     outline: 3px white solid;
+}
+
+@media only screen and (max-width: 400px) {
+    .search.open {
+        width: 310px;
+    }
 }

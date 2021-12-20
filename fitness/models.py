@@ -1,6 +1,9 @@
 from typing import Tuple
 from django.db import models
+from django.db.models.deletion import SET_NULL
 from django.db.models.fields.related import ManyToManyField
+from django.contrib.auth import get_user_model
+
 
 class Exercise(models.Model):
     # exercise descriptors
@@ -37,11 +40,8 @@ class Exercise(models.Model):
     
 class Workout(models.Model):
     workout_date = models.DateField()
-    exercise_id = models.ForeignKey(
-        Exercise,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL
+    exercise = models.ManyToManyField(
+        Exercise
     )
     set_count = models.IntegerField(null=True, blank=True)
     rep_count = models.IntegerField(null=True, blank=True)
@@ -49,9 +49,19 @@ class Workout(models.Model):
     time = models.FloatField(null=True, blank=True) # in seconds
     distance = models.FloatField(null=True, blank=True) # in meters
 
-class Food(models.Model):
-    # descriptors
-    name_text = models.CharField(max_length=256)
-    food_group = models.CharField(max_length=64, null=True, blank=True)
+class Fitness(models.Model):
+    date = models.DateField()
+    user = models.ForeignKey(
+        get_user_model(),
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
+    )
 
-    # macronutrients (in grams)
+    power = models.FloatField(null=True, blank=True)
+    strength = models.FloatField(null=True, blank=True)
+    stamina = models.FloatField(null=True, blank=True)
+    endurance = models.FloatField(null=True, blank=True)
+    speed = models.FloatField(null=True, blank=True)
+    
+
