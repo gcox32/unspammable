@@ -15,9 +15,11 @@ class Profile(models.Model):
         blank=True,
         on_delete=SET_NULL
     )
-    credentials_profile = models.ManyToManyField(
+    credentials = models.ManyToManyField(
         Credential,
     )
+    def __str__(self):
+        return self.user.username + ' profile'
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

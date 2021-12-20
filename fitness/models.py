@@ -49,6 +49,17 @@ class Workout(models.Model):
     time = models.FloatField(null=True, blank=True) # in seconds
     distance = models.FloatField(null=True, blank=True) # in meters
 
+class Measurement(models.Model):
+    date = models.DateField()
+    measure_text = models.CharField(max_length=64)
+    measure = models.FloatField(null=True, blank=True)
+    user = models.ForeignKey(
+        get_user_model(),
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
+    )
+
 class Fitness(models.Model):
     date = models.DateField()
     user = models.ForeignKey(
@@ -63,5 +74,10 @@ class Fitness(models.Model):
     stamina = models.FloatField(null=True, blank=True)
     endurance = models.FloatField(null=True, blank=True)
     speed = models.FloatField(null=True, blank=True)
-    
 
+    measurements = models.ManyToManyField(
+        Measurement
+    )
+
+    def __str__(self):
+        return self.user.username + ' fitness profile'
