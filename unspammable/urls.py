@@ -26,4 +26,5 @@ urlpatterns = [
     path('marvel/', include('marvel.urls')),
     path('finance/', include('finance.urls')),
     path('fitness/', include('fitness.urls')),
+    path('genone/', include('genone.urls')),
 ]
