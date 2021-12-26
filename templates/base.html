@@ -70,9 +70,9 @@
       </ul>
     </li>
     <li class="header-item">
-      <a href="#">Gen One</a>
+      <a href="{% url 'gameboy' %}">Gen One</a>
       <ul class="header-subItems">
-        <li class="header-subItem"><a href="#">Gen One Home</a></li>
+        <li class="header-subItem"><a href="{% url 'gameboy' %}">Gen One Home</a></li>
       </ul>
     </li>
   </ul>
@@ -125,7 +125,7 @@
     <input type="radio" name="menu" id="gen-one">
       <li class="menuItem">
         <label for="gen-one" class="title">Gen One</label>
-        <a class="submenuItem" href="#">Gen One Home</a>
+        <a class="submenuItem" href="{% url 'gameboy' %}">Gen One Home</a>
       </li>
     </ul>
   </nav>
