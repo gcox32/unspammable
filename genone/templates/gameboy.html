@@ -26,9 +26,14 @@
     <body>
         <img class="background" src="{% static 'genone/images/gameboy-bg.png' %}"/>
 
-        <div class="cartridge" id="blue" onclick="">blue</div>
-        <div class="saved-game" id="blue-save">saved-game</div>
+        <div class="cartridge" id="blue" value="blue">blue</div>
+        <div class="cartridge" id="blue-save">saved-game</div>
         <div class="cartridge" onclick="preview();">hide menubar</div>
+        <div class="save-btn" id="saver" value="blue">saver</div>
+
+        <div class="hidden-info" id="active-cart" value=""></div>
+        <div class="hidden-info" id="current-user" value="{{ request.user.id }}"></div>
+        
         <div id="GameBoy" class="window">
             <div class="menubar">
                 <span id="GameBoy_file_menu">File</span>

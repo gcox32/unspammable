@@ -422,3 +422,6 @@ ul.menu > li:hover > ul.menu {
 .cartridge:hover {
 	cursor: pointer;
 }
+.hidden-info {
+	display: none;
+}

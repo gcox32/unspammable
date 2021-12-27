@@ -13,26 +13,6 @@ var keyZones = [
 	["start", [13]]
 ];
 
-function loadFile(filepath) {
-	var xmlhttp = new XMLHttpRequest();
-	const filename = filepath.split('/')[2];
-	xmlhttp.open("GET", filepath, true);
-	xmlhttp.responseType = 'blob';
-
-
-	xmlhttp.onload = function() {
-		if (this.status==200) {
-			myBlob = new Blob([xmlhttp.response]);
-			myFile = new File([myBlob], filename, {
-				type: myBlob.type
-			});
-		};
-	};
-	xmlhttp.send();
-
-	return [myBlob, myFile]
-};
-
 function windowingInitialize() {
 	console.log("windowingInitialize() called.", 0);
 	windowStacks[0] = windowCreate("GameBoy", true);
@@ -91,7 +71,7 @@ function registerGUIEvents() {
 	addEvent("click", document.getElementById("view_importer"), function () { windowStacks[9].show() });
 // blah
 	addEvent("click", document.getElementById("blue"), function() {
-		cartridge = loadFile('/genone/roms/blue.gb');
+		cartridge = loadNewFile('/genone/roms/blue.gb');
 		console.log(cartridge[1]);
 		var reader = new FileReader();
 		reader.addEventListener('load', function (e) {
@@ -103,6 +83,22 @@ function registerGUIEvents() {
 
 	});
 // 
+	addEvent("click", document.getElementById("blue-save"), function() {
+		saveStateArray = loadJson('/genone/roms/savestates/0_blue.json');
+		console.log(saveStateArray);
+		clearLastEmulation();
+		gameboy = new GameBoyCore(mainCanvas, "");
+		gameboy.savedStateFileName = "temp.json";
+		gameboy.returnFromState(saveStateArray);
+		run();
+		
+	});
+	addEvent("click", document.getElementById("saver"), function() {
+		var id = document.getElementById("active-user").value;
+		var game = document.getElementById("current-game").value;
+		save(id=id, game=game)
+	});
+// ****************************************************************************
 	addEvent("keydown", document, keyDown);
 	addEvent("keyup", document,  function (event) {
 		if (event.keyCode == 27) {
@@ -426,6 +422,7 @@ function runFreeze(keyName) {
 	try {
 		windowStacks[8].hide();
 		initPlayer();
+		console.log(keyName);
 		openState(keyName, mainCanvas);
 	}
 	catch (error) {
@@ -450,7 +447,8 @@ function findValue(key) {
 //Wrapper for localStorage setItem, so that data can be set in various types.
 function setValue(key, value) {
 	try {
-		window.localStorage.setItem(key, JSON.stringify(value));
+		newValue = JSON.stringify(value);
+		window.localStorage.setItem(key, newValue);
 	}
 	catch (error) {
 		//An older Gecko 1.8.1/1.9.0 method of storage (Deprecated due to the obvious security hole):
@@ -690,3 +688,56 @@ function removeEvent(sEvent, oElement, fListener) {
 		// console.log("In removeEvent() : Nonstandard detachEvent() called to remove an \"on" + sEvent + "\" event.", -1);
 	}
 }
+
+
+// new stuff
+function loadNewFile(filepath) {
+	var xhr = new XMLHttpRequest();
+	const filename = filepath.split('/')[2];
+	xhr.open("GET", filepath, true);
+	xhr.responseType = 'blob';
+
+	xhr.onreadystatechange = function() {
+		if (this.status==200) {
+			myBlob = new Blob([xhr.response]);
+			myFile = new File([myBlob], filename, {
+				type: myBlob.type
+			});
+		};
+	};
+	xhr.send();
+
+	return [myBlob, myFile]
+};
+
+function uploadSaveFile(file, savename) {
+	str = JSON.stringify(file)
+	const filename = savename + ".json";
+	const dest = "/genone/roms/savestates/" + filename;
+	myFile = new File([str], filename, {
+		type: file.type
+	});
+
+	formData = new FormData();
+	formData.append("upload", myFile);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", dest);
+	xhr.send(formData);
+}
+
+function loadJson(filepath) {
+	var xhr = new XMLHttpRequest();
+	const filename = filepath.split('/')[2];
+	xhr.open("GET", filepath, true);
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (this.status==200) {
+			saveStateArray = JSON.parse(xhr.response);
+		};
+		console.log(saveStateArray);
+	};
+
+	console.log(saveStateArray);
+	return saveStateArray;
+	};

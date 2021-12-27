@@ -167,3 +167,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
+
+# 2.5MB - 2621440
+# 5MB - 5242880
+# 10MB - 10485760
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
+
+SAVESTATES_LOC = os.path.join(BASE_DIR, 'genone/roms/savestates/')
+SAVESTATES_URL = '/genone/roms/savestates/'

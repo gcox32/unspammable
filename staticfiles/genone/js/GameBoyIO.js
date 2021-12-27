@@ -73,13 +73,15 @@ function clearLastEmulation() {
 		console.log("No previous emulation was found to be cleared.", 0);
 	}
 }
-function save() {
+function save(id, game) {
 	if (GameBoyEmulatorInitialized()) {
 		var state_suffix = 0;
-		while (findValue("FREEZE_" + gameboy.name + "_" + state_suffix) != null) {
+		while (findValue("FREEZE_" + gameboy.name 
+		// + "_" + state_suffix
+		) != null) {
 			state_suffix++;
 		}
-		saveState("FREEZE_" + gameboy.name + "_" + state_suffix);
+		saveState(id + "_" + game);
 	}
 	else {
 		console.log("GameBoy core cannot be saved while it has not been initialized.", 1);
@@ -174,10 +176,10 @@ function openRTC(filename) {
 	}
 	return [];
 }
-function saveState(filename) {
+function saveState(savename) {
 	if (GameBoyEmulatorInitialized()) {
 		try {
-			setValue(filename, gameboy.saveState());
+			uploadSaveFile(gameboy.saveState(), savename=savename);
 			console.log("Saved the current state as: " + filename, 0);
 		}
 		catch (error) {
@@ -194,6 +196,7 @@ function openState(filename, canvas) {
 			try {
 				clearLastEmulation();
 				console.log("Attempting to run a saved emulation state.", 0);
+				console.log(filename);
 				gameboy = new GameBoyCore(canvas, "");
 				gameboy.savedStateFileName = filename;
 				gameboy.returnFromState(findValue(filename));
@@ -213,6 +216,7 @@ function openState(filename, canvas) {
 }
 function import_save(blobData) {
 	blobData = decodeBlob(blobData);
+	console.log(blobData);
 	if (blobData && blobData.blobs) {
 		if (blobData.blobs.length > 0) {
 			for (var index = 0; index < blobData.blobs.length; ++index) {
