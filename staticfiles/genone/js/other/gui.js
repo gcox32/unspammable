@@ -12,6 +12,9 @@ var keyZones = [
 	["select", [16]],
 	["start", [13]]
 ];
+var gameList = [
+	'blue.gb', 'yellow.gbc', 'red.gb', 'green.gb'
+]
 
 function windowingInitialize() {
 	console.log("windowingInitialize() called.", 0);
@@ -66,39 +69,121 @@ function registerGUIEvents() {
 	addEvent("click", document.getElementById("freeze_list_close_button"), function () { windowStacks[8].hide() });
 	addEvent("click", document.getElementById("GameBoy_about_menu"), function () { windowStacks[2].show() });
 	addEvent("click", document.getElementById("GameBoy_settings_menu"), function () { windowStacks[3].show() });
-	addEvent("click", document.getElementById("local_storage_list_menu"), function () { refreshStorageListing(); windowStacks[7].show(); });
-	addEvent("click", document.getElementById("freeze_list_menu"), function () { refreshFreezeListing(); windowStacks[8].show(); });
-	addEvent("click", document.getElementById("view_importer"), function () { windowStacks[9].show() });
+
 // blah
 	addEvent("click", document.getElementById("blue"), function() {
+		gameFile = gameList[0];
+		game = gameFile.split('.')[0];
+
 		activeCart = document.getElementById("active-cart");
-		activeCart.textContent = "blue";
+		activeCart.textContent = game;
+		clicked = document.getElementById(game);
+		clickedCode = clicked.getAttribute('value');
+		saveFileLoc = clicked.getAttribute('name');
 
-		cartridge = loadNewFile('/genone/roms/blue.gb');
+		console.log(clickedCode);
+		if (clickedCode == game + "-new") {
+			cartridge = loadNewFile('/genone/roms/' + gameFile);
+			var reader = new FileReader();
+			reader.addEventListener('load', function (e) {
+				initPlayer();
+				start(mainCanvas, e.target.result);
+			});
+			reader.readAsBinaryString(cartridge[1]);
+		} else {
+			saveStateArray = loadJson('/genone/roms/savestates/' + saveFileLoc);
+			clearLastEmulation();
+			gameboy = new GameBoyCore(mainCanvas, "");
+			gameboy.savedStateFileName = saveFileLoc;
+			gameboy.returnFromState(saveStateArray);
+			run();
+		};
+	});
+	addEvent("click", document.getElementById("yellow"), function() {
+		gameFile = gameList[1];
+		game = gameFile.split('.')[0];
 
-		var reader = new FileReader();
-		reader.addEventListener('load', function (e) {
-			initPlayer();
-			start(mainCanvas, e.target.result);
-		});
+		activeCart = document.getElementById("active-cart");
+		activeCart.textContent = game;
+		clicked = document.getElementById(game);
+		clickedCode = clicked.getAttribute('value');
+		saveFileLoc = clicked.getAttribute('name');
 
-		reader.readAsBinaryString(cartridge[1]);
+		console.log(clickedCode);
+		if (clickedCode == game + "-new") {
+			cartridge = loadNewFile('/genone/roms/' + gameFile);
+			var reader = new FileReader();
+			reader.addEventListener('load', function (e) {
+				initPlayer();
+				start(mainCanvas, e.target.result);
+			});
+			reader.readAsBinaryString(cartridge[1]);
+		} else {
+			saveStateArray = loadJson('/genone/roms/savestates/' + saveFileLoc);
+			clearLastEmulation();
+			gameboy = new GameBoyCore(mainCanvas, "");
+			gameboy.savedStateFileName = saveFileLoc;
+			gameboy.returnFromState(saveStateArray);
+			run();
+		};
+	});
+	addEvent("click", document.getElementById("red"), function() {
+		gameFile = gameList[2];
+		game = gameFile.split('.')[0];
 
+		activeCart = document.getElementById("active-cart");
+		activeCart.textContent = game;
+		clicked = document.getElementById(game);
+		clickedCode = clicked.getAttribute('value');
+		saveFileLoc = clicked.getAttribute('name');
+
+		console.log(clickedCode);
+		if (clickedCode == game + "-new") {
+			cartridge = loadNewFile('/genone/roms/' + gameFile);
+			var reader = new FileReader();
+			reader.addEventListener('load', function (e) {
+				initPlayer();
+				start(mainCanvas, e.target.result);
+			});
+			reader.readAsBinaryString(cartridge[1]);
+		} else {
+			saveStateArray = loadJson('/genone/roms/savestates/' + saveFileLoc);
+			clearLastEmulation();
+			gameboy = new GameBoyCore(mainCanvas, "");
+			gameboy.savedStateFileName = saveFileLoc;
+			gameboy.returnFromState(saveStateArray);
+			run();
+		};
+	});
+	addEvent("click", document.getElementById("green"), function() {
+		gameFile = gameList[3];
+		game = gameFile.split('.')[0];
+
+		activeCart = document.getElementById("active-cart");
+		activeCart.textContent = game;
+		clicked = document.getElementById(game);
+		clickedCode = clicked.getAttribute('value');
+		saveFileLoc = clicked.getAttribute('name');
+
+		console.log(clickedCode);
+		if (clickedCode == game + "-new") {
+			cartridge = loadNewFile('/genone/roms/' + gameFile);
+			var reader = new FileReader();
+			reader.addEventListener('load', function (e) {
+				initPlayer();
+				start(mainCanvas, e.target.result);
+			});
+			reader.readAsBinaryString(cartridge[1]);
+		} else {
+			saveStateArray = loadJson('/genone/roms/savestates/' + saveFileLoc);
+			clearLastEmulation();
+			gameboy = new GameBoyCore(mainCanvas, "");
+			gameboy.savedStateFileName = saveFileLoc;
+			gameboy.returnFromState(saveStateArray);
+			run();
+		};
 	});
 // 
-	addEvent("click", document.getElementById("blue-save"), function() {
-		activeCart = document.getElementById("active-cart");
-		activeCart.textContent = "blue";
-		
-		saveStateArray = loadJson('/genone/roms/savestates/1_blue.json');
-
-		clearLastEmulation();
-		gameboy = new GameBoyCore(mainCanvas, "");
-		gameboy.savedStateFileName = "temp.json";
-		gameboy.returnFromState(saveStateArray);
-		run();
-		
-	});
 	addEvent("click", document.getElementById("saver"), function() {
 		var id = document.getElementById("current-user").textContent;
 		var game = document.getElementById("active-cart").textContent;
@@ -727,15 +812,9 @@ function uploadSaveFile(file, savename) {
 
 	formData = new FormData();
 	formData.append("upload", myFile);
-	for (var p of formData) {
-		let name = p[0];
-		let value = p[1];
-	
-		console.log(name, value);
-	};
 
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", dest);
+	xhr.open("POST", dest, true);
 	xhr.send(formData);
 }
 

@@ -26,10 +26,18 @@
     <body>
         <img class="background" src="{% static 'genone/images/gameboy-bg.png' %}"/>
 
-        <div class="cartridge" id="blue" value="blue">blue</div>
-        <div class="cartridge" id="blue-save">saved-game</div>
-        <div class="cartridge" onclick="preview();">hide menubar</div>
-        <div class="save-btn" id="saver" value="blue">saver</div>
+        <!-- <div class="cartridge" id="blue" value="blue">blue</div> -->
+        <div class="cart-drawer">
+        {% for game in games %}
+            <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
+                <img src="/staticfiles/genone/images/{{ game.image }}" height="200px"/>
+            </div><br>
+        {% endfor %}
+        </div>
+        <div class="settings">
+            <div class="btn" id="saver" value="blue">save game</div>
+            <div class="btn" id="new-settings">settings</div>
+        </div>
 
         <div class="hidden-info" id="active-cart" value=""></div>
         <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>
@@ -43,7 +51,7 @@
             </div>
             <div id="gfx">
                 <canvas id="mainCanvas"></canvas>
-                <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="50%" id="logo"/>
+                <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="50%" id="logo" style="padding-right:16px;"/>
             </div>
         </div>
         <div id="terminal" class="window">
@@ -226,7 +234,6 @@
             gameboy.style.left = '551px';
             menubar.style.display = 'none';
             gfx.style.top = '3px';
-
-        }
+        };
     </script>
 </html>

@@ -21,6 +21,7 @@ body {
 	border: none;
 	margin: 0;
 	padding: 0;
+	background: rgb(50, 50, 50);
 }
 .background {
 	z-index: -1;
@@ -58,10 +59,10 @@ body {
 	opacity: 1;
 }
 #GameBoy {
-	height: 340px;
-	width: 400px;
+	height: 325px;
+	width: 360px;
 	top: 87px !important;
-	left: 529px ;
+	left: 551px !important;
 }
 #input_select, #save_importer {
 	min-height: 100px;
@@ -72,6 +73,7 @@ body {
 	min-width: 400px;
 }
 .menubar {
+	display: none;
 	max-height: 28px;
 	min-width: 250px;	/*Fail safe for poopy browsers.*/
 	display: block;
@@ -139,7 +141,8 @@ body {
 	bottom: 3px;
 	left: 3px;
 	right: 3px;
-	top: 43px;
+	/* top: 43px; */
+	top: 3px;
 	background-color: rgb(39, 39, 39);
 	background-repeat: repeat-x;
 	background-attachment: scroll;
@@ -419,9 +422,59 @@ ul.menu > li:hover > ul.menu {
 }
 
 /* revamp */
+.cart-drawer {
+	position: absolute;
+	width: 270px;
+	height: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	left: 0;
+	top: 0;
+	overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	transition: 250ms ease-in-out;
+	background: white;
+}
+.settings {
+	position: absolute;
+	width: 250px;
+	height: 100%;
+	right: 0;
+	top: 0;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: white;
+}
+.cartridge {
+	border-radius: 4px;
+	transition: 100ms ease-in-out
+}
 .cartridge:hover {
 	cursor: pointer;
+	outline: 4px black solid;
+	transform: scale(1.01);
 }
 .hidden-info {
 	display: none;
+}
+
+.btn {
+	border-radius: 16px;
+	border: 4px black solid;
+	width: 120px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+	margin-top: 10px;
+	transition: 250ms ease-in-out;
+}
+.btn:hover {
+	cursor: pointer;
+	background: rgb(153, 153, 153);
 }

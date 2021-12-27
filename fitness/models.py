@@ -37,6 +37,9 @@ class Exercise(models.Model):
     corr_hamstrings = models.FloatField(default=0.0, blank=True)
     corr_glutes = models.FloatField(default=0.0, blank=True)
     corr_calves = models.FloatField(default=0.0, blank=True)
+
+    def __str__(self):
+        return self.name_prefix + " " + self.name_base
     
 class Workout(models.Model):
     workout_date = models.DateField()
