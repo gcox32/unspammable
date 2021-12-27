@@ -177,7 +177,7 @@ function saveState(savename) {
 	if (GameBoyEmulatorInitialized()) {
 		try {
 			uploadSaveFile(gameboy.saveState(), savename=savename);
-			console.log("Saved the current state as: " + filename, 0);
+			console.log("Saved the current state as: " + savename + ".json", 0);
 		}
 		catch (error) {
 			console.log("Could not save the current emulation state(\"" + error.message + "\").", 2);

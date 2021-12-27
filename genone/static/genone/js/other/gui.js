@@ -72,7 +72,7 @@ function registerGUIEvents() {
 // blah
 	addEvent("click", document.getElementById("blue"), function() {
 		activeCart = document.getElementById("active-cart");
-		activeCart.value = "blue";
+		activeCart.textContent = "blue";
 
 		cartridge = loadNewFile('/genone/roms/blue.gb');
 
@@ -87,18 +87,21 @@ function registerGUIEvents() {
 	});
 // 
 	addEvent("click", document.getElementById("blue-save"), function() {
+		activeCart = document.getElementById("active-cart");
+		activeCart.textContent = "blue";
+		
 		saveStateArray = loadJson('/genone/roms/savestates/1_blue.json');
 
 		clearLastEmulation();
 		gameboy = new GameBoyCore(mainCanvas, "");
 		gameboy.savedStateFileName = "temp.json";
 		gameboy.returnFromState(saveStateArray);
-		run();
+		// run();
 		
 	});
 	addEvent("click", document.getElementById("saver"), function() {
 		var id = document.getElementById("current-user").textContent;
-		var game = document.getElementById("active-cart").value;
+		var game = document.getElementById("active-cart").textContent;
 		save(id=id, game=game);
 	});
 // ****************************************************************************
@@ -713,7 +716,9 @@ function loadNewFile(filepath) {
 };
 
 function uploadSaveFile(file, savename) {
+	console.log(file);
 	str = JSON.stringify(file)
+	console.log(str);
 	const filename = savename + ".json";
 	const dest = "/genone/roms/savestates/" + filename;
 	myFile = new File([str], filename, {
@@ -722,6 +727,12 @@ function uploadSaveFile(file, savename) {
 
 	formData = new FormData();
 	formData.append("upload", myFile);
+	for (var p of formData) {
+		let name = p[0];
+		let value = p[1];
+	
+		console.log(name, value);
+	};
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", dest);
