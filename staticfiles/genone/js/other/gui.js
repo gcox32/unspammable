@@ -71,8 +71,11 @@ function registerGUIEvents() {
 	addEvent("click", document.getElementById("view_importer"), function () { windowStacks[9].show() });
 // blah
 	addEvent("click", document.getElementById("blue"), function() {
+		activeCart = document.getElementById("active-cart");
+		activeCart.value = "blue";
+
 		cartridge = loadNewFile('/genone/roms/blue.gb');
-		console.log(cartridge[1]);
+
 		var reader = new FileReader();
 		reader.addEventListener('load', function (e) {
 			initPlayer();
@@ -84,8 +87,8 @@ function registerGUIEvents() {
 	});
 // 
 	addEvent("click", document.getElementById("blue-save"), function() {
-		saveStateArray = loadJson('/genone/roms/savestates/0_blue.json');
-		console.log(saveStateArray);
+		saveStateArray = loadJson('/genone/roms/savestates/1_blue.json');
+
 		clearLastEmulation();
 		gameboy = new GameBoyCore(mainCanvas, "");
 		gameboy.savedStateFileName = "temp.json";
@@ -94,9 +97,9 @@ function registerGUIEvents() {
 		
 	});
 	addEvent("click", document.getElementById("saver"), function() {
-		var id = document.getElementById("active-user").value;
-		var game = document.getElementById("current-game").value;
-		save(id=id, game=game)
+		var id = document.getElementById("current-user").textContent;
+		var game = document.getElementById("active-cart").value;
+		save(id=id, game=game);
 	});
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
@@ -706,7 +709,6 @@ function loadNewFile(filepath) {
 		};
 	};
 	xhr.send();
-
 	return [myBlob, myFile]
 };
 
@@ -735,9 +737,6 @@ function loadJson(filepath) {
 		if (this.status==200) {
 			saveStateArray = JSON.parse(xhr.response);
 		};
-		console.log(saveStateArray);
 	};
-
-	console.log(saveStateArray);
 	return saveStateArray;
-	};
+};

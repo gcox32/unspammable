@@ -7,9 +7,8 @@ from unspammable.src.creds import get_platforms_credentials
 import os
 from django.conf import settings
 from django.http import FileResponse
-from django.core.files.storage import FileSystemStorage
+from .src.storage import SaveStateStorage
 from django.views.decorators.csrf import csrf_exempt
-
 
 def index(request):
     context = get_platforms_credentials(request)
@@ -29,12 +28,13 @@ def load_saved_game(request, savefile):
     if request.user.is_superuser:
         if request.method == 'POST':
             upload = request.FILES['upload']
-            fss = FileSystemStorage(
+            fss = SaveStateStorage(
                 location=settings.SAVESTATES_LOC, 
                 base_url=settings.SAVESTATES_URL
                 )
             try:
                 file = fss.save(upload.name, upload)
+                print(file)
                 fileurl = fss.url(file)
                 response = JsonResponse({
                     'response': 'successful upload',

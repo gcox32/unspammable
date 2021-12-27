@@ -74,14 +74,11 @@ function clearLastEmulation() {
 	}
 }
 function save(id, game) {
+	var savename;
 	if (GameBoyEmulatorInitialized()) {
-		var state_suffix = 0;
-		while (findValue("FREEZE_" + gameboy.name 
-		// + "_" + state_suffix
-		) != null) {
-			state_suffix++;
-		}
-		saveState(id + "_" + game);
+		savename = id + "_" + game;
+		console.log(savename);
+		saveState(savename);
 	}
 	else {
 		console.log("GameBoy core cannot be saved while it has not been initialized.", 1);
