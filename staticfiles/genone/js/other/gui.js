@@ -30,24 +30,9 @@ function windowingInitialize() {
 	}
 	//Update the settings to the emulator's default:
 	document.getElementById("enable_sound").checked = settings[0];
-	document.getElementById("enable_gbc_bios").checked = settings[1];
-	document.getElementById("disable_colors").checked = settings[2];
-	document.getElementById("rom_only_override").checked = settings[9];
-	document.getElementById("mbc_enable_override").checked = settings[10];
-	document.getElementById("enable_colorization").checked = settings[4];
-	document.getElementById("do_minimal").checked = showAsMinimal;
-	document.getElementById("software_resizing").checked = settings[12];
-	document.getElementById("typed_arrays_disallow").checked = settings[5];
-	document.getElementById("gb_boot_rom_utilized").checked = settings[11];
-	document.getElementById("resize_smoothing").checked = settings[13];
-    document.getElementById("channel1").checked = settings[14][0];
-    document.getElementById("channel2").checked = settings[14][1];
-    document.getElementById("channel3").checked = settings[14][2];
-    document.getElementById("channel4").checked = settings[14][3];
 }
 function registerGUIEvents() {
 	console.log("In registerGUIEvents() : Registering GUI Events.", -1);
-// blah
 	addEvent("click", document.getElementById("blue"), function() {
 		gameFile = gameList[0];
 		game = gameFile.split('.')[0];
@@ -166,7 +151,12 @@ function registerGUIEvents() {
 		var game = document.getElementById("active-cart").textContent;
 		save(id=id, game=game);
 	});
-
+	addEvent("click", document.getElementById("pause-btn"), function () {
+		pause();
+	});
+	addEvent("click", document.getElementById("resume-btn"), function () {
+		run();
+	});
 	addEvent("click", document.getElementById("restart-btn"), function () {
 		if (GameBoyEmulatorInitialized()) {
 			try {
@@ -196,6 +186,14 @@ function registerGUIEvents() {
 			console.log("Could not restart, as a previous emulation session could not be found.", 1);
 		}
 	});
+	addEvent("click", document.getElementById("adjust-speed-btn"), function () {
+		if (GameBoyEmulatorInitialized()) {
+			var speed = document.getElementById("speed-input").value;
+			if (speed != null && speed.length > 0) {
+				gameboy.setSpeed(Math.max(parseFloat(speed), 0.001));
+			}
+		}
+	})
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
 	addEvent("keyup", document,  function (event) {
@@ -210,86 +208,30 @@ function registerGUIEvents() {
 	});
 	addEvent("MozOrientation", window, GameBoyGyroSignalHandler);
 	addEvent("deviceorientation", window, GameBoyGyroSignalHandler);
-	addEvent("click", document.getElementById("set_volume"), function () {
-		if (GameBoyEmulatorInitialized()) {
-			var volume = prompt("Set the volume here:", "1.0");
-			if (volume != null && volume.length > 0) {
-				settings[3] = Math.min(Math.max(parseFloat(volume), 0), 1);
-				gameboy.changeVolume();
-			}
-		}
-	});
-	addEvent("click", document.getElementById("set_speed"), function () {
-		if (GameBoyEmulatorInitialized()) {
-			var speed = prompt("Set the emulator speed here:", "1.0");
-			if (speed != null && speed.length > 0) {
-				gameboy.setSpeed(Math.max(parseFloat(speed), 0.001));
-			}
-		}
-	});
-
 	addEvent("click", document.getElementById("enable_sound"), function () {
 		settings[0] = document.getElementById("enable_sound").checked;
 		if (GameBoyEmulatorInitialized()) {
 			gameboy.initSound();
 		}
 	});
-	addEvent("click", document.getElementById("disable_colors"), function () {
-		settings[2] = document.getElementById("disable_colors").checked;
-	});
-	addEvent("click", document.getElementById("rom_only_override"), function () {
-		settings[9] = document.getElementById("rom_only_override").checked;
-	});
-	addEvent("click", document.getElementById("mbc_enable_override"), function () {
-		settings[10] = document.getElementById("mbc_enable_override").checked;
-	});
-	addEvent("click", document.getElementById("enable_gbc_bios"), function () {
-		settings[1] = document.getElementById("enable_gbc_bios").checked;
-	});
-	addEvent("click", document.getElementById("enable_colorization"), function () {
-		settings[4] = document.getElementById("enable_colorization").checked;
-	});
-	addEvent("click", document.getElementById("do_minimal"), function () {
-		showAsMinimal = document.getElementById("do_minimal").checked;
-		fullscreenCanvas.className = (showAsMinimal) ? "minimum" : "maximum";
-	});
-	addEvent("click", document.getElementById("software_resizing"), function () {
-		settings[12] = document.getElementById("software_resizing").checked;
-		if (GameBoyEmulatorInitialized()) {
-			gameboy.initLCD();
-		}
-	});
-	addEvent("click", document.getElementById("typed_arrays_disallow"), function () {
-		settings[5] = document.getElementById("typed_arrays_disallow").checked;
-	});
-	addEvent("click", document.getElementById("gb_boot_rom_utilized"), function () {
-		settings[11] = document.getElementById("gb_boot_rom_utilized").checked;
-	});
-	addEvent("click", document.getElementById("resize_smoothing"), function () {
-		settings[13] = document.getElementById("resize_smoothing").checked;
-		if (GameBoyEmulatorInitialized()) {
-			gameboy.initLCD();
-		}
-	});
-    addEvent("click", document.getElementById("channel1"), function () {
-        settings[14][0] = document.getElementById("channel1").checked;
-    });
-    addEvent("click", document.getElementById("channel2"), function () {
-        settings[14][1] = document.getElementById("channel2").checked;
-    });
-    addEvent("click", document.getElementById("channel3"), function () {
-        settings[14][2] = document.getElementById("channel3").checked;
-    });
-    addEvent("click", document.getElementById("channel4"), function () {
-        settings[14][3] = document.getElementById("channel4").checked;
-    });
-	addEvent("click", document.getElementById("view_fullscreen"), fullscreenPlayer);
+
 	addEvent("mouseup", document.getElementById("gfx"), initNewCanvasSize);
 	addEvent("resize", window, initNewCanvasSize);
 	addEvent("unload", window, function () {
 		autoSave();
 	});
 }
+
+function changeVolume() {
+	if (GameBoyEmulatorInitialized()) {
+		var volume = prompt("Set the volume here:", "1.0");
+		if (volume != null && volume.length > 0) {
+			settings[3] = Math.min(Math.max(parseFloat(volume), 0), 1);
+			gameboy.changeVolume();
+		}
+	}
+};
+
 function keyDown(event) {
 	var keyCode = event.keyCode;
 	var keyMapLength = keyZones.length;
