@@ -448,6 +448,20 @@ ul.menu > li:hover > ul.menu {
 	flex-direction: column;
 	align-items: center;
 	background: white;
+	border-left: 4px rgb(50, 50, 50) solid;
+	transition: 500ms ease-in-out;
+}
+.drawer-arrow {
+	position: absolute;
+	top: 45%;
+	left: 0;
+	transition: 300ms ease-in-out;
+}
+.drawer-arrow:hover {
+	cursor: pointer;
+}
+.drawer-arrow:active {
+	transform: rotate(180deg);
 }
 .cartridge {
 	border-radius: 4px;

@@ -77,7 +77,6 @@ function save(id, game) {
 	var savename;
 	if (GameBoyEmulatorInitialized()) {
 		savename = id + "_" + game;
-		console.log(savename);
 		saveState(savename);
 	}
 	else {
