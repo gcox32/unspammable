@@ -22,10 +22,9 @@
     <title>GameBoy Online</title>
 </head>
 <body>
-    <img class="background" src="{% static 'genone/images/gameboy-bg.png' %}"/>
-
-    <!-- <div class="cartridge" id="blue" value="blue">blue</div> -->
+    <div class="dynamic-bg"></div>
     <div class="cart-drawer">
+        <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
     {% for game in games %}
         <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
             <img src="/staticfiles/genone/images/{{ game.image }}" height="200px"/>
@@ -134,13 +133,23 @@
     settingsArrow = document.getElementById("settings-arrow");
     settingsDrawer = document.getElementsByClassName("settings")[0];
     settingsArrow.addEventListener('click', function () {
-        console.log(settingsArrow.style.transform);
         if (settingsArrow.style.transform != 'rotate(180deg)') {
             settingsArrow.style.transform = 'rotate(180deg)';
             settingsDrawer.style.transform = 'translateX(80%)';
         } else {
             settingsArrow.style.transform = 'none';
             settingsDrawer.style.transform = 'translateX(0%)';
+        };
+    });
+    cartArrow = document.getElementById("cartridge-arrow");
+    cartDrawer = document.getElementsByClassName("cart-drawer")[0];
+    cartArrow.addEventListener('click', function () {
+        if (cartArrow.style.transform != 'rotate(360deg)') {
+            cartArrow.style.transform = 'rotate(360deg)';
+            cartDrawer.style.transform = 'translateX(-83%)';
+        } else {
+            cartArrow.style.transform = 'rotate(180deg)';
+            cartDrawer.style.transform = 'translateX(0%)';
         };
     });
 </script>
