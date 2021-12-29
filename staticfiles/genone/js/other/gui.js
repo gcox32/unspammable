@@ -150,6 +150,65 @@ function registerGUIEvents() {
 		clearInterval(interval);
 	});
 
+// touchable joypad
+	addEvent('touchstart', document.getElementById('a-btn'), function(keyEvent) {
+		console.log('touched a');
+		interval = setInterval(clickBtn(keyEvent, 88), 10);
+	});
+	addEvent('touchend', document.getElementById('a-btn'), function() {
+		releaseBtn(keyEvent, 88);
+		clearInterval(interval);
+	});
+	addEvent('touchstart', document.getElementById('b-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 90), 10);
+	});
+	addEvent('touchend', document.getElementById('b-btn'), function() {
+		releaseBtn(keyEvent, 90);
+		clearInterval(interval);
+	});
+	addEvent('touchstart', document.getElementById('up-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 38), 10);
+	});
+	addEvent('touchend', document.getElementById('up-btn'), function() {
+		releaseBtn(keyEvent, 38);
+		clearInterval(interval);
+	});
+	addEvent('touchstart', document.getElementById('down-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 40), 10);
+	});
+	addEvent('touchend', document.getElementById('down-btn'), function() {
+		releaseBtn(keyEvent, 40);
+		clearInterval(interval);
+	});
+	addEvent('touchstart', document.getElementById('left-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 37), 10);
+	});
+	addEvent('touchend', document.getElementById('left-btn'), function() {
+		releaseBtn(keyEvent, 37);
+		clearInterval(interval);
+	});
+	addEvent('touchstart', document.getElementById('right-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 39), 10);
+	});
+	addEvent('touchend', document.getElementById('right-btn'), function() {
+		releaseBtn(keyEvent, 39);
+		clearInterval(interval);
+	});
+	addEvent('touchstart', document.getElementById('start-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 13), 10);
+	});
+	addEvent('touchend', document.getElementById('start-btn'), function() {
+		releaseBtn(keyEvent, 13);
+		clearInterval(interval);
+	});
+	addEvent('touchstart', document.getElementById('select-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 16), 10);
+	});
+	addEvent('touchend', document.getElementById('select-btn'), function() {
+		releaseBtn(keyEvent, 16);
+		clearInterval(interval);
+	});
+
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
 	addEvent("keyup", document,  function (event) {
