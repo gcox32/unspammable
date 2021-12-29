@@ -1,8 +1,14 @@
 @charset "utf-8";
+@font-face {
+    font-family: gameboy;
+    src: url('/staticfiles/genone/fonts/PokemonGb.ttf');
+}
+
 html {
 	margin: 0;
 	padding: 0;
-	font-family: arial;
+	font-family: gameboy, sans-serif;
+	font-size: 12px;
 	margin: 0;
 	padding: 0;
 	overflow: auto;
@@ -21,15 +27,23 @@ body {
 	border: none;
 	margin: 0;
 	padding: 0;
-	background-image: url('/staticfiles/genone/images/gameboy-bg.png');
+	background-image: url('/staticfiles/genone/images/bg-yellow.png');
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-position: 422px -35px;
+	background-size: cover;
+	background-position: 100px 0;
+	transition: 1s ease-in-out;
+	background-color: rgb(39, 39, 39);
 }
-.dynamic-bg {
-	z-index: -1;
+.console-container {
 	position: absolute;
-
+	width: 526px;
+	height: 854px;
+	background-image: url('/staticfiles/genone/images/gameboy-bg.png');
+	background-size: cover;
+	left: 346px;
+	top: -20px;
+	border: 4px rgba(255,255,255, .5) solid;
 }
 .menubar, #GameBoy > #gfx {
 	-webkit-text-size-adjust: none;
@@ -60,10 +74,10 @@ body {
 	opacity: 1;
 }
 #GameBoy {
-	height: 325px;
-	width: 360px;
+	height: 286px;
+	width: 321px;
 	top: 62px !important;
-	left: 548px !important;
+	left: 450px !important;
 }
 
 #gfx {
@@ -131,13 +145,22 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 }
 
 /* revamp */
+#temp-fix {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 200px;
+	height: 100%;
+	background-color: white;
+	transition: .3s ease-in-out;
+}
 .cart-drawer {
 	position: absolute;
-	width: 270px;
+	width: 220px;
 	height: 100%;
 	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-right: 20px;
+	padding-bottom: 30px;
+	padding-right: 30px;
 	left: 0;
 	top: 0;
 	overflow-y: scroll;
@@ -177,7 +200,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 }
 #cartridge-arrow {
 	transform: rotate(180deg);
-	right: 0;
+	right: -5;
 	left: auto;
 }
 #cartridge-arrow:active {
@@ -219,6 +242,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 	margin-top: 0;
 	border-radius: 4px;
 	margin-left: 5px;
+	font-size: 9px;
 }
 .game-setting {
 	margin-top: 20px;
@@ -245,3 +269,13 @@ label {
 	text-transform: uppercase;
 	margin-bottom: 2px;
 }
+input {
+	font-family: gameboy, sans-serif;
+}
+#enable-sound {
+	margin-bottom: 5px;
+}
+input:hover {
+	cursor: pointer;
+}
+

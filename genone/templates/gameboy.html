@@ -22,12 +22,13 @@
     <title>unspammable</title>
 </head>
 <body>
-    <div class="dynamic-bg"></div>
+    <div class="console-container"></div>
+    <div id="temp-fix"></div>
     <div class="cart-drawer">
         <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
     {% for game in games %}
         <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
-            <img src="/staticfiles/genone/images/{{ game.image }}" height="200px"/>
+            <img src="/staticfiles/genone/images/{{ game.image }}" height="170px"/>
         </div><br>
     {% endfor %}
     </div>
@@ -44,7 +45,7 @@
                 <div class="btn sm-btn" id="adjust-speed-btn">apply</div>
             </div>
             <div class="input-row">
-                <input type="checkbox" checked="checked" id="enable_sound"/>
+                <input type="checkbox" checked="checked" id="enable-sound"/>
                 <label>sound on</label>
             </div>
         </div>
@@ -64,8 +65,8 @@
     </div>
 </body>
 <script>
-    settingsArrow = document.getElementById("settings-arrow");
-    settingsDrawer = document.getElementsByClassName("settings")[0];
+    var settingsArrow = document.getElementById("settings-arrow");
+    var settingsDrawer = document.getElementsByClassName("settings")[0];
     settingsArrow.addEventListener('click', function () {
         if (settingsArrow.style.transform != 'rotate(180deg)') {
             settingsArrow.style.transform = 'rotate(180deg)';
@@ -75,13 +76,24 @@
             settingsDrawer.style.transform = 'translateX(0%)';
         };
     });
-    cartArrow = document.getElementById("cartridge-arrow");
-    cartDrawer = document.getElementsByClassName("cart-drawer")[0];
+    var cartArrow = document.getElementById("cartridge-arrow");
+    var cartDrawer = document.getElementsByClassName("cart-drawer")[0];
+    var tempDiv = document.getElementById("temp-fix");
     cartArrow.addEventListener('click', function () {
         if (cartArrow.style.transform != 'rotate(360deg)') {
             cartArrow.style.transform = 'rotate(360deg)';
             cartDrawer.style.transform = 'translateX(-83%)';
+            activeCart = document.getElementById("active-cart").textContent;
+            switch(activeCart) {
+                case "blue":tempDiv.style.backgroundColor = "rgb(49,143,205)";break;
+                case "red":tempDiv.style.backgroundColor = "rgb(255,69,22)";break;
+                case "green":tempDiv.style.backgroundColor = "rgb(0,166,82)";break;
+                case "yellow":tempDiv.style.backgroundColor = "rgb(249,202,24)";break;
+                default:tempDiv.style.backgroundColor = "rgb(249,202,24)";
+            };
+
         } else {
+            tempDiv.style.backgroundColor = "white";
             cartArrow.style.transform = 'rotate(180deg)';
             cartDrawer.style.transform = 'translateX(0%)';
         };
