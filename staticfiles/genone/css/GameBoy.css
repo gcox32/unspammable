@@ -38,12 +38,13 @@ body {
 .console-container {
 	position: absolute;
 	width: 526px;
-	height: 854px;
+	height: 928px;
 	background-image: url('/staticfiles/genone/images/gameboy-bg.png');
 	background-size: cover;
 	left: 346px;
 	top: -20px;
 	border: 4px rgba(255,255,255, .5) solid;
+	border-radius: 20px;
 }
 .menubar, #GameBoy > #gfx {
 	-webkit-text-size-adjust: none;
@@ -279,3 +280,78 @@ input:hover {
 	cursor: pointer;
 }
 
+/* buttons */
+.gb-btn {
+	position: absolute;
+	/* background: purple; */
+	opacity: 0.7;
+}
+.gb-btn:hover {
+	cursor: pointer;
+}
+.gb-btn:active {
+	opacity: 1;
+}
+.a-b {
+	border-radius: 50%;
+	height: 61px;
+	width: 61px;
+	background-color: rgba(255,255,255, .1);
+}
+.a-b:active {
+	opacity: 0;
+}
+#a-btn {
+	left: 776px;
+	top: 544px;
+}
+#b-btn {
+	left: 677px;
+	top: 576px;
+}
+.st-sel {
+	width: 46px;
+	height: 17px;
+	border-radius: 40%;
+	top: 738px;
+	background-color: rgba(255,255,255, .1);
+}
+.st-sel:active {
+	opacity: 0;
+}
+#select-btn {
+	left: 550px;
+}
+#start-btn {
+	left: 631px;
+}
+.joypad {
+	height: 45px;
+	width: 48px;
+	border-radius: 8px;
+}
+#up-btn {
+	background: linear-gradient(180deg, rgba(255,255,255, .2), rgba(255,255,255, .0));
+	top: 526px;
+	left: 433px;
+}
+#down-btn {
+	background: linear-gradient(0deg, rgba(255,255,255, .2), rgba(255,255,255, .0));
+	top: 614px;
+	left: 433px;
+}
+#left-btn {
+	background: linear-gradient(0deg, rgba(255,255,255, .2), rgba(255,255,255, .0));
+	top: 569px;
+	left: 388px;
+	transform: rotate(90deg)
+}
+#right-btn {
+	background: linear-gradient(180deg, rgba(255,255,255, .2), rgba(255,255,255, .0));
+	top: 569px;
+	left: 476px;
+	transform: rotate(90deg)
+}
+.joypad:active{
+	opacity: 0;
+}

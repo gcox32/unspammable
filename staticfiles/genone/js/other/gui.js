@@ -98,6 +98,65 @@ function registerGUIEvents() {
 			}
 		}
 	})
+
+	// clickable joypad
+	addEvent('mousedown', document.getElementById('a-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 88), 10);
+	});
+	addEvent('mouseup', document.getElementById('a-btn'), function() {
+		releaseBtn(keyEvent, 88);
+		clearInterval(interval);
+	});
+	addEvent('mousedown', document.getElementById('b-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 90), 10);
+	});
+	addEvent('mouseup', document.getElementById('b-btn'), function() {
+		releaseBtn(keyEvent, 90);
+		clearInterval(interval);
+	});
+	addEvent('mousedown', document.getElementById('up-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 38), 10);
+	});
+	addEvent('mouseup', document.getElementById('up-btn'), function() {
+		releaseBtn(keyEvent, 38);
+		clearInterval(interval);
+	});
+	addEvent('mousedown', document.getElementById('down-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 40), 10);
+	});
+	addEvent('mouseup', document.getElementById('down-btn'), function() {
+		releaseBtn(keyEvent, 40);
+		clearInterval(interval);
+	});
+	addEvent('mousedown', document.getElementById('left-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 37), 10);
+	});
+	addEvent('mouseup', document.getElementById('left-btn'), function() {
+		releaseBtn(keyEvent, 37);
+		clearInterval(interval);
+	});
+	addEvent('mousedown', document.getElementById('right-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 39), 10);
+	});
+	addEvent('mouseup', document.getElementById('right-btn'), function() {
+		releaseBtn(keyEvent, 39);
+		clearInterval(interval);
+	});
+	addEvent('mousedown', document.getElementById('start-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 13), 10);
+	});
+	addEvent('mouseup', document.getElementById('start-btn'), function() {
+		releaseBtn(keyEvent, 13);
+		clearInterval(interval);
+	});
+	addEvent('mousedown', document.getElementById('select-btn'), function(keyEvent) {
+		interval = setInterval(clickBtn(keyEvent, 16), 10);
+	});
+	addEvent('mouseup', document.getElementById('select-btn'), function() {
+		releaseBtn(keyEvent, 16);
+		clearInterval(interval);
+	});
+
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
 	addEvent("keyup", document,  function (event) {
@@ -354,4 +413,26 @@ function loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc) {
 function backgroundSwitch(version) {
 	var bg = document.getElementsByTagName('body')[0];
 	bg.style.backgroundImage = 'url(\"/staticfiles/genone/images/bg-' + version + '.png\")'
+};
+
+// buttons
+function clickBtn(eventObj, keyCode) {
+	keyEvent = new KeyboardEvent("keydown", {
+		bubbles : true,
+		cancelable : true,
+		char : "x",
+		key : "x",
+		shiftKey : false,
+		keyCode : keyCode});
+	document.dispatchEvent(keyEvent);
+};
+function releaseBtn(eventObj, keyCode) {
+	keyEvent = new KeyboardEvent("keyup", {
+		bubbles : true,
+		cancelable : true,
+		char : "x",
+		key : "x",
+		shiftKey : false,
+		keyCode : keyCode});
+	document.dispatchEvent(keyEvent);
 };
