@@ -64,23 +64,16 @@ function registerGUIEvents() {
 	addEvent("click", document.getElementById("restart-btn"), function () {
 		if (GameBoyEmulatorInitialized()) {
 			try {
-				if (!gameboy.fromSaveState) {
-					cartridge = loadNewFile('/genone/roms/' + gameFile);
-					var reader = new FileReader();
-					reader.addEventListener('load', function (e) {
-						initPlayer();
-						start(mainCanvas, e.target.result);
-					});
-					reader.readAsBinaryString(cartridge[1]);
-				}
-				else {
-					saveStateArray = loadJson('/genone/roms/savestates/' + saveFileLoc);
-					clearLastEmulation();
-					gameboy = new GameBoyCore(mainCanvas, "");
-					gameboy.savedStateFileName = saveFileLoc;
-					gameboy.returnFromState(saveStateArray);
-					run();
-				}
+				var activeCart = document.getElementById('active-cart').textContent;
+				var idx;
+				switch(activeCart) {
+					case "blue":idx=0;break;
+					case "yellow":idx=1;break;
+					case "red":idx=2;break;
+					case "green":idx=3;break;
+				};
+				var [gameFile, game, clickedCode, saveFileLoc] = getVars(idx);
+				loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 			}
 			catch (error) {
 				alert(error.message + " file: " + error.fileName + " line: " + error.lineNumber);
