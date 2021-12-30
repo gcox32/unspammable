@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-
+        <div id="zoomlevel" style="z-index: 4;"></div>
         <div class="hidden-info" id="active-cart" value=""></div>
         <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>
         
@@ -81,15 +81,9 @@
     </div>
 </body>
 <script>
-    var toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
-    var mobileWrapper = document.getElementById('mobile-wrapper');
-    // var 
-
-    // function switchMode(e) {
-    //     if (e.target.checked) {
-    //         mobileWrapper.style.
-    //     } else {
-
-    //     };
-    // };
+    var zoomlevel = document.getElementById('zoomlevel');
+    window.addEventListener('resize', () => {
+        const browserZoomLevel = (window.outerWidth - 8) / window.innerWidth;
+        zoomlevel.textContent = browserZoomLevel * 100
+})
 </script>

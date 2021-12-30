@@ -517,15 +517,32 @@ function toggleSettingsDrawer() {
 };
 function toggleMobileMode() {
 	var toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
+	var settingsArrow = document.getElementById("settings-arrow");
+	var cartArrow = document.getElementById("cartridge-arrow");
     var mobileWrapper = document.getElementById('mobile-wrapper');
+	var gameboy = document.getElementsByClassName('console-container')[0];
+
 	if (toggleSwitch.checked) {
-		toggleCartDrawer();
-		toggleSettingsDrawer();
+		if (settingsArrow.style.transform != 'rotate(180deg)') {
+			toggleSettingsDrawer();
+		};
+		if (cartArrow.style.transform != 'rotate(360deg)') {
+			toggleCartDrawer();
+		};
 		mobileWrapper.style.overflow = 'hidden';
+		gameboy.style.top = '0';
+		gameboy.style.left = '0';
+
 	} else {
-		toggleCartDrawer();
-		toggleSettingsDrawer();
+		if (settingsArrow.style.transform == 'rotate(180deg)') {
+			toggleSettingsDrawer();
+		};
+		if (cartArrow.style.transform == 'rotate(360deg)') {
+			toggleCartDrawer();
+		};
 		mobileWrapper.style.overflow = 'auto';
+		gameboy.style.top = '-20px';
+		gameboy.style.left = '346px';
 	}
 };
 // buttons
