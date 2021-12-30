@@ -282,11 +282,12 @@ label {
 input {
 	font-family: gameboy, sans-serif;
 }
-#enable-sound {
-	margin-bottom: 5px;
-}
 input:hover {
 	cursor: pointer;
+}
+#enable-sound {
+	background: rgb(153, 153, 153);
+	transition: 300ms ease-in-out;
 }
 
 /* console */

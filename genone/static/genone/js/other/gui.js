@@ -228,7 +228,19 @@ function registerGUIEvents() {
 	addEvent("MozOrientation", window, GameBoyGyroSignalHandler);
 	addEvent("deviceorientation", window, GameBoyGyroSignalHandler);
 	addEvent("click", document.getElementById("enable-sound"), function () {
-		settings[0] = document.getElementById("enable-sound").checked;
+		soundBtn = document.getElementById("enable-sound");
+		settings[0] = soundBtn.getAttribute('value');
+		console.log(settings[0]);
+		if (settings[0] == 'true') {
+			soundBtn.style.background = 'none';
+			soundBtn.setAttribute('value','false');
+			settings[0] = false;
+		} else {
+			soundBtn.style.background = 'rgb(153, 153, 153)';
+			soundBtn.setAttribute('value','true');
+			settings[0] = true;
+		};
+
 		if (GameBoyEmulatorInitialized()) {
 			gameboy.initSound();
 		}
@@ -509,9 +521,11 @@ function toggleMobileMode() {
 	if (toggleSwitch.checked) {
 		toggleCartDrawer();
 		toggleSettingsDrawer();
+		mobileWrapper.style.overflow = 'hidden';
 	} else {
 		toggleCartDrawer();
 		toggleSettingsDrawer();
+		mobileWrapper.style.overflow = 'auto';
 	}
 };
 // buttons
