@@ -83,8 +83,8 @@ body {
 #GameBoy {
 	height: 286px;
 	width: 321px;
-	top: 62px !important;
-	left: 450px !important;
+	top: 78px !important;
+	left: 104px !important;
 }
 
 #gfx {
@@ -287,8 +287,8 @@ input:hover {
 	height: 11px;
 	width: 11px;
 	border-radius: 50%;
-	top: 146px;
-	left: 394px;
+	top: 162px;
+	left: 44px;
 	opacity: 0;
 	transition: 500ms ease-out;
 }
@@ -312,28 +312,28 @@ input:hover {
 	opacity: 0;
 }
 #a-btn {
-	left: 776px;
-	top: 544px;
+	left: 426px;
+	top: 560px;
 }
 #b-btn {
-	left: 677px;
-	top: 576px;
+	left: 327px;
+	top: 592px;
 }
 .st-sel {
 	width: 46px;
 	height: 17px;
 	border-radius: 40%;
-	top: 738px;
+	top: 754px;
 	background-color: rgba(255,255,255, .1);
 }
 .st-sel:active {
 	opacity: 0;
 }
 #select-btn {
-	left: 550px;
+	left: 200px;
 }
 #start-btn {
-	left: 631px;
+	left: 281px;
 }
 .joypad {
 	height: 45px;
@@ -342,24 +342,24 @@ input:hover {
 }
 #up-btn {
 	background: linear-gradient(180deg, rgba(255,255,255, .2), rgba(255,255,255, .0));
-	top: 526px;
-	left: 433px;
+	top: 542px;
+	left: 83px;
 }
 #down-btn {
 	background: linear-gradient(0deg, rgba(255,255,255, .2), rgba(255,255,255, .0));
-	top: 614px;
-	left: 433px;
+	top: 630px;
+	left: 83px;
 }
 #left-btn {
 	background: linear-gradient(0deg, rgba(255,255,255, .2), rgba(255,255,255, .0));
-	top: 569px;
-	left: 388px;
+	top: 585px;
+	left: 38px;
 	transform: rotate(90deg)
 }
 #right-btn {
 	background: linear-gradient(180deg, rgba(255,255,255, .2), rgba(255,255,255, .0));
-	top: 569px;
-	left: 476px;
+	top: 585px;
+	left: 126px;
 	transform: rotate(90deg)
 }
 .joypad:active{
@@ -369,8 +369,8 @@ input:hover {
 /*slider switch css */
 .switch-wrapper {
 	position: absolute;
-	top: 25px;
-	left: 712px;
+	top: 41px;
+	left: 362px;
     display: flex;
     align-items: center;
 }

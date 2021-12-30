@@ -515,7 +515,6 @@ function toggleMobileMode() {
 		toggleSettingsDrawer();
 	}
 };
-
 // buttons
 function clickBtn(eventObj, keyCode) {
 	keyEvent = new KeyboardEvent("keydown", {
