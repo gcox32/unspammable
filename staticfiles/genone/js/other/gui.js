@@ -55,13 +55,21 @@ function registerGUIEvents() {
 		var game = document.getElementById("active-cart").textContent;
 		save(id=id, game=game);
 	});
-	addEvent("click", document.getElementById("pause-btn"), function () {
-		pause();
-	});
-	addEvent("click", document.getElementById("resume-btn"), function () {
-		run();
-	});
-	addEvent("click", document.getElementById("restart-btn"), function () {
+	addEvent("click", document.getElementById("pause-btn"), pause);
+	addEvent("click", document.getElementById("resume-btn"), run);
+	addEvent("click", document.getElementById("reset-btn"), function () {
+		var activeCart = document.getElementById('active-cart').textContent;
+		var idx;
+		switch(activeCart) {
+			case "blue":idx=0;break;
+			case "yellow":idx=1;break;
+			case "red":idx=2;break;
+			case "green":idx=3;break;
+		};
+		var [gameFile, game, clickedCode, saveFileLoc] = getVars(idx);
+		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
+	})
+	addEvent("click", document.getElementById("newgame-btn"), function () {
 		if (GameBoyEmulatorInitialized()) {
 			var activeCart = document.getElementById('active-cart').textContent;
 			var idx;
@@ -145,7 +153,6 @@ function registerGUIEvents() {
 
 // touchable joypad
 	addEvent('touchstart', document.getElementById('a-btn'), function(keyEvent) {
-		console.log('touched a');
 		interval = setInterval(clickBtn(keyEvent, 88), 10);
 	});
 	addEvent('touchend', document.getElementById('a-btn'), function() {
@@ -202,31 +209,10 @@ function registerGUIEvents() {
 		clearInterval(interval);
 	});
 	// drawer nav bars
-	addEvent('click', document.getElementById('cartridge-arrow'), function() {
-		var cartArrow = document.getElementById("cartridge-arrow");
-		var cartDrawer = document.getElementsByClassName("cart-drawer")[0];
-		var body = document.getElementsByTagName('body')[0];
-		if (cartArrow.style.transform != 'rotate(360deg)') {
-			cartArrow.style.transform = 'rotate(360deg)';
-			cartDrawer.style.transform = 'translateX(-83%)';
-
-		} else {
-			cartArrow.style.transform = 'rotate(180deg)';
-			cartDrawer.style.transform = 'translateX(0%)';
-		};
-	});
-	addEvent('click', document.getElementById('settings-arrow'), function() {
-		var settingsArrow = document.getElementById("settings-arrow");
-		var settingsDrawer = document.getElementsByClassName("settings")[0];
-		if (settingsArrow.style.transform != 'rotate(180deg)') {
-            settingsArrow.style.transform = 'rotate(180deg)';
-            settingsDrawer.style.transform = 'translateX(80%)';
-        } else {
-            settingsArrow.style.transform = 'none';
-            settingsDrawer.style.transform = 'translateX(0%)';
-        };
-	});
-
+	addEvent('click', document.getElementById('cartridge-arrow'), toggleCartDrawer);
+	addEvent('click', document.getElementById('settings-arrow'), toggleSettingsDrawer);
+	// mobile mode
+	addEvent('change', document.querySelector('.switch input[type="checkbox"]'), toggleMobileMode);
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
 	addEvent("keyup", document,  function (event) {
@@ -414,9 +400,11 @@ function loadNewGame(filepath, callback) {
 	return [myBlob, myFile]
 };
 function uploadSaveFile(file, savename) {
-	str = JSON.stringify(file)
 	const filename = savename + ".json";
 	const dest = "/genone/roms/savestates/" + filename;
+	var myFile;
+
+	str = JSON.stringify(file)
 	myFile = new File([str], filename, {
 		type: file.type
 	});
@@ -490,6 +478,41 @@ function backgroundSwitch(version) {
 		case "red":bg.style.backgroundColor = "rgb(255,69,22)";break;
 		case "green":bg.style.backgroundColor = "rgb(0,166,82)";break;
 		default:bg.style.backgroundColor = "rgb(249,202,24)";
+	}
+};
+function toggleCartDrawer() {
+	var cartArrow = document.getElementById("cartridge-arrow");
+	var cartDrawer = document.getElementsByClassName("cart-drawer")[0];
+	if (cartArrow.style.transform != 'rotate(360deg)') {
+		cartArrow.style.transform = 'rotate(360deg)';
+		cartDrawer.style.transform = 'translateX(-83%)';
+
+	} else {
+		cartArrow.style.transform = 'rotate(180deg)';
+		cartDrawer.style.transform = 'translateX(0%)';
+	};
+};
+function toggleSettingsDrawer() {
+	var settingsArrow = document.getElementById("settings-arrow");
+	var settingsDrawer = document.getElementsByClassName("settings")[0];
+	if (settingsArrow.style.transform != 'rotate(180deg)') {
+		settingsArrow.style.transform = 'rotate(180deg)';
+		settingsDrawer.style.transform = 'translateX(80%)';
+	} else {
+		settingsArrow.style.transform = 'none';
+		settingsDrawer.style.transform = 'translateX(0%)';
+	};
+};
+function toggleMobileMode() {
+	var toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
+    var mobileWrapper = document.getElementById('mobile-wrapper');
+	if (toggleSwitch.checked) {
+		toggleCartDrawer();
+		toggleSettingsDrawer();
+
+	} else {
+		toggleCartDrawer();
+		toggleSettingsDrawer();
 	}
 };
 

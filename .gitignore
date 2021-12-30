@@ -3,3 +3,6 @@ venv/
 *.pyc
 *localsettings.py
 *unspammable/.env
+
+# savestate json files
+*/roms/savestates/*

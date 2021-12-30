@@ -22,54 +22,75 @@
     <title>unspammable</title>
 </head>
 <body>
-    <div class="console-container"></div>
-    <div id="temp-fix"></div>
-    <div class="cart-drawer">
-        <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
-    {% for game in games %}
-        <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
-            <img src="/staticfiles/genone/images/{{ game.image }}" height="170px"/>
-        </div><br>
-    {% endfor %}
-    </div>
-    <div class="settings">
-        <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="settings-arrow">
-        <div class="btn" id="saver" value="blue">save game</div>
-        <div class="btn" id="pause-btn">pause</div>
-        <div class="btn" id="resume-btn">resume</div>
-        <div class="btn" id="restart-btn">new game</div>
-        <div class="game-setting" id="game-speed">
-            <label>Adjust Speed</label>
-            <div class="input-row">
-                <input id="speed-input" value="1.0">
-                <div class="btn sm-btn" id="adjust-speed-btn">apply</div>
-            </div>
-            <div class="input-row">
-                <input type="checkbox" checked="checked" id="enable-sound"/>
-                <label>sound on</label>
+    <div id="mobile-wrapper">
+        <div class="console-container"></div>
+        <div class="cart-drawer">
+            <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
+        {% for game in games %}
+            <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
+                <img src="/staticfiles/genone/images/{{ game.image }}" height="170px"/>
+            </div><br>
+        {% endfor %}
+        </div>
+        <div class="settings">
+            <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="settings-arrow">
+            <div class="btn" id="saver" value="blue">save game</div>
+            <div class="btn" id="pause-btn">pause</div>
+            <div class="btn" id="resume-btn">resume</div>
+            <div class="btn" id="reset-btn">reset</div>
+            <div class="btn" id="newgame-btn">new game</div>
+            <div class="game-setting" id="game-speed">
+                <label>Adjust Speed</label>
+                <div class="input-row">
+                    <input id="speed-input" value="1.0">
+                    <div class="btn sm-btn" id="adjust-speed-btn">apply</div>
+                </div>
+                <div class="input-row">
+                    <input type="checkbox" checked="checked" id="enable-sound"/>
+                    <label>sound on</label>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="hidden-info" id="active-cart" value=""></div>
-    <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>
+        <div class="hidden-info" id="active-cart" value=""></div>
+        <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>
 
-    <div id="GameBoy" class="window">
-        <div id="gfx">
-            <canvas id="mainCanvas"></canvas>
-            <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="50%" id="logo" style="padding-right:16px;"/>
+        <div id="GameBoy" class="window">
+            <div id="gfx">
+                <canvas id="mainCanvas"></canvas>
+                <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="50%" id="logo" style="padding-right:16px;"/>
+            </div>
         </div>
-    </div>
-    <div id="on-light"></div>
-    <div class="gb-btn a-b" id="a-btn"></div>
-    <div class="gb-btn a-b" id="b-btn"></div>
-    <div class="gb-btn joypad" id="up-btn"></div>
-    <div class="gb-btn joypad" id="down-btn"></div>
-    <div class="gb-btn joypad" id="left-btn"></div>
-    <div class="gb-btn joypad" id="right-btn"></div>
-    <div class="gb-btn st-sel" id="start-btn"></div>
-    <div class="gb-btn st-sel" id="select-btn"></div>
-    <div id="fullscreenContainer">
-        <canvas id="fullscreen" class="maximum"></canvas>
+        <div class="switch-wrapper">
+            <label class="switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round" title="play mode"></div>
+            </label>
+        </div>
+        <div id="on-light"></div>
+        <div class="gb-btn a-b" id="a-btn"></div>
+        <div class="gb-btn a-b" id="b-btn"></div>
+        <div class="gb-btn joypad" id="up-btn"></div>
+        <div class="gb-btn joypad" id="down-btn"></div>
+        <div class="gb-btn joypad" id="left-btn"></div>
+        <div class="gb-btn joypad" id="right-btn"></div>
+        <div class="gb-btn st-sel" id="start-btn"></div>
+        <div class="gb-btn st-sel" id="select-btn"></div>
+        <div id="fullscreenContainer">
+            <canvas id="fullscreen" class="maximum"></canvas>
+        </div>
     </div>
 </body>
+<script>
+    var toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
+    var mobileWrapper = document.getElementById('mobile-wrapper');
+    // var 
+
+    // function switchMode(e) {
+    //     if (e.target.checked) {
+    //         mobileWrapper.style.
+    //     } else {
+
+    //     };
+    // };
+</script>
