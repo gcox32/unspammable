@@ -201,6 +201,31 @@ function registerGUIEvents() {
 		releaseBtn(keyEvent, 16);
 		clearInterval(interval);
 	});
+	// drawer nav bars
+	addEvent('click', document.getElementById('cartridge-arrow'), function() {
+		var cartArrow = document.getElementById("cartridge-arrow");
+		var cartDrawer = document.getElementsByClassName("cart-drawer")[0];
+		var body = document.getElementsByTagName('body')[0];
+		if (cartArrow.style.transform != 'rotate(360deg)') {
+			cartArrow.style.transform = 'rotate(360deg)';
+			cartDrawer.style.transform = 'translateX(-83%)';
+
+		} else {
+			cartArrow.style.transform = 'rotate(180deg)';
+			cartDrawer.style.transform = 'translateX(0%)';
+		};
+	});
+	addEvent('click', document.getElementById('settings-arrow'), function() {
+		var settingsArrow = document.getElementById("settings-arrow");
+		var settingsDrawer = document.getElementsByClassName("settings")[0];
+		if (settingsArrow.style.transform != 'rotate(180deg)') {
+            settingsArrow.style.transform = 'rotate(180deg)';
+            settingsDrawer.style.transform = 'translateX(80%)';
+        } else {
+            settingsArrow.style.transform = 'none';
+            settingsDrawer.style.transform = 'translateX(0%)';
+        };
+	});
 
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
@@ -458,6 +483,13 @@ function loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc) {
 function backgroundSwitch(version) {
 	var bg = document.getElementsByTagName('body')[0];
 	bg.style.backgroundImage = 'url(\"/staticfiles/genone/images/bg-' + version + '.png\")'
+	switch(version) {
+		case "blue":bg.style.backgroundColor = "rgb(49,143,205)";break;
+		case "yellow":bg.style.backgroundColor = "rgb(249,202,24)";break;
+		case "red":bg.style.backgroundColor = "rgb(255,69,22)";break;
+		case "green":bg.style.backgroundColor = "rgb(0,166,82)";break;
+		default:bg.style.backgroundColor = "rgb(249,202,24)";
+	}
 };
 
 // buttons

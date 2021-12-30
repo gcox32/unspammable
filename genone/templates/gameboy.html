@@ -48,6 +48,9 @@
                 <input type="checkbox" checked="checked" id="enable-sound"/>
                 <label>sound on</label>
             </div>
+            <div class="vol-slider" style="display: none;">
+                <input type="range" min="1" max="100" value="10" class="slider" id="sliderRange">
+            </div>
         </div>
     </div>
 
@@ -73,37 +76,9 @@
     </div>
 </body>
 <script>
-    var settingsArrow = document.getElementById("settings-arrow");
-    var settingsDrawer = document.getElementsByClassName("settings")[0];
-    settingsArrow.addEventListener('click', function () {
-        if (settingsArrow.style.transform != 'rotate(180deg)') {
-            settingsArrow.style.transform = 'rotate(180deg)';
-            settingsDrawer.style.transform = 'translateX(80%)';
-        } else {
-            settingsArrow.style.transform = 'none';
-            settingsDrawer.style.transform = 'translateX(0%)';
-        };
-    });
-    var cartArrow = document.getElementById("cartridge-arrow");
-    var cartDrawer = document.getElementsByClassName("cart-drawer")[0];
-    var tempDiv = document.getElementById("temp-fix");
-    cartArrow.addEventListener('click', function () {
-        if (cartArrow.style.transform != 'rotate(360deg)') {
-            cartArrow.style.transform = 'rotate(360deg)';
-            cartDrawer.style.transform = 'translateX(-83%)';
-            activeCart = document.getElementById("active-cart").textContent;
-            switch(activeCart) {
-                case "blue":tempDiv.style.backgroundColor = "rgb(49,143,205)";break;
-                case "yellow":tempDiv.style.backgroundColor = "rgb(249,202,24)";break;
-                case "red":tempDiv.style.backgroundColor = "rgb(255,69,22)";break;
-                case "green":tempDiv.style.backgroundColor = "rgb(0,166,82)";break;
-                default:tempDiv.style.backgroundColor = "rgb(249,202,24)";
-            };
-
-        } else {
-            tempDiv.style.backgroundColor = "white";
-            cartArrow.style.transform = 'rotate(180deg)';
-            cartDrawer.style.transform = 'translateX(0%)';
-        };
-    });
+    slider = document.getElementById('sliderRange');
+    val = slider.getAttribute('value');
+    slider.addEventListener('input', function() {
+        console.log(val);
+    })
 </script>

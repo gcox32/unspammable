@@ -33,7 +33,7 @@ body {
 	background-size: cover;
 	background-position: 100px 0;
 	transition: 1s ease-in-out;
-	background-color: rgb(39, 39, 39);
+	background-color: rgb(249,202,24);
 }
 .console-container {
 	position: absolute;
@@ -44,7 +44,7 @@ body {
 	left: 346px;
 	top: -20px;
 	border: 4px rgba(255,255,255, .5) solid;
-	border-radius: 20px;
+	border-radius: 20px 20px 50% 50% / 48px 48px;
 }
 .menubar, #GameBoy > #gfx {
 	-webkit-text-size-adjust: none;
@@ -146,15 +146,6 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 }
 
 /* revamp */
-#temp-fix {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 200px;
-	height: 100%;
-	background-color: white;
-	transition: .3s ease-in-out;
-}
 .cart-drawer {
 	position: absolute;
 	width: 220px;
@@ -176,7 +167,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 }
 .settings {
 	position: absolute;
-	width: 250px;
+	width: 450px;
 	height: 100%;
 	right: 0;
 	top: 0;
@@ -283,7 +274,6 @@ input:hover {
 /* buttons */
 .gb-btn {
 	position: absolute;
-	/* background: purple; */
 	opacity: 0.7;
 }
 .gb-btn:hover {
@@ -354,4 +344,26 @@ input:hover {
 }
 .joypad:active{
 	opacity: 0;
+}
+
+/* volume */
+.vol-slider{
+    width: 50%;
+}
+.slider {
+    -webkit-appearance: none;
+    background: #FCF3CF  ;
+    width: 50%;
+    height: 20px;
+    opacity: 2;
+}
+.slider:hover {
+    opacity: 1;
+}
+.myslider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    cursor: pointer;
+    background: #34495E  ;
+    width: 5%;
+    height: 20px;
 }
