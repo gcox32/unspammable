@@ -63,24 +63,17 @@ function registerGUIEvents() {
 	});
 	addEvent("click", document.getElementById("restart-btn"), function () {
 		if (GameBoyEmulatorInitialized()) {
-			try {
-				var activeCart = document.getElementById('active-cart').textContent;
-				var idx;
-				switch(activeCart) {
-					case "blue":idx=0;break;
-					case "yellow":idx=1;break;
-					case "red":idx=2;break;
-					case "green":idx=3;break;
-				};
-				var [gameFile, game, clickedCode, saveFileLoc] = getVars(idx);
-				loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
-			}
-			catch (error) {
-				alert(error.message + " file: " + error.fileName + " line: " + error.lineNumber);
-			}
-		}
-		else {
-			console.log("Could not restart, as a previous emulation session could not be found.", 1);
+			var activeCart = document.getElementById('active-cart').textContent;
+			var idx;
+			switch(activeCart) {
+				case "blue":idx=0;break;
+				case "yellow":idx=1;break;
+				case "red":idx=2;break;
+				case "green":idx=3;break;
+			};
+			newCart = gameList[idx]
+			console.log(newCart);
+			loadNewGameFunc(newCart);
 		}
 	});
 	addEvent("click", document.getElementById("adjust-speed-btn"), function () {
