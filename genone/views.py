@@ -1,7 +1,4 @@
-from django.db import reset_queries
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import render
-from unspammable.settings import SAVESTATES_URL
 from unspammable.src.auth import auth_check
 from unspammable.src.creds import get_platforms_credentials
 import os
@@ -35,7 +32,7 @@ def cartridge(request, title):
         bytes = open(os.path.join(settings.BASE_DIR, f'genone/roms/{title}'), 'rb') 
         response = FileResponse(bytes)
     else:
-        response = HttpResponse('nice try.')
+        response = HttpResponse('nice try, guy.')
     return response
 
 @csrf_exempt
@@ -72,6 +69,6 @@ def load_saved_game(request, savefile):
             bytes = open(os.path.join(settings.BASE_DIR, f'genone/roms/savestates/{savefile}'), 'rb') 
             response = FileResponse(bytes)
     else:
-        response = HttpResponse('nice try.')
+        response = HttpResponse('nice try, guy.')
 
     return response

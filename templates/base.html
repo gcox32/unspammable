@@ -8,7 +8,7 @@
     <!-- title -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="{% static 'unspammable/images/icons/clear_bg_4.png' %}"/>
-    <title>unspammable</title>
+    <title>unspammable {% block title%}{% endblock title %}</title>
     {% block head %}
     {% endblock head %}
     <link rel="stylesheet" href='{% static "unspammable/css/main.css" %}'/>
