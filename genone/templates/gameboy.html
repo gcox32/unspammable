@@ -48,9 +48,6 @@
                 <input type="checkbox" checked="checked" id="enable-sound"/>
                 <label>sound on</label>
             </div>
-            <div class="vol-slider" style="display: none;">
-                <input type="range" min="1" max="100" value="10" class="slider" id="sliderRange">
-            </div>
         </div>
     </div>
 
@@ -63,6 +60,7 @@
             <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="50%" id="logo" style="padding-right:16px;"/>
         </div>
     </div>
+    <div id="on-light"></div>
     <div class="gb-btn a-b" id="a-btn"></div>
     <div class="gb-btn a-b" id="b-btn"></div>
     <div class="gb-btn joypad" id="up-btn"></div>
@@ -75,10 +73,3 @@
         <canvas id="fullscreen" class="maximum"></canvas>
     </div>
 </body>
-<script>
-    slider = document.getElementById('sliderRange');
-    val = slider.getAttribute('value');
-    slider.addEventListener('input', function() {
-        console.log(val);
-    })
-</script>

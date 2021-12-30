@@ -473,6 +473,7 @@ function loadSavedGameFunc(saveFileLoc) {
 	});
 };
 function loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc) {
+	document.getElementById("on-light").style.opacity = 1;
 	backgroundSwitch(game);
 	if (clickedCode == game + "-new") {
 		loadNewGameFunc(gameFile);

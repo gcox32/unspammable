@@ -271,7 +271,18 @@ input:hover {
 	cursor: pointer;
 }
 
-/* buttons */
+/* console */
+#on-light {
+	position: absolute;
+	background-color: red;
+	height: 11px;
+	width: 11px;
+	border-radius: 50%;
+	top: 146px;
+	left: 394px;
+	opacity: 0;
+	transition: 500ms ease-out;
+}
 .gb-btn {
 	position: absolute;
 	opacity: 0.7;
@@ -344,26 +355,4 @@ input:hover {
 }
 .joypad:active{
 	opacity: 0;
-}
-
-/* volume */
-.vol-slider{
-    width: 50%;
-}
-.slider {
-    -webkit-appearance: none;
-    background: #FCF3CF  ;
-    width: 50%;
-    height: 20px;
-    opacity: 2;
-}
-.slider:hover {
-    opacity: 1;
-}
-.myslider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    cursor: pointer;
-    background: #34495E  ;
-    width: 5%;
-    height: 20px;
 }
