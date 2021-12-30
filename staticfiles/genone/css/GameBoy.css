@@ -27,13 +27,13 @@ body {
 	border: none;
 	margin: 0;
 	padding: 0;
-	background-image: url('/staticfiles/genone/images/bg-yellow.png');
+	background-image: url('/staticfiles/genone/images/bg-blue.png');
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
 	background-position: 100px 0;
 	transition: 1s ease-in-out;
-	background-color: rgb(249,202,24);
+	background-color: rgb(49,143,205);
 }
 .mobile-wrapper {
 	overflow: hidden;
@@ -51,6 +51,13 @@ body {
 	top: -20px;
 	border: 4px rgba(255,255,255, .5) solid;
 	border-radius: 20px 20px 50% 50% / 48px 48px;
+	transition: 500ms ease-in-out;
+}
+@media screen and (max-width: 700px){
+	.console-container{
+		left: 0;
+		top: 0;
+	}
 }
 .menubar, #GameBoy > #gfx {
 	-webkit-text-size-adjust: none;
@@ -153,6 +160,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 
 /* revamp */
 .cart-drawer {
+	z-index: 2;
 	position: absolute;
 	width: 300px;
 	height: 100%;
@@ -172,6 +180,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 	width: 0;
 }
 .settings {
+	z-index: 2;
 	position: absolute;
 	width: 340px;
 	height: 100%;

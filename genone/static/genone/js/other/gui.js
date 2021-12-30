@@ -477,7 +477,7 @@ function backgroundSwitch(version) {
 		case "yellow":bg.style.backgroundColor = "rgb(249,202,24)";break;
 		case "red":bg.style.backgroundColor = "rgb(255,69,22)";break;
 		case "green":bg.style.backgroundColor = "rgb(0,166,82)";break;
-		default:bg.style.backgroundColor = "rgb(249,202,24)";
+		default:bg.style.backgroundColor = "rgb(49,143,205)";
 	}
 };
 function toggleCartDrawer() {
@@ -509,7 +509,6 @@ function toggleMobileMode() {
 	if (toggleSwitch.checked) {
 		toggleCartDrawer();
 		toggleSettingsDrawer();
-
 	} else {
 		toggleCartDrawer();
 		toggleSettingsDrawer();
