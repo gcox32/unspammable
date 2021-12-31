@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.index, name='gameboy'),
     path('roms/<title>', views.cartridge),
     path('roms/savestates/<savefile>', views.load_saved_game),
+    path('guess', views.guess, name='guess')
 ]

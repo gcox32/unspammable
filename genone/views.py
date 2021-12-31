@@ -1,4 +1,5 @@
 from django.http.response import HttpResponse, JsonResponse
+from django.shortcuts import render
 from unspammable.src.auth import auth_check
 from unspammable.src.creds import get_platforms_credentials
 import os
@@ -72,3 +73,7 @@ def load_saved_game(request, savefile):
         response = HttpResponse('nice try, guy.')
 
     return response
+
+def guess(request):
+    context = get_platforms_credentials(request)
+    return auth_check(request, 'guess.html', context=context)
