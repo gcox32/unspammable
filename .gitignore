@@ -5,4 +5,4 @@ venv/
 *unspammable/.env
 
 # savestate json files
-*/roms/savestates/*
+genone/roms/savestates/*.json
