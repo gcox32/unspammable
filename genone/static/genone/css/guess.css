@@ -193,7 +193,7 @@ span#bestTimePokemon {
  */
 
 #main {
-    border: 2px rgb(14, 105, 150) solid;
+    border: 2px #34495e solid;
     border-radius: 16px;
     width: 520px;
     min-height: 580px;
