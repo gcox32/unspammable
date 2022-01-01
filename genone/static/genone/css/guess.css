@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: 400;
   /* This edited version of Cantora One fixes an issue where "Stufful" appeared as "Stuffhl" */
-  src: url(../fonts/cantora-one-fixed.woff);
+  src: url('/staticfiles/genone/fonts/cantora-one-fixed.woff');
 }
 
 * {
@@ -11,7 +11,10 @@
 }
 
 body {
-    background: #d7dbdd;
+    background-image: url('/staticfiles/genone/images/guess-bg.jfif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
     text-align: center;
     font-family: 'Cantora One', sans-serif;
     max-height: 100%;
@@ -35,7 +38,22 @@ h2.sectionHead {
     color: #FFF;
 }
 
+/* #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('/staticfiles/genone/images/guess-bg.jfif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+} */
+
 #container {
+    position: absolute;
+    left: 50px;
+    top: 50px;
     display: flex;
     margin: auto;
     width: 760px;
@@ -119,7 +137,7 @@ h2.sectionHead {
 }
 
 .userChoice a.pending {
-    background-color: #67798c;
+    /* background-color: #67798c; */
     text-shadow: 1px 1px rgba(0,0,0,0.5);
     color: #FFFFFF;
 }
@@ -133,7 +151,7 @@ h2.sectionHead {
 }
 
 #genSelectContainer.userChoice a.selected, #genSelectContainer.userChoice a.pending {
-    background-image: url(../images/icons/tick.svg);
+    background-image: url('/staticfiles/genone/images/icons/tick.svg');
     background-repeat: no-repeat;
     background-position: 100% 50%;
     background-size: 18px;
@@ -172,6 +190,8 @@ span#bestTimePokemon {
  */
 
 #main {
+    border: 2px rgb(14, 105, 150) solid;
+    border-radius: 16px;
     width: 520px;
     min-height: 580px;
     float: left;
@@ -179,7 +199,6 @@ span#bestTimePokemon {
 }
 
 #whosthatpokemon {
-    background-color: #3498db;
     min-height: 650px;
     padding: 10px;
     border-radius: 10px;

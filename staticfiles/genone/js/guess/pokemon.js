@@ -81,7 +81,7 @@ var settings = {};
 var records;
 var DEFAULT_SETTINGS = {
     difficulty: DIFFICULTY.NORMAL,
-    generations: [1,],
+    generations: [1,2],
     sound: false,
     forgivingSpelling: false,
     language: 'en'
@@ -727,7 +727,6 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
         if(doSilhouette) {
             var rawImage = ctx.getImageData(0,0,canvas.width,canvas.height);
-
             for (var i=0; i<rawImage.data.length;i+=4) {
                 if(rawImage.data[i+3] >= 100) {
                     rawImage.data[i] = 30;
