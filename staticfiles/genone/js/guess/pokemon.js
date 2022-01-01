@@ -16,9 +16,6 @@ var currentPokemonSoundUrl;
 var DIFFICULTY = {
     UNSET: -1,
     NORMAL: 0,
-    ULTRA: 1,
-    MASTER: 2,
-    ELITE: 3,
     EASY: 4
 };
 var pendingDifficulty = DIFFICULTY.UNSET;
@@ -30,50 +27,18 @@ var allGenerations = {
     1: {
         start: 1,
         end: 151,
-        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.EASY],
     },
     2: {
         start: 152,
         end: 251,
-        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
-    },
-    3: {
-        start: 252,
-        end: 386,
-        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
-    },
-    4: {
-        start: 387,
-        end: 493,
-        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
-    },
-    5: {
-        start: 494,
-        end: 649,
-        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
-    },
-    6: {
-        start: 650,
-        end: 721,
-        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
-    },
-    7: {
-        start: 722,
-        end: 807,
-        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
-    },
-    8: {
-        // Technically gen 8 starts at 810, but 808 and 809 don't have sprites, and so are closer to being gen 8
-        // than gen 7 (they were introduced in Let's Go)
-        start: 808,
-        end: 898,
-        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.EASY],
     },
 };
 
 
 // To count streaks
-var correctCount = [0, 0, 0, 0, 0];
+var correctCount = [0, 0];
 
 // For countdown timer after a correct answer
 var nextTimer = 3;
@@ -116,7 +81,7 @@ var settings = {};
 var records;
 var DEFAULT_SETTINGS = {
     difficulty: DIFFICULTY.NORMAL,
-    generations: [1, 2, 3, 4, 5, 6, 7, 8],
+    generations: [1,],
     sound: false,
     forgivingSpelling: false,
     language: 'en'
@@ -474,7 +439,6 @@ function generateNewNumbers(force) {
     if(force || !_.isEqual(settings.generations, newGen)) {
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
-
         newGen.filter(function(gen) { return allGenerations[gen].supportedDifficulties.includes(settings.difficulty); })
             .forEach(function(genToInc) {
             (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
@@ -505,11 +469,6 @@ function preloadPokemon() {
     if(currentPokemonImageUrl !== null) {
         var img = new Image();
         img.src = currentPokemonImageUrl;
-        pokemonPreloaded = true;
-        preloadedDifficulty = settings.difficulty;
-        return true;
-    } else if (settings.difficulty === DIFFICULTY.ELITE) {
-        // There is no image to preload, so assume success
         pokemonPreloaded = true;
         preloadedDifficulty = settings.difficulty;
         return true;
@@ -568,13 +527,6 @@ function newPokemon() {
         }
 
         $els.audioPlayer.attr('src', currentPokemonSoundUrl);
-        if(settings.difficulty == DIFFICULTY.ELITE) {
-            var audioPlayPromise = $els.audioPlayer.get(0).play();
-
-            if(audioPlayPromise) {
-                audioPlayPromise.catch(_.noop);
-            }
-        }
 
         /*
          * This will get set again on loading of the silhouette, but we need to specify it here
@@ -688,14 +640,8 @@ function updateStateAndRefreshUI() {
         $("#infoBoxRight").hide();
     }
 
-    if(settings.difficulty == DIFFICULTY.ELITE) {
-        $els.audioPlayer.show();
-        $els.canvas.hide();
-        setSound(true);
-    } else {
-        $els.canvas.show();
-        $els.audioPlayer.hide();
-    }
+    $els.canvas.show();
+    $els.audioPlayer.hide();
 
     $('.bestCountText').html(records.streaks[settings.difficulty]);
     $('.currentCountText').html(correctCount[settings.difficulty]);
@@ -989,14 +935,14 @@ function saveState() {
 // accidentally sharing the arrays between the default and actual records object.
 function _getDefaultRecordsObj() {
     return {
-        streaks: [0, 0, 0, 0, 0],
+        streaks: [0, 0],
         bests: {
-            time: [0, 0, 0, 0, 0],
-            pokemonId: [0, 0, 0, 0, 0]
+            time: [0, 0],
+            pokemonId: [0, 0]
         },
         totals: {
-            time: [0, 0, 0, 0, 0],
-            guesses: [0, 0, 0, 0, 0]
+            time: [0, 0],
+            guesses: [0, 0]
         }
     };
 }
