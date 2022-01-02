@@ -48,6 +48,10 @@
                     <div class="btn sm-btn" id="adjust-speed-btn">apply</div>
                 </div>
             </div>
+            <div class="icon-row">
+                <a class="card wtp" title="Who's That Pokemon?" href="{% url 'wtp' %}"></a>
+                <a class="card home" title="Home" href="{% url 'genone' %}"></a>
+            </div>
         </div>
         <div class="hidden-info" id="active-cart" value=""></div>
         <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>

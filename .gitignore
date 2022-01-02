@@ -6,3 +6,4 @@ venv/
 
 # savestate json files
 genone/roms/savestates/*.json
+*compareJson.py

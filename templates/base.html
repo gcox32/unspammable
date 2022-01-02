@@ -70,10 +70,11 @@
       </ul>
     </li>
     <li class="header-item">
-      <a href="{% url 'gameboy' %}">Gen One</a>
+      <a href="{% url 'genone' %}">Gen One</a>
       <ul class="header-subItems">
+        <li class="header-subItem"><a href="{% url 'genone' %}">Gen One</a></li>
         <li class="header-subItem"><a href="{% url 'gameboy' %}">Gameboy</a></li>
-        <li class="header-subItem"><a href="{% url 'guess' %}">WTP?</a></li>
+        <li class="header-subItem"><a href="{% url 'wtp' %}">WTP?</a></li>
       </ul>
     </li>
   </ul>
@@ -126,8 +127,9 @@
     <input type="radio" name="menu" id="gen-one">
       <li class="menuItem">
         <label for="gen-one" class="title">Gen One</label>
+        <a class="submenuItem" href="{% url 'genone' %}">Gen One Home</a>
         <a class="submenuItem" href="{% url 'gameboy' %}">Gameboy</a>
-        <a class="submenuItem" href="{% url 'guess' %}">Who's That Pokemon?</a>
+        <a class="submenuItem" href="{% url 'wtp' %}">Who's That Pokemon?</a>
       </li>
     </ul>
   </nav>

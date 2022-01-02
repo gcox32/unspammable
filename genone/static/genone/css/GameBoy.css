@@ -193,6 +193,10 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 	align-items: center;
 	transition: 400ms ease-in-out;
 	background: rgba(255,255,255, .1);
+	overflow-y: scroll;
+}
+.settings::-webkit-scrollbar {
+	width: 0;
 }
 .drawer-arrow {
 	position: absolute;
@@ -433,4 +437,38 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+.icon-row {
+	width: 100%;
+	padding: 10px;
+	display: flex;
+	justify-content: center;
+}
+a.card {
+	height: 100px;
+	width: 100px;
+	border-radius: 16px;
+	outline: 2px black solid;
+	margin: 10px;
+	background-repeat: no-repeat;
+}
+.wtp {
+	background-position: right;
+	background-size: 173%;
+	background-image: url('/staticfiles/genone/images/wtp.jpg');
+}
+.gbc {
+	background-position: center;
+	background-size: 135%;
+	background-image: url('/staticfiles/genone/images/gameboy-icon.jfif');
+}
+.home {
+	background-position: center;
+	background-size: 155%;
+	background-image: url('/staticfiles/genone/images/pokeball.jfif');
+}
+.card:hover {
+	outline: 4px white solid;
+	cursor: pointer;
 }

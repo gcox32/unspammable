@@ -44,18 +44,6 @@ h2.sectionHead {
     cursor: default;
 }
 
-/* #background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-image: url('/staticfiles/genone/images/guess-bg.jfif');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-} */
-
 #container {
     display: flex;
     margin: auto;
@@ -323,6 +311,40 @@ input.correct {
     }
 }
 
+.icon-col {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+	width: 120px;
+	padding: 10px;
+	display: flex;
+    flex-direction: column;
+	justify-content: center;
+}
+a.card {
+	height: 100px;
+	width: 100px;
+	border-radius: 16px;
+	outline: 2px black solid;
+	margin: 10px;
+	background-repeat: no-repeat;
+}
+
+.gbc {
+	background-position: center;
+	background-size: 135%;
+	background-image: url('/staticfiles/genone/images/gameboy-icon.jfif');
+}
+.home {
+	background-position: center;
+	background-size: 155%;
+	background-image: url('/staticfiles/genone/images/pokeball.jfif');
+}
+.card:hover {
+	outline: 4px white solid;
+	cursor: pointer;
+}
+
 /* Need better mobile detection */
 @media (max-width: 460px) {
     .desktop {
@@ -529,3 +551,4 @@ input.correct {
         border-radius: 0
     }
 }
+

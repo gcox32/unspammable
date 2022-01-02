@@ -1,5 +1,4 @@
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import render
 from unspammable.src.auth import auth_check
 from unspammable.src.creds import get_platforms_credentials
 import os
@@ -9,7 +8,11 @@ from .src.storage import SaveStateStorage
 from django.views.decorators.csrf import csrf_exempt
 from .models import Game
 
-def index(request):
+def home(request):
+    context = get_platforms_credentials(request)
+    return auth_check(request,'genonehome.html',context=context)
+
+def gameboy(request):
     context = get_platforms_credentials(request)
     all_games = Game.objects.all()
     context['games'] = all_games
@@ -37,7 +40,7 @@ def cartridge(request, title):
     return response
 
 @csrf_exempt
-def load_saved_game(request, savefile):
+def load_save_game(request, savefile):
     if request.user.is_superuser:
         if request.method == 'POST':
             upload = request.FILES['upload']
@@ -74,6 +77,5 @@ def load_saved_game(request, savefile):
 
     return response
 
-def guess(request):
-    context = get_platforms_credentials(request)
-    return auth_check(request, 'guess.html', context=context)
+def wtp(request):
+    return auth_check(request, 'wtp.html', context={})
