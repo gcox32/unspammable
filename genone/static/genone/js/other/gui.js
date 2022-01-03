@@ -35,6 +35,7 @@ function registerGUIEvents() {
 	console.log("In registerGUIEvents() : Registering GUI Events.", -1);
 	addEvent("click", document.getElementById("blue"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(0);
+		console.log(clickedCode);
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 	addEvent("click", document.getElementById("yellow"), function() {
@@ -411,23 +412,7 @@ function loadNewGame(filepath, callback) {
 	};
 	return [myBlob, myFile]
 };
-function uploadSaveFile(file, savename) {
-	const filename = savename + ".json";
-	const dest = "/genone/roms/savestates/" + filename;
-	var myFile;
 
-	str = JSON.stringify(file)
-	myFile = new File([str], filename, {
-		type: file.type
-	});
-
-	formData = new FormData();
-	formData.append("upload", myFile);
-
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", dest, true);
-	xhr.send(formData);
-};
 function loadSavedGame(filepath, callback) {
 	var xhr = new XMLHttpRequest();
 	const filename = filepath.split('/')[2];
@@ -442,6 +427,25 @@ function loadSavedGame(filepath, callback) {
 	};
 	return saveStateArray;
 };
+
+function uploadSaveFile(file, savename) {
+	const filename = savename + ".json";
+	const dest = "/genone/roms/" + filename;
+	var myFile;
+
+	str = JSON.stringify(file)
+	myFile = new File([str], filename, {
+		type: file.type
+	});
+
+	formData = new FormData();
+	formData.append("upload", myFile);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", dest, true);
+	xhr.send(formData);
+};
+
 function getVars(gameIdx) {
 	var gameFile = gameList[gameIdx];
 	var game = gameFile.split('.')[0];
@@ -464,7 +468,7 @@ function loadNewGameFunc(gameFile) {
 	});
 };
 function loadSavedGameFunc(saveFileLoc) {
-	var savedGame = loadSavedGame('/genone/roms/savestates/' + saveFileLoc, function(saveState){
+	var savedGame = loadSavedGame('/genone/roms/' + saveFileLoc, function(saveState){
 		clearLastEmulation();
 		gameboy = new GameBoyCore(mainCanvas, "");
 		gameboy.savedStateFileName = saveFileLoc;
@@ -475,6 +479,7 @@ function loadSavedGameFunc(saveFileLoc) {
 function loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc) {
 	document.getElementById("on-light").style.opacity = 1;
 	backgroundSwitch(game);
+	console.log(clickedCode);
 	if (clickedCode == game + "-new") {
 		loadNewGameFunc(gameFile);
 	} else {

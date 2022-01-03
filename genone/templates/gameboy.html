@@ -84,10 +84,3 @@
         </div>
     </div>
 </body>
-<script>
-    var zoomlevel = document.getElementById('zoomlevel');
-    window.addEventListener('resize', () => {
-        const browserZoomLevel = (window.outerWidth - 8) / window.innerWidth;
-        zoomlevel.textContent = browserZoomLevel * 100
-})
-</script>
