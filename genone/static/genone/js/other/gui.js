@@ -458,7 +458,7 @@ function getVars(gameIdx) {
 	return [gameFile, game, clickedCode, saveFileLoc]
 };
 function loadNewGameFunc(gameFile) {
-	var cartridge = loadNewGame('/genone/roms/' + gameFile, function(blob, file) {
+	var cartridge = loadNewGame('/genone/roms/new-' + gameFile, function(blob, file) {
 		var reader = new FileReader();
 		reader.addEventListener('load', function (e) {
 			initPlayer();

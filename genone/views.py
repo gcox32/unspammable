@@ -37,13 +37,16 @@ def cartridge(request, title):
     if request.user.is_superuser:
         try:
             gameName = title.split('_')[1] # from "1_blue"
-        except:
-            gameName = title.split('.')[0] # from "red.gb"
-        try:
             gameName = gameName.split('.')[0]
+            new = False
         except:
-            gameName = gameName
-        print(gameName)
+            print('title: ', title)
+            gameName = title.split('.')[0] # from "new-red.gb"
+            gameName = gameName.split('-')[1]
+            title = title.split('-')[1]
+            print('title: ', title)
+            new = True
+
         # check for previous save states
         game = Game.objects.filter(version=gameName)[0]
         if len(SaveState.objects.filter(user=request.user, game=game)) > 0:
@@ -86,7 +89,7 @@ def cartridge(request, title):
         else:
             # request is a GET request
             try:
-                if prev:
+                if prev and not new:
                     # send save state that matches user and game
                     print('previous save')
                     saveState = SaveState.objects.filter(user=request.user, game=game)[0]
