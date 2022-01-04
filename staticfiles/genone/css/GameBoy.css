@@ -244,6 +244,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 	align-items: center;
 	text-transform: uppercase;
 	margin-top: 10px;
+	background: rgba(153, 153, 153, 0);
 	transition: 250ms ease-in-out;
 }
 .btn:hover {

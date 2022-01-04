@@ -54,6 +54,9 @@ function registerGUIEvents() {
 	addEvent("click", document.getElementById("saver"), function() {
 		var id = document.getElementById("current-user").textContent;
 		var game = document.getElementById("active-cart").textContent;
+		var saver = document.getElementById("saver");
+		saver.style.background = 'rgba(153, 153, 153, 1)';
+		saver.innerText = 'saving...'
 		save(id=id, game=game);
 	});
 	addEvent("click", document.getElementById("pause-btn"), pause);
@@ -444,6 +447,14 @@ function uploadSaveFile(file, savename) {
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", dest, true);
 	xhr.send(formData);
+
+	xhr.onreadystatechange = function() {
+		if (this.status==200) {
+			saver.style.background = 'rgba(153, 153, 153, 0)';
+			saver.innerText = "save game";
+		};
+	};
+
 };
 
 function getVars(gameIdx) {
