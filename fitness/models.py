@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from typing import Tuple
 from django.db import models
 from django.db.models.deletion import SET_NULL
@@ -39,23 +40,68 @@ class Exercise(models.Model):
     corr_calves = models.FloatField(default=0.0, blank=True)
 
     def __str__(self):
-        return self.name_prefix + " " + self.name_base
+        return self.equipment + " " + self.name_prefix + " " + self.name_base
     
-class Workout(models.Model):
-    workout_date = models.DateField()
-    exercise = models.ManyToManyField(
-        Exercise
+class WorkoutLog(models.Model):
+    user = models.ForeignKey(
+        get_user_model(),
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
     )
+
+class Workout(models.Model):
+    date = models.DateField()
+    workout_log = models.ForeignKey(
+        WorkoutLog,
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
+    )
+    duration = models.DurationField()
+
+class ExerciseEntry(models.Model):
+    exercise = models.ForeignKey(
+        Exercise,
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
+    )
+    
     set_count = models.IntegerField(null=True, blank=True)
     rep_count = models.IntegerField(null=True, blank=True)
     weight = models.FloatField(null=True, blank=True) # in pounds
     time = models.FloatField(null=True, blank=True) # in seconds
     distance = models.FloatField(null=True, blank=True) # in meters
+    tempo = models.CharField(max_length=4, null=True, blank=True) # e.g. 20X0, AFAP, null
+    
+    workout = models.ForeignKey(
+        Workout,
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
+    )
 
-class Measurement(models.Model):
+class MeasurementLog(models.Model):
+    user = models.ForeignKey(
+        get_user_model(),
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
+    )
+
+class MeasurementEntry(models.Model):
     date = models.DateField()
     measure_text = models.CharField(max_length=64)
     measure = models.FloatField(null=True, blank=True)
+    measurement_log = models.ForeignKey(
+        MeasurementLog,
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
+    )
+
+class FitnessLog(models.Model):
     user = models.ForeignKey(
         get_user_model(),
         null=True,
@@ -63,24 +109,18 @@ class Measurement(models.Model):
         on_delete=SET_NULL
     )
 
-class Fitness(models.Model):
+class FitnessEntry(models.Model):
     date = models.DateField()
-    user = models.ForeignKey(
-        get_user_model(),
-        null=True,
-        blank=True,
-        on_delete=SET_NULL
-    )
-
     power = models.FloatField(null=True, blank=True)
     strength = models.FloatField(null=True, blank=True)
     stamina = models.FloatField(null=True, blank=True)
     endurance = models.FloatField(null=True, blank=True)
     speed = models.FloatField(null=True, blank=True)
 
-    measurements = models.ManyToManyField(
-        Measurement
+    fitness_log = models.ForeignKey(
+        FitnessLog,
+        null=True,
+        blank=True,
+        on_delete=SET_NULL
     )
 
-    def __str__(self):
-        return self.user.username + ' fitness profile'

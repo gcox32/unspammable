@@ -3,18 +3,11 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import SET_NULL
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from fitness.models import Fitness
 from marvel.models import Credential
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
-    fitness_profile = models.ForeignKey(
-        Fitness,
-        null=True,
-        blank=True,
-        on_delete=SET_NULL
-    )
     credentials = models.ManyToManyField(
         Credential,
     )
