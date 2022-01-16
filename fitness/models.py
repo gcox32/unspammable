@@ -14,7 +14,7 @@ class Exercise(models.Model):
 
     # goal numbers for gauging efforts
     goal_power = models.FloatField(null=True, blank=True) # in lbs
-    goal_strength = models.FloatField(null=True, blank=True) # in lbs*(reps <= 5) (load-volume)
+    goal_strength = models.FloatField(null=True, blank=True) # in lbs (projected 1RM)
     goal_stamina = models.FloatField(null=True, blank=True) # in lbs*(reps > 5) (load-volume)
     goal_endurance = models.FloatField(null=True, blank=True) # in seconds
     goal_speed = models.FloatField(null=True, blank=True) # in seconds
@@ -23,7 +23,7 @@ class Exercise(models.Model):
     corr_chest = models.FloatField(default=0.0, blank=True)
     corr_shoulders = models.FloatField(default=0.0, blank=True)
     corr_biceps = models.FloatField(default=0.0, blank=True)
-    corr_tricps = models.FloatField(default=0.0, blank=True)
+    corr_triceps = models.FloatField(default=0.0, blank=True)
     corr_forearms = models.FloatField(default=0.0, blank=True)
     corr_neck = models.FloatField(default=0.0, blank=True)
     corr_abs = models.FloatField(default=0.0, blank=True)
@@ -31,13 +31,20 @@ class Exercise(models.Model):
     corr_rhomboids = models.FloatField(default=0.0, blank=True)
     corr_lats = models.FloatField(default=0.0, blank=True)
     corr_obliques = models.FloatField(default=0.0, blank=True)
+    corr_lower_back = models.FloatField(default=0.0, blank=True)
     corr_quads = models.FloatField(default=0.0, blank=True)
     corr_hamstrings = models.FloatField(default=0.0, blank=True)
     corr_glutes = models.FloatField(default=0.0, blank=True)
     corr_calves = models.FloatField(default=0.0, blank=True)
 
     def __str__(self):
-        return self.equipment + " " + self.name_prefix + " " + self.name_base
+        if self.equipment and self.name_prefix:
+            return_text = self.equipment + " " + self.name_prefix + " " + self.name_base
+        elif self.equipment:
+            return_text = self.equipment + " " + self.name_base
+        elif self.name_prefix:
+            return_text = self.name_prefix + " " + self.name_base
+        return return_text
     
 class WorkoutLog(models.Model):
     user = models.ForeignKey(
