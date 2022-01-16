@@ -1,8 +1,5 @@
-from tkinter import CASCADE
-from typing import Tuple
 from django.db import models
 from django.db.models.deletion import SET_NULL
-from django.db.models.fields.related import ManyToManyField
 from django.contrib.auth import get_user_model
 
 
