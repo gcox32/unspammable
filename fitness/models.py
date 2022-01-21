@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.deletion import SET_NULL
 from django.contrib.auth import get_user_model
+from urllib3 import Retry
 
 
 class Exercise(models.Model):
@@ -8,6 +9,7 @@ class Exercise(models.Model):
     name_prefix = models.CharField(max_length=64, null=True, blank=True)
     name_base = models.CharField(max_length=64)
     equipment = models.CharField(max_length=64, null=True, blank=True)
+    name_suffix = models.CharField(max_length=64, null=True, blank=True)
     unilateral = models.BooleanField(blank=True, default=False)
     modality = models.CharField(max_length=64, null=True, blank=True)
     movement_type = models.CharField(max_length=64, null=True, blank=True) # e.g. 'Upper Push', 'Hinge', 'Lunge', 'Rotary'
@@ -20,31 +22,29 @@ class Exercise(models.Model):
     goal_speed = models.FloatField(null=True, blank=True) # in seconds
 
     # correlation with muscle group
-    corr_chest = models.FloatField(default=0.0, blank=True)
-    corr_shoulders = models.FloatField(default=0.0, blank=True)
-    corr_biceps = models.FloatField(default=0.0, blank=True)
-    corr_triceps = models.FloatField(default=0.0, blank=True)
-    corr_forearms = models.FloatField(default=0.0, blank=True)
-    corr_neck = models.FloatField(default=0.0, blank=True)
-    corr_abs = models.FloatField(default=0.0, blank=True)
-    corr_traps = models.FloatField(default=0.0, blank=True)
-    corr_rhomboids = models.FloatField(default=0.0, blank=True)
-    corr_lats = models.FloatField(default=0.0, blank=True)
-    corr_obliques = models.FloatField(default=0.0, blank=True)
-    corr_lower_back = models.FloatField(default=0.0, blank=True)
-    corr_quads = models.FloatField(default=0.0, blank=True)
-    corr_hamstrings = models.FloatField(default=0.0, blank=True)
-    corr_glutes = models.FloatField(default=0.0, blank=True)
-    corr_calves = models.FloatField(default=0.0, blank=True)
+    corr_chest = models.FloatField(default=0.0, null=True, blank=True)
+    corr_shoulders = models.FloatField(default=0.0, null=True, blank=True)
+    corr_biceps = models.FloatField(default=0.0, null=True, blank=True)
+    corr_triceps = models.FloatField(default=0.0, null=True, blank=True)
+    corr_forearms = models.FloatField(default=0.0, null=True, blank=True)
+    corr_neck = models.FloatField(default=0.0, null=True, blank=True)
+    corr_abs = models.FloatField(default=0.0, null=True, blank=True)
+    corr_traps = models.FloatField(default=0.0, null=True, blank=True)
+    corr_rhomboids = models.FloatField(default=0.0, null=True, blank=True)
+    corr_lats = models.FloatField(default=0.0, null=True, blank=True)
+    corr_obliques = models.FloatField(default=0.0, null=True, blank=True)
+    corr_lower_back = models.FloatField(default=0.0, null=True, blank=True)
+    corr_quads = models.FloatField(default=0.0, null=True, blank=True)
+    corr_hamstrings = models.FloatField(default=0.0, null=True, blank=True)
+    corr_glutes = models.FloatField(default=0.0, null=True, blank=True)
+    corr_calves = models.FloatField(default=0.0, null=True, blank=True)
 
     def __str__(self):
-        if self.equipment and self.name_prefix:
-            return_text = self.equipment + " " + self.name_prefix + " " + self.name_base
-        elif self.equipment:
-            return_text = self.equipment + " " + self.name_base
-        elif self.name_prefix:
-            return_text = self.name_prefix + " " + self.name_base
-        return return_text
+        return_text = []
+        for i in [self.equipment, self.name_prefix, self.name_base, self.name_suffix]:
+            if i:
+                return_text.append(i)
+        return ' '.join(return_text)
     
 class WorkoutLog(models.Model):
     user = models.ForeignKey(
