@@ -1,0 +1,39 @@
+* {
+    font-family: Roboto, sans-serif, arial;
+}
+
+#workout-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: start;
+    margin: 0 0.5em 0 0.5em;
+}
+
+#ex-lines {
+    margin: 1em;
+}
+
+.entry-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 0.5em;
+}
+
+.form-entry {
+    display: flex;
+    flex-direction: row;
+    padding-right: 0.5em;
+}
+
+select {
+    margin: 0 0.5em 0 0.5em;
+}
+
+input {
+    width: 100px;
+    text-align: center;
+    margin: 0 0.5em 0 0.5em;
+}
