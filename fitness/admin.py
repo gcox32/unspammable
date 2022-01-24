@@ -33,11 +33,13 @@ class GoalAdmin(admin.ModelAdmin):
 
 class ExerciseEntryAdmin(admin.ModelAdmin):
     model = ExerciseEntry
-    list_display = ['index', '__str__', 'workout', '_date']
+    list_display = ['index', '__str__', 'workout', 
+    # '_date'
+    ]
 
     ordering = ('index',)
-    def _date(self, obj):
-        return obj.workout.date
+    # def _date(self, obj):
+    #     return obj.workout.date
 
 class WorkoutAdmin(admin.ModelAdmin):
     model = Workout

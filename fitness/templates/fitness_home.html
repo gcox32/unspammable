@@ -2,15 +2,19 @@
 {% load static %}
 {% block fitness %}
 
-<div class="fit-wrapper">
-    <div class="anthro-card">
-    </div>
-    <div class="right-side-bar">
-        Strength: {{ fitness.strength }}<br>
-        Power: {{ fitness.power }}<br>
-        Stamina: {{ fitness.stamina }}<br>
-        Endurance: {{ fitness.endurance }}<br>
-        Speed: {{ fitness.speed }}<br>
-    </div>
-</div>
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %} 
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
 {% endblock fitness %}

@@ -5,12 +5,12 @@ from datetime import date
 
 class NewExerciseEntry(forms.Form):
     exercise = forms.ModelChoiceField(queryset=Exercise.objects.all(), required=True)
-    sets = forms.IntegerField()
-    reps = forms.IntegerField()
-    weight = forms.FloatField()
-    time = forms.DurationField()
-    distance = forms.FloatField()
-    tempo = forms.CharField(max_length=4)
+    sets = forms.IntegerField(required=False)
+    reps = forms.IntegerField(required=False)
+    weight = forms.FloatField(required=False)
+    time = forms.DurationField(required=False)
+    distance = forms.FloatField(required=False)
+    tempo = forms.CharField(required=False, max_length=4)
 
     class Meta:
         model = ExerciseEntry

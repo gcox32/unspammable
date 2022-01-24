@@ -15,8 +15,9 @@
 }
 
 .entry-row {
-    width: 100%;
+    width: 80%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: flex-start;
     margin-top: 0.5em;
@@ -25,6 +26,7 @@
 .form-entry {
     display: flex;
     flex-direction: row;
+    margin: 0.5em;
     padding-right: 0.5em;
 }
 

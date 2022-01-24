@@ -108,12 +108,9 @@ class ExerciseEntry(models.Model):
     
     workout = models.ForeignKey(
         Workout,
-        null=True,
-        blank=True,
-        on_delete=SET_NULL
+        on_delete=models.CASCADE
     )
     index = models.IntegerField(null=True, blank=True)
-    superset = models.BooleanField(null=True, blank=True, default=False)
     rpe = models.IntegerField(null=True, blank=True, db_column='RPE')
 
     def __str__(self):
@@ -129,6 +126,8 @@ class ExerciseEntry(models.Model):
             return f'{ex}: {self.time}'
         if self.distance:
             return f'{ex}: {self.distance}m'
+        else:
+            return ex
 
     class Meta:
         verbose_name_plural = 'Exercise Entries'
