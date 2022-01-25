@@ -39,3 +39,7 @@ input {
     text-align: center;
     margin: 0 0.5em 0 0.5em;
 }
+
+.summary-metric {
+    margin: 0 0.2em;
+}

@@ -57,6 +57,10 @@ def training(request):
             entries = 0
 
             for ex, se, re, we, ti, di, te, id, rp in zip(exercises, sets, reps, weights, times, dists, tempos, idxs, rpes):
+                if ':' in ti:
+                    time_parts = ti.split(':')
+                    ti = (int(time_parts[0]) * 60) + int(time_parts[1])
+                
                 try:
                     entry = ExerciseEntry(
                         exercise = Exercise.objects.get(pk=ex),
@@ -88,7 +92,7 @@ def training(request):
         return render(request, 'training.html', 
         {
             'form': workoutForm,
-            'exercises': Exercise.objects.all(),
+            'exercises': Exercise.objects.all().order_by('equipment'),
         })
 
 def dashboard(request):

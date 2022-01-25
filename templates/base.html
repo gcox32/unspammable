@@ -54,7 +54,7 @@
       <ul class="header-subItems">
         <li class="header-subItem"><a href="{% url 'fitness' %}">Fitness Home</a></li>
         <li class="header-subItem"><a href="#">Measurements</a></li>
-        <li class="header-subItem"><a href="#">Training</a></li>
+        <li class="header-subItem"><a href="{% url 'training' %}">Training</a></li>
       </ul>
     </li>
     <li class="header-item">
@@ -111,7 +111,7 @@
         <label for="fitness" class="title">Fitness</label>
         <a class="submenuItem" href="{% url 'fitness' %}">Fitness Home</a>
         <a class="submenuItem" href="#">Measurements</a>
-        <a class="submenuItem" href="#">Training</a>
+        <a class="submenuItem" href="{% url 'training' %}">Training</a>
       </li>
     </input>
     <input type="radio" name="menu" id="datascience">

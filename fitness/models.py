@@ -30,6 +30,13 @@ class Exercise(models.Model):
     corr_glutes = models.FloatField(default=0.0, null=True, blank=True)
     corr_calves = models.FloatField(default=0.0, null=True, blank=True)
 
+    # correlation with fitness aspect goals
+    corr_power = models.FloatField(default=0.0, null=True, blank=True)
+    corr_strength = models.FloatField(default=0.0, null=True, blank=True)
+    corr_stamina = models.FloatField(default=0.0, null=True, blank=True)
+    corr_endurance = models.FloatField(default=0.0, null=True, blank=True)
+    corr_speed = models.FloatField(default=0.0, null=True, blank=True)
+
     def __str__(self):
         return_text = []
         for i in [self.equipment, self.name_prefix, self.name_base, self.name_suffix]:
@@ -108,6 +115,8 @@ class ExerciseEntry(models.Model):
     
     workout = models.ForeignKey(
         Workout,
+        null=True,
+        blank=True,
         on_delete=models.CASCADE
     )
     index = models.IntegerField(null=True, blank=True)

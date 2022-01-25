@@ -11,18 +11,18 @@
             <label>Duration: </label><input type="text" name="duration" class="entry" id="duration" placeholder="00:00:00">
         </div>
         <div class="form-entry">
-            <label>Volume: </label><a id="volume" name="volume">0</a>reps 
+            <label>Volume: </label><a id="volume" name="volume" class="summary-metric">0</a>reps 
             <input name="form-volume" value="0" style="display: none;">
         </div>
         <div class="form-entry">
-            <label>Load-volume: </label><a id="load-vol" name="load-vol">0</a>lbs
+            <label>Load-volume: </label><a id="load-vol" name="load-vol" class="summary-metric">0</a>lbs
             <input name="form-load-volume" value="0" style="display: none;">
         </div>
         <div class="form-entry">
             <button id="add-row" onclick="addRow();" title="add row" type="button">+</button>
         </div>
     </div>
-
+    <hr>
     <div id="ex-lines">
         <div class="entry-row" id="first-line">
             <div class="form-entry">
@@ -35,19 +35,22 @@
                 </select>
             </div>
             <div class="form-entry">
+                <label>Unilateral: </label><input name="uni_1" type="checkbox" class="entry uni" oninput="updateVolume();">
+            </div>
+            <div class="form-entry">
                 <label>Sets: </label><input name="sets_1" type="number" step="1" class="entry sets" oninput="updateVolume();" value="">
             </div>
             <div class="form-entry">
                 <label>Reps: </label><input name="reps_1" type="number" step="1" class="entry reps" oninput="updateVolume();" value="">
             </div>
             <div class="form-entry">
-                <label>Weight: </label><input name="weight_1" class="entry weight" oninput="updateVolume();" value="">
+                <label>Weight (lbs): </label><input name="weight_1" class="entry weight" oninput="updateVolume();" value="">
             </div>
             <div class="form-entry">
-                <label>Time: </label><input name="time_1" class="entry time" value="">
+                <label>Time: </label><input name="time_1" class="entry time" value="" placeholder="00:00">
             </div>
             <div class="form-entry">
-                <label>Distance: </label><input name="distance_1" class="entry distance" value="">
+                <label>Distance (m): </label><input name="distance_1" class="entry distance" value="">
             </div>
             <div class="form-entry">
                 <label>Tempo: </label><input name="tempo_1" class="entry tempo" placeholder="X0X0" value="">
@@ -61,61 +64,4 @@
     <input type="submit" value="submit" style="margin-left:1em">
 </form>
 
-{% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %} 
-            <div class="alert alert-danger">
-                <strong>{{ field.name }}</strong>
-                <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endfor %}
-{% endif %}
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-{% endif %}
-
-<script>
-    var firstEntry = document.getElementById('first-line');
-    var allEntries = document.getElementById('ex-lines');
-    function addRow() {
-        newEntry = firstEntry.cloneNode(true);
-        var entryCount = document.getElementsByClassName('sets').length;
-        for (let i=0; i < newEntry.children.length; i++) {
-            els = newEntry.children[i];
-            elsC = els.children;
-            for (let j=0; j < elsC.length; j++) {
-                if (elsC[j].tagName != "LABEL") {
-                    elsC[j].value = null;
-                    elsC[j].name = elsC[j].name.split('_')[0] + '_' + (entryCount + 1);
-                }
-            }
-        }
-
-        allEntries.appendChild(newEntry);
-    };
-
-    var sets = document.getElementsByClassName('sets');
-    var reps = document.getElementsByClassName('reps');
-    var weights = document.getElementsByClassName('weight');
-    var volume = document.getElementById('volume');
-    var loadVolume = document.getElementById('load-vol');
-    var formVol = document.getElementsByName('form-volume')[0];
-    var formLoadVol = document.getElementsByName('form-load-volume')[0];
-
-    function updateVolume() {
-        volSum = 0
-        loadVolSum = 0
-        for (let i=0; i < sets.length; i++) {
-            volSum += sets[i].value * reps[i].value;
-            loadVolSum += sets[i].value * reps[i].value * weights[i].value;
-        }
-        volume.innerText = volSum;
-        formVol.value = volSum;
-        loadVolume.innerText = loadVolSum;
-        formLoadVol.value = loadVolSum;
-    }
-
-</script>
+<script src="{% static 'fitness/js/workout.js' %}"></script>
