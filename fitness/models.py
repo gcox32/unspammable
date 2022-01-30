@@ -65,6 +65,7 @@ class Goal(models.Model):
     goal_endurance = models.FloatField(null=True, blank=True) # in seconds
     goal_speed = models.FloatField(null=True, blank=True) # in seconds
 
+
     def _exercise(self):
         return self.exercise
 
