@@ -2,20 +2,25 @@
     font-family: Roboto, sans-serif, arial;
 }
 
+.workout-card {
+    margin: 1%;
+    padding-top: 1%;
+    border-radius: 20px;
+    border: 2px black solid;
+    background-color: lightblue;
+}
+
 #workout-header {
     display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: start;
-    margin: 0 0.5em 0 0.5em;
+    justify-content: space-evenly;
+    margin: 0 0.5em;
 }
 
 #ex-lines {
-    margin: 1em;
+    font-size: 12px;
 }
 
 .entry-row {
-    width: 80%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -23,10 +28,14 @@
     margin-top: 0.5em;
 }
 
+.entry-row:nth-child(odd) {
+    background-color: rgb(110, 161, 255) !important;
+}
+
 .form-entry {
     display: flex;
     flex-direction: row;
-    margin: 0.5em;
+    margin: 0.25em;
     padding-right: 0.5em;
 }
 
@@ -34,12 +43,42 @@ select {
     margin: 0 0.5em 0 0.5em;
 }
 
+.entry {
+    width: 65px;
+    font-size: 12px;
+}
+
+.uni {
+    margin-top: 3px !important;
+}
+
 input {
-    width: 100px;
     text-align: center;
-    margin: 0 0.5em 0 0.5em;
+    margin: 0 0.5em;
+}
+
+label {
+    padding-top: 2px;
 }
 
 .summary-metric {
     margin: 0 0.2em;
+}
+
+.submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.submit input:hover {
+    cursor: pointer;
+}
+
+#add-row:hover {
+    cursor: pointer;
+}
+#close-modal:hover {
+    cursor: pointer;
 }

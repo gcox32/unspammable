@@ -1,67 +1,75 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'fitness/css/workout.css' %}">
 
-<form action="" method="post">
-    {% csrf_token %}
-    <div id="workout-header">
-        <div class="form-entry">
-            <label>Date: </label><input type="date" name="date" class="entry" id="date" style="width: 200px;">
+<div class="modal">
+    <div class="modal_overlay"></div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div id="workout-header">
+            <div class="form-entry">
+                <label>Date: </label><input type="date" name="date" class="entry" id="date" style="width: 150px;">
+            </div>
+            <div class="form-entry">
+                <label>Duration: </label><input type="text" name="duration" class="entry" id="duration" placeholder="00:00:00">
+            </div>
+            <div class="form-entry">
+                <label style="padding-top: 0;">Volume: </label><a id="volume" name="volume" class="summary-metric">0</a>reps 
+                <input name="form-volume" value="0" style="display: none;">
+            </div>
+            <div class="form-entry">
+                <label style="padding-top: 0;">Load-volume: </label><a id="load-vol" name="load-vol" class="summary-metric">0</a>lbs
+                <input name="form-load-volume" value="0" style="display: none;">
+            </div>
+            <div class="form-entry">
+                <button id="close-modal" onclick="" title="cancel" type="button">X</button>
+            </div>
+        </div>
+        <hr>
+        <div id="ex-lines">
+            <div class="entry-row" id="first-line">
+                <div class="form-entry">
+                    <label>Exercise:</label>
+                    <select name="exercise_1" aria-describedby="exercise_1" >
+                    <option></option>
+                    {% for exercise in exercises %} 
+                        <option value="{{exercise.id}}">{{exercise}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-entry">
+                    <label>Unilateral: </label><input name="uni_1" type="checkbox" class="uni" oninput="updateVolume();">
+                </div>
+                <div class="form-entry">
+                    <label>Sets: </label><input name="sets_1" type="number" step="1" class="entry sets" oninput="updateVolume();" value="">
+                </div>
+                <div class="form-entry">
+                    <label>Reps: </label><input name="reps_1" type="number" step="1" class="entry reps" oninput="updateVolume();" value="">
+                </div>
+                <div class="form-entry">
+                    <label>Weight (lbs): </label><input name="weight_1" class="entry weight" oninput="updateVolume();" value="">
+                </div>
+                <div class="form-entry">
+                    <label>Time: </label><input name="time_1" class="entry time" value="" placeholder="00:00">
+                </div>
+                <div class="form-entry">
+                    <label>Distance (m): </label><input name="distance_1" class="entry distance" value="">
+                </div>
+                <div class="form-entry">
+                    <label>Tempo: </label><input name="tempo_1" class="entry tempo" placeholder="X0X0" value="">
+                </div>
+                <div class="form-entry">
+                    <label>RPE: </label><input name="rpe_1" type="number" step="1" class="entry rpe" value="">
+                </div>
+            </div>
         </div>
         <div class="form-entry">
-            <label>Duration: </label><input type="text" name="duration" class="entry" id="duration" placeholder="00:00:00">
+            <button id="add-row" onclick="addRow();" title="add row" type="button" style="margin-left: 5px">+ ADD ROW</button>
         </div>
-        <div class="form-entry">
-            <label>Volume: </label><a id="volume" name="volume" class="summary-metric">0</a>reps 
-            <input name="form-volume" value="0" style="display: none;">
+        <hr>
+        <div class="submit">
+            <input type="submit" value="SUBMIT" style="margin-left:1em">
         </div>
-        <div class="form-entry">
-            <label>Load-volume: </label><a id="load-vol" name="load-vol" class="summary-metric">0</a>lbs
-            <input name="form-load-volume" value="0" style="display: none;">
-        </div>
-        <div class="form-entry">
-            <button id="add-row" onclick="addRow();" title="add row" type="button">+</button>
-        </div>
-    </div>
-    <hr>
-    <div id="ex-lines">
-        <div class="entry-row" id="first-line">
-            <div class="form-entry">
-                <label>Exercise:</label>
-                <select name="exercise_1" aria-describedby="exercise_1" >
-                <option></option>
-                {% for exercise in exercises %} 
-                    <option value="{{exercise.id}}">{{exercise}}</option>
-                {% endfor %}
-                </select>
-            </div>
-            <div class="form-entry">
-                <label>Unilateral: </label><input name="uni_1" type="checkbox" class="entry uni" oninput="updateVolume();">
-            </div>
-            <div class="form-entry">
-                <label>Sets: </label><input name="sets_1" type="number" step="1" class="entry sets" oninput="updateVolume();" value="">
-            </div>
-            <div class="form-entry">
-                <label>Reps: </label><input name="reps_1" type="number" step="1" class="entry reps" oninput="updateVolume();" value="">
-            </div>
-            <div class="form-entry">
-                <label>Weight (lbs): </label><input name="weight_1" class="entry weight" oninput="updateVolume();" value="">
-            </div>
-            <div class="form-entry">
-                <label>Time: </label><input name="time_1" class="entry time" value="" placeholder="00:00">
-            </div>
-            <div class="form-entry">
-                <label>Distance (m): </label><input name="distance_1" class="entry distance" value="">
-            </div>
-            <div class="form-entry">
-                <label>Tempo: </label><input name="tempo_1" class="entry tempo" placeholder="X0X0" value="">
-            </div>
-            <div class="form-entry">
-                <label>RPE: </label><input name="rpe_1" type="number" step="1" class="entry rpe" value="">
-            </div>
-        </div>
-    </div>
-    
-    <input type="submit" value="submit" style="margin-left:1em">
-</form>
+    </form>
+</div>
 
 <script src="{% static 'fitness/js/workout.js' %}"></script>
