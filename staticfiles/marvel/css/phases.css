@@ -24,6 +24,12 @@ html,body {
     transition: all 0.5s ease;
     overflow: hidden;
 }
+.bg-wrapper::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+
+
+
 .bg-wrapper:before, .bg-wrapper:after{
     transform: translate3d(0, 0, 0);
     content: "";
@@ -111,6 +117,7 @@ html,body {
     width: 100%;
     text-align: center;
 }
+
 
 
 @media only screen and (max-width: 1400px) {
