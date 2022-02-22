@@ -235,7 +235,7 @@ function registerGUIEvents() {
 	addEvent("click", document.getElementById("enable-sound"), function () {
 		soundBtn = document.getElementById("enable-sound");
 		settings[0] = soundBtn.getAttribute('value');
-		console.log(settings[0]);
+
 		if (settings[0] == 'true') {
 			soundBtn.style.background = 'none';
 			soundBtn.setAttribute('value','false');
@@ -429,7 +429,8 @@ function loadSavedGame(filepath, callback) {
 			callback(saveStateArray);
 
 			try {
-				updateParty(saveStateArray, 'gif');
+				var game = document.getElementById("active-cart").textContent
+				updateParty(saveStateArray, 'gif', game);
 			} catch(err) {
 				console.log(err);
 			};
@@ -460,7 +461,8 @@ function uploadSaveFile(file, savename) {
 			saver.style.background = 'rgba(153, 153, 153, 0)';
 			saver.innerText = "save game";
 			try {
-				updateParty(file, 'gif');
+				var game = document.getElementById("active-cart").textContent
+				updateParty(saveStateArray, 'gif', game);
 			} catch(err) {
 				console.log(err);
 			};
@@ -503,7 +505,7 @@ function loadSavedGameFunc(saveFileLoc) {
 function loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc) {
 	document.getElementById("on-light").style.opacity = 1;
 	backgroundSwitch(game);
-	console.log(clickedCode);
+
 	if (clickedCode == game + "-new") {
 		loadNewGameFunc(gameFile);
 	} else {
@@ -810,9 +812,21 @@ function translateIndex(index, style) {
 	return link;
 }
 
-function getPartyInfo(fileOrBlob, style) {
-	var bank = fileOrBlob[23];
-	const offset = 355;
+function getPartyInfo(fileOrBlob, style, game) {
+	var bankIdx;
+	var offset;
+	switch(game) {
+		case "yellow": offset = 355, bankIdx = 23; break;
+		case "red": offset = 53604, bankIdx = 19; break;
+		case "blue": offset = 53604, bankIdx = 19; break;
+		default: offset = 0, bankIdx = 0;
+	};
+	var bank = fileOrBlob[bankIdx];
+
+	// yellow offset, bank = 355, 23
+	// blue and red offset, bank = 53604, 19
+	// green info
+
 	var party = []
 	for (var i=offset; i < offset + 6; i++) {
 		if (bank[i] == 255) {
@@ -841,30 +855,32 @@ function getPartyInfo(fileOrBlob, style) {
 		
 	}
 
-	console.log(imgLinks);
-	console.log(levelList);
-
 	return [imgLinks, levelList];
 };
 
-function updateParty(fileOrBlob, style) {
+function updateParty(fileOrBlob, style, game) {
 	// get rom indices from save data
-	var partyData = getPartyInfo(fileOrBlob, style);
+
+	var partyData = getPartyInfo(fileOrBlob, style, game);
 	var imgLinks = partyData[0];
 	var levelList = partyData[1];
-
-	console.log(imgLinks);
-	console.log(levelList);
 
 	var partySlotImgs = document.getElementsByClassName('party-slot-img');
 	var partySlotLvls = document.getElementsByClassName('lvl');
 
-	for (var i=0; i < imgLinks.length; i++) {
-		partySlotImgs[i].src = imgLinks[i];
-		partySlotImgs[i].style.opacity = '1';
 
-		partySlotLvls[i].innerHTML = levelList[i]
+	for (var i=0; i < 6; i++) {
+		if (i < imgLinks.length) {
+			partySlotImgs[i].style.display = 'block';
+			partySlotImgs[i].src = imgLinks[i];
+			partySlotImgs[i].style.opacity = '1';
 
+			partySlotLvls[i].style.display = 'block';
+			partySlotLvls[i].innerHTML = levelList[i]
+		} else {
+			partySlotImgs[i].style.display = 'None';
+			partySlotLvls[i].style.display = 'None';
+		};
 	};
 };
 

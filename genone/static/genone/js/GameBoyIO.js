@@ -192,7 +192,7 @@ function openState(filename, canvas) {
 			try {
 				clearLastEmulation();
 				console.log("Attempting to run a saved emulation state.", 0);
-				console.log(filename);
+
 				gameboy = new GameBoyCore(canvas, "");
 				gameboy.savedStateFileName = filename;
 				gameboy.returnFromState(findValue(filename));
@@ -213,7 +213,7 @@ function openState(filename, canvas) {
 
 function import_save(blobData) {
 	blobData = decodeBlob(blobData);
-	console.log(blobData);
+
 	if (blobData && blobData.blobs) {
 		if (blobData.blobs.length > 0) {
 			for (var index = 0; index < blobData.blobs.length; ++index) {
