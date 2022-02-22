@@ -22,7 +22,16 @@
     <title>unspammable</title>
     
 </head>
+
 <body>
+    <div id="active-party">
+        <div class="party-slot"><div class="img-wrap"><img class="party-slot-img" height="100%"/></div><div class="lvl"></div></div>
+        <div class="party-slot"><div class="img-wrap"><img class="party-slot-img" height="100%"/></div><div class="lvl"></div></div>
+        <div class="party-slot"><div class="img-wrap"><img class="party-slot-img" height="100%"/></div><div class="lvl"></div></div>
+        <div class="party-slot"><div class="img-wrap"><img class="party-slot-img" height="100%"/></div><div class="lvl"></div></div>
+        <div class="party-slot"><div class="img-wrap"><img class="party-slot-img" height="100%"/></div><div class="lvl"></div></div>
+        <div class="party-slot"><div class="img-wrap"><img class="party-slot-img" height="100%"/></div><div class="lvl"></div></div>
+    </div>
     <div id="mobile-wrapper">
         <div class="cart-drawer">
             <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
@@ -53,6 +62,7 @@
                 <a class="card home" title="Home" href="{% url 'genone' %}"></a>
             </div>
         </div>
+
         <div class="hidden-info" id="active-cart" value=""></div>
         <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>
         

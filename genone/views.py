@@ -113,4 +113,24 @@ def cartridge(request, title):
     return response
 
 def wtp(request):
+
+    from .models import SaveState
+    import json
+
+    yellow = SaveState.objects.get(pk=2)
+    data = yellow.data[1:-1].replace("\\", "")
+    json_data = json.loads(data)
+    idx = 0
+    for i in json_data:
+        if type(i) == list:
+            ln = f' ({len(i)})'
+        else:
+            ln = ''
+        print(idx,': ', ' ', type(i), ln)
+        
+        if idx == 23 or idx == 187:
+            print(i)
+
+        idx += 1
+
     return auth_check(request, 'wtp.html', context={})
