@@ -210,6 +210,7 @@ function openState(filename, canvas) {
 		console.log("Could not open the saved emulation state.", 2);
 	}
 }
+
 function import_save(blobData) {
 	blobData = decodeBlob(blobData);
 	console.log(blobData);
@@ -241,6 +242,7 @@ function import_save(blobData) {
 		console.log("Could not decode the imported file.", 2);
 	}
 }
+
 function generateBlob(keyName, encodedData) {
 	//Append the file format prefix:
 	var saveString = "EMULATOR_DATA";
