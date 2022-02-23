@@ -85,7 +85,7 @@ function registerGUIEvents() {
 				case "green":idx=3;break;
 			};
 			newCart = gameList[idx]
-			console.log(newCart);
+			clearParty();
 			loadNewGameFunc(newCart);
 		}
 	});
@@ -412,6 +412,7 @@ function loadNewGame(filepath, callback) {
 				type: myBlob.type
 			});
 			callback(myBlob, myFile);
+
 		};
 	};
 	return [myBlob, myFile]
@@ -872,7 +873,6 @@ function updateParty(fileOrBlob, style, game) {
 	var imgLinks = partyData[0];
 	var levelList = partyData[1];
 	var hpList = partyData[2];
-	console.log(hpList);
 
 	var partySlotImgs = document.getElementsByClassName('party-slot-img');
 	var partySlotLvls = document.getElementsByClassName('lvl');
@@ -897,4 +897,12 @@ function updateParty(fileOrBlob, style, game) {
 	};
 };
 
+function clearParty() {
+	var partySlotImgs = document.getElementsByClassName('party-slot-img');
+	var partySlotLvls = document.getElementsByClassName('lvl');
+	for (var i=0; i < 6; i++) {
+		partySlotImgs[i].style.display = 'None';
+		partySlotLvls[i].style.display = 'None';
+	};
+};
 

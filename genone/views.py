@@ -40,11 +40,9 @@ def cartridge(request, title):
             gameName = gameName.split('.')[0]
             new = False
         except:
-            print('title: ', title)
             gameName = title.split('.')[0] # from "new-red.gb"
             gameName = gameName.split('-')[1]
             title = title.split('-')[1]
-            print('title: ', title)
             new = True
 
         # check for previous save states
@@ -58,9 +56,6 @@ def cartridge(request, title):
         if request.method == 'POST':
             # request is a POST request
             upload = request.FILES['upload']
-            print(upload)
-            uploadName = upload.name
-
             game = Game.objects.get(version=gameName)
 
             try:
