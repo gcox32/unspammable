@@ -461,12 +461,6 @@ function uploadSaveFile(file, savename) {
 		if (this.status==200) {
 			saver.style.background = 'rgba(153, 153, 153, 0)';
 			saver.innerText = "save game";
-			try {
-				var game = document.getElementById("active-cart").textContent
-				updateParty(saveStateArray, 'gif', game);
-			} catch(err) {
-				console.log(err);
-			};
 		};
 	};
 };
@@ -868,7 +862,6 @@ function getPartyInfo(fileOrBlob, style, game) {
 
 function updateParty(fileOrBlob, style, game) {
 	// get rom indices from save data
-
 	var partyData = getPartyInfo(fileOrBlob, style, game);
 	var imgLinks = partyData[0];
 	var levelList = partyData[1];

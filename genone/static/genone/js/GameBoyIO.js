@@ -177,6 +177,13 @@ function saveState(savename) {
 		try {
 			uploadSaveFile(gameboy.saveState(), savename=savename);
 			console.log("Saved the current state as: " + savename + ".json", 0);
+			
+			try {
+				var game = document.getElementById("active-cart").textContent
+				updateParty(gameboy.saveState(), 'gif', game);
+			} catch(err) {
+				console.log(err);
+			};
 		}
 		catch (error) {
 			console.log("Could not save the current emulation state(\"" + error.message + "\").", 2);
