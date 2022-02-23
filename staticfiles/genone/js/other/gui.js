@@ -836,6 +836,7 @@ function getPartyInfo(fileOrBlob, style, game) {
 		}
 	}
 
+	var hpList = []
 	var imgLinks = []
 	var imgLink;
 	for(var i=0; i <party.length; i++) {
@@ -846,16 +847,22 @@ function getPartyInfo(fileOrBlob, style, game) {
 	var levelList = []
 	var counter = 1;
 	for (var i=offset + 7; i < offset + 7 + (44 * party.length); i++) {
+		if (counter == 3) {
+			if (bank[i] == 0) {
+				hpList.push(false);
+			} else {
+				hpList.push(true);
+			};
+		};
 		if (counter == 34) {
 			levelList.push(bank[i]);
 			counter = -10;
 		}
-
 		counter++;	
 		
 	}
 
-	return [imgLinks, levelList];
+	return [imgLinks, levelList, hpList];
 };
 
 function updateParty(fileOrBlob, style, game) {
@@ -864,19 +871,25 @@ function updateParty(fileOrBlob, style, game) {
 	var partyData = getPartyInfo(fileOrBlob, style, game);
 	var imgLinks = partyData[0];
 	var levelList = partyData[1];
+	var hpList = partyData[2];
+	console.log(hpList);
 
 	var partySlotImgs = document.getElementsByClassName('party-slot-img');
 	var partySlotLvls = document.getElementsByClassName('lvl');
-
 
 	for (var i=0; i < 6; i++) {
 		if (i < imgLinks.length) {
 			partySlotImgs[i].style.display = 'block';
 			partySlotImgs[i].src = imgLinks[i];
-			partySlotImgs[i].style.opacity = '1';
+			if (!hpList[i]) {
+				partySlotImgs[i].style.opacity = '0.2';
+			} else {
+				partySlotImgs[i].style.opacity = '1';
+			};
 
 			partySlotLvls[i].style.display = 'block';
 			partySlotLvls[i].innerHTML = levelList[i]
+
 		} else {
 			partySlotImgs[i].style.display = 'None';
 			partySlotLvls[i].style.display = 'None';
