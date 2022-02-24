@@ -870,6 +870,11 @@ function updateParty(fileOrBlob, style, game) {
 	var partySlotImgs = document.getElementsByClassName('party-slot-img');
 	var partySlotLvls = document.getElementsByClassName('lvl');
 
+	clearParty();
+
+	var style = document.createElement('style');
+	style.id = 'party-slots-css'
+
 	for (var i=0; i < 6; i++) {
 		if (i < imgLinks.length) {
 			partySlotImgs[i].style.display = 'block';
@@ -883,11 +888,25 @@ function updateParty(fileOrBlob, style, game) {
 			partySlotLvls[i].style.display = 'block';
 			partySlotLvls[i].innerHTML = levelList[i]
 
+			// add hover 
+			var hoverCss = `.party-slot:nth-child(${i+1}) {
+								transition: all 100ms ease-in-out;
+							}
+							.party-slot:nth-child(${i+1}):hover {
+								cursor:pointer; 
+								box-shadow:0px 8px 16px rgb(0 0 0 / 60%);
+							}
+							.party-slot:nth-child(${i+1}):active {
+								transform: scale(0.95);
+							}`
+			style.appendChild(document.createTextNode(hoverCss));
+
 		} else {
 			partySlotImgs[i].style.display = 'None';
 			partySlotLvls[i].style.display = 'None';
 		};
 	};
+	document.getElementsByTagName('head')[0].appendChild(style);
 };
 
 function clearParty() {
@@ -896,6 +915,12 @@ function clearParty() {
 	for (var i=0; i < 6; i++) {
 		partySlotImgs[i].style.display = 'None';
 		partySlotLvls[i].style.display = 'None';
+
+	};
+	
+	var style = document.getElementById('party-slots-css');
+	if (style) {
+		style.remove();
 	};
 };
 
