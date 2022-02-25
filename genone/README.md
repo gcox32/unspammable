@@ -1,3 +1,3 @@
 ## Browser-based Emulator
 
-<img src="https://unspammable.com/staticfiles/genone/screenshots/gameplay.png" width="80%">
+<img src="https://www.unspammable.com/staticfiles/genone/screenshots/gameplay.png" width="80%">
