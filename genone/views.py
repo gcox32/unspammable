@@ -119,16 +119,14 @@ def wtp(request):
     # for i in json_data:
     #     if type(i) == list:
     #         ln = f' ({len(i)})'
+    #         for j in range(0, len(i) - 7):
+    #             if [i[j], i[j+1], i[j+2], i[j+3], i[j+4], i[j+5], i[j+6], i[j+7]] == [1, 1, 1, 1, 0, 0, 0, 0]:
+    #                 print('start index: ', j)
+    #                 break #529706; 19 - 52470; 20 - 648
     #     else:
     #         ln = ''
     #     print(idx,': ', ' ', type(i), ln)
         
-    #     if idx == 23:
-    #         print(i)
-    #         for j in range(len(i)):
-    #             if [i[j], i[j+1], i[j+2], i[j+3], i[j+4], i[j+5]] == [84, 255, 0, 0, 0, 0]:
-    #                 print('start index: ', j)
-    #                 break
     #     idx += 1
 
     return auth_check(request, 'wtp.html', context={})
