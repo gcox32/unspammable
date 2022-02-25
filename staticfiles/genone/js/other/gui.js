@@ -60,8 +60,19 @@ function registerGUIEvents() {
 		save(id=id, game=game);
 	});
 
-	addEvent("click", document.getElementById("pause-btn"), pause);
-	addEvent("click", document.getElementById("resume-btn"), run);
+	addEvent("click", document.getElementById("pause-btn"), function() {
+		pause();
+		var pauser = document.getElementById("pause-btn");
+		pauser.style.background = 'rgba(153, 153, 153, 1)';
+		pauser.innerText = 'paused';
+	});
+	addEvent("click", document.getElementById("resume-btn"), function() {
+		run();
+		var pauser = document.getElementById("pause-btn");
+		pauser.style.background = 'None';
+		pauser.innerText = 'pause';
+	});
+
 	addEvent("click", document.getElementById("reset-btn"), function () {
 		var activeCart = document.getElementById('active-cart').textContent;
 		var idx;
@@ -238,10 +249,12 @@ function registerGUIEvents() {
 
 		if (settings[0] == 'true') {
 			soundBtn.style.background = 'none';
+			soundBtn.innerText = 'sound off';
 			soundBtn.setAttribute('value','false');
 			settings[0] = false;
 		} else {
 			soundBtn.style.background = 'rgb(153, 153, 153)';
+			soundBtn.innerText = 'sound on';
 			soundBtn.setAttribute('value','true');
 			settings[0] = true;
 		};
