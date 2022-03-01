@@ -115,17 +115,24 @@ def wtp(request):
     # yellow = SaveState.objects.get(pk=2)
     # data = yellow.data[1:-1].replace("\\", "")
     # json_data = json.loads(data)
+    # with open('yellow.json', 'w') as f:
+    #     json.dump(data, f)
     # idx = 0
     # for i in json_data:
     #     if type(i) == list:
     #         ln = f' ({len(i)})'
-    #         for j in range(0, len(i) - 7):
-    #             if [i[j], i[j+1], i[j+2], i[j+3], i[j+4], i[j+5], i[j+6], i[j+7]] == [1, 1, 1, 1, 0, 0, 0, 0]:
-    #                 print('start index: ', j)
-    #                 break #529706; 19 - 52470; 20 - 648
+    #         for j in range(len(i)):
+    #             if j == 77839:
+    #                 print([i[j], i[j+1], i[j+2], i[j+3], i[j+4], i[j+5], i[j+6], i[j+7], i[j+8]])
+    #         # for j in range(0, len(i) - 7):
+    #         #     if [i[j], i[j+1], i[j+2], i[j+3], i[j+4], i[j+5], i[j+6], i[j+7]] == [1, 1, 1, 1, 0, 0, 0, 0]:
+    #         #         print('start index: ', j)
+    #         #         break #529706; 19 - 52470; 20 - 648
     #     else:
     #         ln = ''
-    #     print(idx,': ', ' ', type(i), ln)
+        
+    #     if idx == 0:
+    #         print(idx,': ', ' ', type(i), ln)
         
     #     idx += 1
 

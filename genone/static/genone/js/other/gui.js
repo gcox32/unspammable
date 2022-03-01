@@ -844,7 +844,32 @@ function getPartyInfo(fileOrBlob, style, game) {
 		}
 	}
 
+	var typeDict = {
+		'0':'NORMAL',
+		'1':'FIGHTING',
+		'2':'FLYING',
+		'3':'POISON',
+		'4':'GROUND',
+		'5':'ROCK',
+		'7':'BUG',
+		'8':'GHOST',
+		'20':'FIRE',
+		'21':'WATER',
+		'22':'GRASS',
+		'23':'ELECTRIC',
+		'24':'PSYCHIC',
+		'25':'ICE',
+		'26':'DRAGON'
+	}
+	
 	var hpList = []
+	var typeList = []
+	var fullHpList = []
+	var atkList = []
+	var defList = []
+	var spdList = []
+	var spcList = []
+
 	var imgLinks = []
 	var imgLink;
 	for(var i=0; i <party.length; i++) {
