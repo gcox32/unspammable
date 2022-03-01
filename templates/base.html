@@ -13,7 +13,7 @@
     {% endblock head %}
     <link rel="stylesheet" href='{% static "unspammable/css/main.css" %}'/>
     <link rel="stylesheet" href='{% static "unspammable/css/header.css" %}'/>
-    <link rel="stylesheet" href="{% static 'marvel/css/modal.css' %}">
+    <link rel="stylesheet" href="{% static 'unspammable/css/modal.css' %}">
     <link rel="stylesheet" href="{% static 'marvel/css/transition.css' %}">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
@@ -251,12 +251,12 @@
   <div class="login-card" id="login-modal">
     <form method="post">
       {% csrf_token %}
-      <input name="username" placeholder="username">
-      <input name="password" type="password" placeholder="password">
-      <button type="submit">log in</button>
+      <input name="username" placeholder="username" style="margin: 1rem;">
+      <input name="password" type="password" placeholder="password" style="margin: 1rem;">
+      <button type="submit" style="margin: 1rem;">log in</button>
     </form>
 
-    <button title="Close" class="close_modal">
+    <button title="Close" class="close_modal" style="margin: 1rem;">
       x
     </button>
   </div>

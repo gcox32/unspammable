@@ -136,10 +136,6 @@ form {
   margin: 1em 1em 0 1em;
 }
 
-input, button {
-  margin: 1em;
-}
-
 button {
   text-transform: uppercase;
   cursor: pointer;
