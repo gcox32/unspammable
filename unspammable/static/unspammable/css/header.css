@@ -248,7 +248,9 @@ input[type="radio"] {
 #fitness:checked + .menuItem, 
 #datascience:checked + .menuItem,
 #basketball:checked + .menuItem,
-#gen-one:checked + .menuItem {
+#gen-one:checked + .menuItem,
+#projects:checked + .menuItem,
+#portfolio:checked + .menuItem {
 	height: 179px;
 }
 

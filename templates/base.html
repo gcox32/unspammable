@@ -15,9 +15,6 @@
     <link rel="stylesheet" href='{% static "unspammable/css/header.css" %}'/>
     <link rel="stylesheet" href="{% static 'marvel/css/modal.css' %}">
     <link rel="stylesheet" href="{% static 'marvel/css/transition.css' %}">
-    {% if not user.is_authenticated %}
-    <link rel="stylesheet" href='{% static "unspammable/css/login.css" %}'>
-    {% endif %}
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <link rel="apple-touch-icon" sizes="128x128" href="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}"/>
@@ -86,6 +83,12 @@
     </li>
 
     {% else %}
+    <li class="header-item">
+      <a class="header-a">Portfolio</a>
+      <ul class="header-subItems">
+        <li class="header-subItem"><a href="#">Github</a></li>
+      </ul>
+    </li>
     <li class="header-item">
       <a class="header-a">Projects</a>
       <ul class="header-subItems">
@@ -156,14 +159,32 @@
         <a class="submenuItem" href="{% url 'gameboy' %}">Gameboy</a>
         <a class="submenuItem" href="{% url 'wtp' %}">Who's That Pokemon?</a>
       </li>
-      {% else %}
-      <input type="radio" name="login" id="sidebar-login">
-        <li class="menuItem">
-          <a onclick="toggleModal()">
-            <label for="sidebar-login" class="title">Log In</label>
-          </a>
-        </li>
-      {% endif %}
+    <a href="{% url 'logout' %}" style="text-decoration: none;">  
+      <li class="menuItem">
+        <label for="sidebar-logout" class="title">Log Out</label>
+      </li>
+    </a>
+    {% else %}
+    <input type="radio" name="menu" id="portfolio">
+    <li class="menuItem">
+      <label for="portfolio" class="title">Portfolio</label>
+      <a class="submenuItem" href="#">Github</a>
+    </li>
+    <input type="radio" name="menu" id="projects">
+    <li class="menuItem">
+      <label for="projects" class="title">Projects</label>
+      <a class="submenuItem" href="#">Marvel</a>
+      <a class="submenuItem" href="#">Gameboy</a>
+      <a class="submenuItem" href="#">Fitness</a>
+      <a class="submenuItem" href="#">Finance</a>
+    </li>
+    <input type="radio" name="menu" id="sidebar-login">
+      <li class="menuItem">
+        <a onclick="toggleModal()">
+          <label for="sidebar-login" class="title">Log In</label>
+        </a>
+      </li>
+    {% endif %}
     </ul>
   </nav>
 
@@ -250,7 +271,6 @@
 
 <script type="text/javascript" src='{% static "unspammable/js/main.js" %}'></script>
 <script type="text/javascript" src='{% static "marvel/js/phase.js" %}'></script>
-<script type="text/javascript" src='{% static "marvel/js/modal.js" %}'></script>
 
 {% if user.is_authenticated %}
 {% load js %}
