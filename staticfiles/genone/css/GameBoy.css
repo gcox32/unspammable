@@ -522,3 +522,22 @@ a.card {
 .lvl:hover {
 	cursor: default;
 }
+#refresh-party {
+	height: 20px;
+	border: 4px black solid;
+	border-radius: 16px;
+	padding: 0 4px;
+	position: absolute;
+	top: 460px;
+	left: 29px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 100ms ease-in-out;
+}
+#refresh-party:hover {
+	cursor: pointer;
+}
+#refresh-party:active {
+	background-color: rgb(153, 153, 153);
+}

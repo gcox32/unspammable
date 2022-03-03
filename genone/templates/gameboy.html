@@ -53,7 +53,6 @@
             <div class="btn" id="reset-btn">reset</div>
             <div class="btn" id="newgame-btn">new game</div>
             <div class="btn" id="enable-sound" value="true">sound on</div>
-            <div class="btn" id="refresh-party">refresh</div>
 
             <div class="game-setting" id="game-speed">
                 <label>Adjust Speed</label>
@@ -80,12 +79,16 @@
                     <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="50%" id="logo" style="padding-right:16px;"/>
                 </div>
             </div>
+
+            <div id="refresh-party">update</div>
+
             <div class="switch-wrapper" style="display:none;">
                 <label class="switch" for="checkbox">
                     <input type="checkbox" id="checkbox" />
                     <div class="slider round" title="play mode"></div>
                 </label>
             </div>
+
             <div id="on-light"></div>
             <div class="gb-btn a-b" id="a-btn"></div>
             <div class="gb-btn a-b" id="b-btn"></div>
