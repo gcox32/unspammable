@@ -180,7 +180,7 @@ function saveState(savename) {
 			console.log("Saved the current state as: " + savename + ".json", 0);
 			
 			try {
-				var game = document.getElementById("active-cart").textContent
+				var game = document.getElementById("active-cart").textContent;
 				updateParty(gameboy.saveState(), 'gif', game);
 			} catch(err) {
 				console.log(err);

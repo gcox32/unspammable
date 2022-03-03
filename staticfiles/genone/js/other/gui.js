@@ -100,6 +100,10 @@ function registerGUIEvents() {
 			loadNewGameFunc(newCart);
 		}
 	});
+	addEvent("click", document.getElementById("refresh-party"), function () {
+		var game = document.getElementById("active-cart").textContent;
+		updateParty(gameboy.saveState(), 'gif', game);
+	})
 	addEvent("click", document.getElementById("adjust-speed-btn"), function () {
 		if (GameBoyEmulatorInitialized()) {
 			var speed = document.getElementById("speed-input").value;
