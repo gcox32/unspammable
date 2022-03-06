@@ -439,6 +439,7 @@ function generateNewNumbers(force) {
     if(force || !_.isEqual(settings.generations, newGen)) {
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
+        console.log(newGen);
         newGen.filter(function(gen) { return allGenerations[gen].supportedDifficulties.includes(settings.difficulty); })
             .forEach(function(genToInc) {
             (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {

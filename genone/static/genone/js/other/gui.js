@@ -909,6 +909,7 @@ function updateParty(fileOrBlob, style, game) {
 	var levelList = partyData[1];
 	var hpList = partyData[2];
 
+	var partySlots = document.getElementsByClassName('party-slot');
 	var partySlotImgs = document.getElementsByClassName('party-slot-img');
 	var partySlotLvls = document.getElementsByClassName('lvl');
 
@@ -943,6 +944,9 @@ function updateParty(fileOrBlob, style, game) {
 							}`
 			style.appendChild(document.createTextNode(hoverCss));
 
+			// add js to display modal
+			addEvent(partySlots[i], "click", showModal);
+
 		} else {
 			partySlotImgs[i].style.display = 'None';
 			partySlotLvls[i].style.display = 'None';
@@ -966,3 +970,6 @@ function clearParty() {
 	};
 };
 
+function showModal() {
+	
+};
