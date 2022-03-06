@@ -441,12 +441,16 @@ function generateNewNumbers(force) {
         upcomingPokemonArrayPos = 0;
         console.log(allGenerations);
         newGen.filter(function(gen) { 
-            console.log(gen);
             return allGenerations[gen].supportedDifficulties.includes(settings.difficulty); })
             .forEach(function(genToInc) {
-            (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
-                upcomingPokemon.push(pokemonNumber);
-            });
+                console.log(genToInc);
+                try {
+                    (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
+                        upcomingPokemon.push(pokemonNumber);
+                    });
+                } catch(err) {
+                    console.log(err);
+                }
         });
 
         upcomingPokemon = _.shuffle(upcomingPokemon);
