@@ -439,18 +439,11 @@ function generateNewNumbers(force) {
     if(force || !_.isEqual(settings.generations, newGen)) {
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
-        console.log(allGenerations);
-        newGen.filter(function(gen) { 
-            return allGenerations[gen].supportedDifficulties.includes(settings.difficulty); })
+        newGen.filter(function(gen) { return allGenerations[gen].supportedDifficulties.includes(settings.difficulty); })
             .forEach(function(genToInc) {
-                console.log(genToInc);
-                try {
-                    (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
-                        upcomingPokemon.push(pokemonNumber);
-                    });
-                } catch(err) {
-                    console.log(err);
-                }
+            (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
+                upcomingPokemon.push(pokemonNumber);
+            });
         });
 
         upcomingPokemon = _.shuffle(upcomingPokemon);
