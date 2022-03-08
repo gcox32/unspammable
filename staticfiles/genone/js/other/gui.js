@@ -35,19 +35,22 @@ function registerGUIEvents() {
 	console.log("In registerGUIEvents() : Registering GUI Events.", -1);
 	addEvent("click", document.getElementById("blue"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(0);
-		console.log(clickedCode);
+		toggleCartDrawer();
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 	addEvent("click", document.getElementById("yellow"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(1);
+		toggleCartDrawer();
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 	addEvent("click", document.getElementById("red"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(2);
+		toggleCartDrawer();
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 	addEvent("click", document.getElementById("green"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(3);
+		toggleCartDrawer();
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 // 
@@ -60,18 +63,8 @@ function registerGUIEvents() {
 		save(id=id, game=game);
 	});
 
-	addEvent("click", document.getElementById("pause-btn"), function() {
-		pause();
-		var pauser = document.getElementById("pause-btn");
-		pauser.style.background = 'rgba(153, 153, 153, 1)';
-		pauser.innerText = 'paused';
-	});
-	addEvent("click", document.getElementById("resume-btn"), function() {
-		run();
-		var pauser = document.getElementById("pause-btn");
-		pauser.style.background = 'None';
-		pauser.innerText = 'pause';
-	});
+	addEvent("click", document.getElementById("pause-btn"), pause);
+	addEvent("click", document.getElementById("resume-btn"), run);
 
 	addEvent("click", document.getElementById("reset-btn"), function () {
 		var activeCart = document.getElementById('active-cart').textContent;
@@ -944,12 +937,13 @@ function updateParty(fileOrBlob, style, game) {
 							}`
 			style.appendChild(document.createTextNode(hoverCss));
 
-			// add js to display modal
-			addEvent(partySlots[i], "click", showModal);
+			partySlots[i].addEventListener("click", toggleModal);
 
 		} else {
 			partySlotImgs[i].style.display = 'None';
 			partySlotLvls[i].style.display = 'None';
+
+			partySlots[i].removeEventListener('click', toggleModal)
 		};
 	};
 	document.getElementsByTagName('head')[0].appendChild(style);
@@ -970,6 +964,29 @@ function clearParty() {
 	};
 };
 
-function showModal() {
-	
+function attachModalListeners(modalElm) {
+	modalElm.querySelector('.close_modal').addEventListener('click', toggleModal);
+	modalElm.querySelector('.modal_overlay').addEventListener('click', toggleModal);
+};
+
+function detachModalListeners(modalElm) {
+	modalElm.querySelector('.close_modal').removeEventListener('click', toggleModal);
+	modalElm.querySelector('.modal_overlay').removeEventListener('click', toggleModal);
+};
+
+function toggleModal() {
+	var modal = document.getElementById('pokemon-modal-0');
+	var currentState = modal.style.display;
+
+	// If modal is visible, hide it. Else, display it.
+	if (currentState === 'none') {
+		modal.style.display = 'block';
+		attachModalListeners(modal);
+		pause();
+	} else {
+		modal.style.display = 'none';
+		detachModalListeners(modal);  
+		run();
+	}
+
 };

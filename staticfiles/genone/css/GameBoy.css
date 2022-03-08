@@ -47,7 +47,7 @@ body {
 	height: 928px;
 	background-image: url('/staticfiles/genone/images/gameboy-bg.png');
 	background-size: cover;
-	left: 346px;
+	left: 245px;
 	top: -20px;
 	border: 4px rgba(255,255,255, .5) solid;
 	border-radius: 20px 20px 50% 50% / 48px 48px;
@@ -481,7 +481,7 @@ a.card {
 	width: 180px;
 	height: 98%;
 	background: rgba(255,255,255, .3);
-	left: 160px;
+	left: 60px;
 	top: 0;
 	flex-direction: column;
 	display: flex;
@@ -524,7 +524,8 @@ a.card {
 }
 #refresh-party {
 	height: 20px;
-	border: 4px black solid;
+	border: 4px rgb(42, 52, 55) solid;
+	color: rgb(42, 52, 55);
 	border-radius: 16px;
 	padding: 0 4px;
 	position: absolute;

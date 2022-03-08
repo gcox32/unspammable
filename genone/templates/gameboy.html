@@ -2,6 +2,8 @@
 
 <head>
     <link rel="stylesheet" href="{% static 'genone/css/GameBoy.css' %}"/>
+    <link rel="stylesheet" href="{% static 'unspammable/css/modal.css' %}"/>
+
     <script type="text/javascript">
         var DEBUG_MESSAGES = false;
         var DEBUG_WINDOWING = false;
@@ -32,75 +34,83 @@
         <div class="party-slot"><div class="img-wrap"><img class="party-slot-img" height="100%"/></div><div class="lvl"></div></div>
         <div class="party-slot"><div class="img-wrap"><img class="party-slot-img" height="100%"/></div><div class="lvl"></div></div>
     </div>
-    <div id="mobile-wrapper">
-        <div class="cart-drawer">
-            <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
-        {% for game in games %}
-            <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
-                <img src="/staticfiles/genone/images/{{ game.image }}" height="170px"/>
-            </div><br>
-        {% endfor %}
+    <div class="cart-drawer">
+        <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
+    {% for game in games %}
+        <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
+            <img src="/staticfiles/genone/images/{{ game.image }}" height="170px"/>
+        </div><br>
+    {% endfor %}
+    </div>
+    <div class="settings">
+        <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="settings-arrow">
+        {% if user.is_authenticated %}
+        <div class="btn" id="saver" value="blue">save game</div>
+        {% else %}
+        <div class="btn" id="saver" value="blue" style="display: none;"></div>
+        {% endif %}
+        <div class="btn" id="pause-btn">pause</div>
+        <div class="btn" id="resume-btn">resume</div>
+        <div class="btn" id="reset-btn">reset</div>
+        <div class="btn" id="newgame-btn">new game</div>
+        <div class="btn" id="enable-sound" value="true">sound on</div>
+
+        <div class="game-setting" id="game-speed">
+            <label>Adjust Speed</label>
+            <div class="input-row">
+                <input id="speed-input" value="1.0">
+                <div class="btn sm-btn" id="adjust-speed-btn">apply</div>
+            </div>
         </div>
-        <div class="settings">
-            <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="settings-arrow">
-            {% if user.is_authenticated %}
-            <div class="btn" id="saver" value="blue">save game</div>
-            {% else %}
-            <div class="btn" id="saver" value="blue" style="display: none;"></div>
-            {% endif %}
-            <div class="btn" id="pause-btn">pause</div>
-            <div class="btn" id="resume-btn">resume</div>
-            <div class="btn" id="reset-btn">reset</div>
-            <div class="btn" id="newgame-btn">new game</div>
-            <div class="btn" id="enable-sound" value="true">sound on</div>
+        {% if user.is_authenticated %}
+        <div class="icon-row">
+            <a class="card wtp" title="Who's That Pokemon?" href="{% url 'wtp' %}"></a>
+            <a class="card home" title="Home" href="{% url 'genone' %}"></a>
+        </div>
+        {% endif %}
+    </div>
 
-            <div class="game-setting" id="game-speed">
-                <label>Adjust Speed</label>
-                <div class="input-row">
-                    <input id="speed-input" value="1.0">
-                    <div class="btn sm-btn" id="adjust-speed-btn">apply</div>
-                </div>
+    <div class="hidden-info" id="active-cart" value=""></div>
+    <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>
+    
+    <div class="console-container">
+        <div id="GameBoy" class="window">
+            <div id="gfx">
+                <canvas id="mainCanvas"></canvas>
+                <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="50%" id="logo" style="padding-right:16px;"/>
             </div>
-            {% if user.is_authenticated %}
-            <div class="icon-row">
-                <a class="card wtp" title="Who's That Pokemon?" href="{% url 'wtp' %}"></a>
-                <a class="card home" title="Home" href="{% url 'genone' %}"></a>
-            </div>
-            {% endif %}
         </div>
 
-        <div class="hidden-info" id="active-cart" value=""></div>
-        <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>
-        
-        <div class="console-container">
-            <div id="GameBoy" class="window">
-                <div id="gfx">
-                    <canvas id="mainCanvas"></canvas>
-                    <img src="{% static 'unspammable/images/icons/clear_bg_3_white.png' %}" height="50%" id="logo" style="padding-right:16px;"/>
-                </div>
-            </div>
+        <div id="refresh-party">update</div>
 
-            <div id="refresh-party">update</div>
+        <div class="switch-wrapper" style="display:none;">
+            <label class="switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round" title="play mode"></div>
+            </label>
+        </div>
 
-            <div class="switch-wrapper" style="display:none;">
-                <label class="switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider round" title="play mode"></div>
-                </label>
-            </div>
+        <div id="on-light"></div>
+        <div class="gb-btn a-b" id="a-btn"></div>
+        <div class="gb-btn a-b" id="b-btn"></div>
+        <div class="gb-btn joypad" id="up-btn"></div>
+        <div class="gb-btn joypad" id="down-btn"></div>
+        <div class="gb-btn joypad" id="left-btn"></div>
+        <div class="gb-btn joypad" id="right-btn"></div>
+        <div class="gb-btn st-sel" id="start-btn"></div>
+        <div class="gb-btn st-sel" id="select-btn"></div>
+        <div id="fullscreenContainer">
+            <canvas id="fullscreen" class="maximum"></canvas>
+        </div>
+    </div>
+    <div class="modal" style="display: none;" id="pokemon-modal-0">
+        <div class="modal_overlay"></div>
+        <div class="modal_content">
 
-            <div id="on-light"></div>
-            <div class="gb-btn a-b" id="a-btn"></div>
-            <div class="gb-btn a-b" id="b-btn"></div>
-            <div class="gb-btn joypad" id="up-btn"></div>
-            <div class="gb-btn joypad" id="down-btn"></div>
-            <div class="gb-btn joypad" id="left-btn"></div>
-            <div class="gb-btn joypad" id="right-btn"></div>
-            <div class="gb-btn st-sel" id="start-btn"></div>
-            <div class="gb-btn st-sel" id="select-btn"></div>
-            <div id="fullscreenContainer">
-                <canvas id="fullscreen" class="maximum"></canvas>
-            </div>
+
+            <button title="Close" class="close_modal" style="right:0; top:0;">
+                x
+            </button>
         </div>
     </div>
 </body>
