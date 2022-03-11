@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href='{% static "blog/css/blog.css" %}'/>
+
+<div class="post-column">
+    {% for blog in blog_posts %}
+    <div class="blog-post">
+        <h2 class="post-title">{{ blog.title }}</h2>
+        <p class="post-text text-muted">{{ blog.created_on}} </p>
+        <p class="post-text">{{blog.content|slice:":200" }}</p>
+        <a href="{% url 'post_detail' blog.slug  %}" class="read-more-btn">Read More &rarr;</a>
+    </div>
+    {% endfor %}
+</div>
+
+<footer>
+    <ul class="footer__links" style="padding-inline-start: 0%;">
+    <li><a href="https://twitter.com/unspammable" target="_blank"><span class="fa fa-twitter"></span></a></li>
+    <li><a href="https://github.com/gcox32" target="_blank"><span class="fa fa-github"></span></a></li>
+    <li><a href="https://www.linkedin.com/in/gcoxexcel/" target="_blank"><span class="fa fa-linkedin"></span></a></li>
+    </ul>
+</footer>
+
+{% endblock %}

@@ -531,13 +531,17 @@ function backgroundSwitch(version) {
 function toggleCartDrawer() {
 	var cartArrow = document.getElementById("cartridge-arrow");
 	var cartDrawer = document.getElementsByClassName("cart-drawer")[0];
+	var activeParty = document.getElementById('active-party');
+
 	if (cartArrow.style.transform != 'rotate(360deg)') {
 		cartArrow.style.transform = 'rotate(360deg)';
 		cartDrawer.style.transform = 'translateX(-83%)';
+		activeParty.style.transform = 'translateX(0)';
 
 	} else {
 		cartArrow.style.transform = 'rotate(180deg)';
 		cartDrawer.style.transform = 'translateX(0%)';
+		activeParty.style.transform = 'translateX(-260px)';
 	};
 };
 function toggleSettingsDrawer() {

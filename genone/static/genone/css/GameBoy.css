@@ -173,7 +173,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	transition: 400ms ease-in-out;
+	transition: 300ms ease-in-out;
 	background: rgba(255,255,255, .1);
 	transform: translateX(0deg);
 }
@@ -191,7 +191,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	transition: 400ms ease-in-out;
+	transition: 300ms ease-in-out;
 	background: rgba(255,255,255, .1);
 	overflow-y: scroll;
 }
@@ -486,6 +486,8 @@ a.card {
 	flex-direction: column;
 	display: flex;
 	align-items: center;
+	transform: translateX(-260px);
+	transition: 300ms ease-in-out;
 }
 
 .party-slot {
@@ -510,6 +512,7 @@ a.card {
 .party-slot-img {
 	opacity: 0;
 	transition: opacity 1000ms ease-in-out;
+	height: 100%;
 }
 
 .lvl {

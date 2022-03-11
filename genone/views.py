@@ -105,8 +105,7 @@ def cartridge(request, title):
                 'response': 'unsuccessful download',
                 'status': 200,
             })
-    # else:
-    #     response = HttpResponse('nice try, guy.')
+
     return response
 
 def wtp(request):
