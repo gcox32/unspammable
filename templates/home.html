@@ -5,18 +5,17 @@
 <link rel="stylesheet" href='{% static "blog/css/blog.css" %}'/>
 
 <div class="post-column">
-    <!-- {% for blog in blog_posts %}
+    {% for blog in blog_posts %}
     <div class="blog-post">
         <h2 class="post-title">{{ blog.title }}</h2>
         <p class="post-text text-muted">{{ blog.created_on}} </p>
         <p class="post-text">{{blog.content|slice:":200" }}</p>
-        <a href="{% url 'post_detail' blog.slug  %}" class="read-more-btn">Read More &rarr;</a>
+        <a href="{% url 'post_detail' blog.blog_slug  %}" class="read-more-btn">Read More &rarr;</a>
         {% for tag in blog.tags %}
-            <a href="/blog/tag/{{ tag.slug }}">{{ tag.name }}</a>
+            <a href="/blog/tag/{{ tag.tag_slug }}">{{ tag.tag_name }}</a>
         {% endfor %}
-            {{ blog.tags }}
     </div>
-    {% endfor %} -->
+    {% endfor %}
 </div>
 
 <footer>

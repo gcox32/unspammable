@@ -4,7 +4,7 @@ from .src.creds import get_platforms_credentials
 from django.contrib.auth.views import LoginView as AuthLoginView
 from blog.models import Post
 from django.contrib.sites.shortcuts import get_current_site
-from .src.sql import get_posts_tags
+from .src.sql import get_posts_queryset
 
 def index(request):
     context = get_platforms_credentials(request)
@@ -22,8 +22,7 @@ class Home(AuthLoginView):
         if self.request.user.is_authenticated:
             context.update(get_platforms_credentials(self.request))
 
-        # context['blog_posts'] = Post.objects.filter(status=1).order_by('-created_on')
-        get_posts_tags()
+        context['blog_posts'] = get_posts_queryset()
 
         context.update(
             {
