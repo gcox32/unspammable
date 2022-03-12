@@ -477,10 +477,10 @@ a.card {
 /* active party */
 #active-party {
 	position: absolute;
-	margin: 5px 0;
+	margin: 0;
 	width: 180px;
-	height: 98%;
-	background: rgba(255,255,255, .3);
+	height: 100%;
+	background: rgba(255,255,255, .2);
 	left: 60px;
 	top: 0;
 	flex-direction: column;
@@ -526,14 +526,12 @@ a.card {
 	cursor: default;
 }
 #refresh-party {
-	height: 20px;
-	border: 4px rgb(42, 52, 55) solid;
+	width: 85%;
+	border: 3px rgb(42, 52, 55) solid;
 	color: rgb(42, 52, 55);
 	border-radius: 16px;
-	padding: 0 4px;
-	position: absolute;
-	top: 460px;
-	left: 29px;
+	padding: 2px;
+	margin-top: 5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
