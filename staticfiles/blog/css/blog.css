@@ -1,16 +1,27 @@
 .post-column {
     position: absolute;
     top: 10%;
-    left: 40%;
+    right: 10%;
     margin: 0 auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     width: 650px;
+    max-width: 85%;
 }
 .blog-post {
     box-shadow: 0 16px 48px #E3E7EB;
-    min-width: 600px;
+    width: 85%;
+    min-width: 300px;
     padding: 0.5em;
+    margin: 0.5em;
+    transition: all 250ms ease-in-out;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    padding-bottom: 1em;
+}
+.blog-post:hover {
+    background: rgba(255, 255, 255, 0.9);
 }
 .post-title {
     font-size: 20px;
@@ -22,5 +33,37 @@
     color: gray;
 }
 .read-more-btn {
-    padding: 0.1em;
+    padding: 0.25em 1em;
+    margin-bottom: 1em;
+    font-size: 14px;
+    text-decoration: none;
+    color: grey;
+    background-color: lightblue;
+    border: 2px lightblue solid;
+    border-radius: 4px;
+    transition: all 100ms ease-in-out;
+}
+.read-more-btn:hover {
+    border-color: blue;
+}
+.tags-list {
+    margin: 0.5em 0.5em 0.5em 0.1em;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.tag {
+    color: black;
+    font-size: 12px;
+    text-decoration: none;
+    border: 2px salmon solid;
+    border-radius: 2px;
+    opacity: 0.7;
+    background-color: salmon;
+    margin: 0.5em 0.1em -0.2em 0.1em;
+    padding: 2px;
+    transition: all 100ms ease-in-out;
+}
+.tag:hover {
+    border-color: red;
 }

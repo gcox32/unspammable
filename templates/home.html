@@ -2,18 +2,17 @@
 {% load static %}
 {% block content %}
 
-<link rel="stylesheet" href='{% static "blog/css/blog.css" %}'/>
-
 <div class="post-column">
     {% for blog in blog_posts %}
     <div class="blog-post">
         <h2 class="post-title">{{ blog.title }}</h2>
         <p class="post-text text-muted">{{ blog.created_on}} </p>
-        <p class="post-text">{{blog.content|slice:":200" }}</p>
-        <a href="{% url 'post_detail' blog.blog_slug  %}" class="read-more-btn">Read More &rarr;</a>
-        {% for tag in blog.tags %}
-            <a href="/blog/tag/{{ tag.tag_slug }}">{{ tag.tag_name }}</a>
-        {% endfor %}
+        <p class="post-text">{{blog.content|slice:":200" }}... (<a href="{% url 'post_detail' blog.blog_slug  %}" >continue reading</a>)</p>
+        <div class="tags-list">
+            {% for tag in blog.tags %}
+                <a href="/blog/tag/{{ tag.tag_slug }}" class="tag">{{ tag.tag_name }}</a>
+            {% endfor %}
+        </div>
     </div>
     {% endfor %}
 </div>
