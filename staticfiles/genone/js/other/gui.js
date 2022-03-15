@@ -97,6 +97,12 @@ function registerGUIEvents() {
 		var game = document.getElementById("active-cart").textContent;
 		updateParty(gameboy.saveState(), 'gif', game);
 	})
+	addEvent("mousedown", document.getElementById("refresh-party"), function() {
+		document.getElementById("refresh-icon").setAttribute("src", "/staticfiles/genone/images/icons/refresh.gif");
+	})
+	addEvent("mouseup", document.getElementById("refresh-party"), function() {
+		document.getElementById("refresh-icon").setAttribute("src", "/staticfiles/genone/images/icons/refresh.png");
+	})
 	addEvent("click", document.getElementById("adjust-speed-btn"), function () {
 		if (GameBoyEmulatorInitialized()) {
 			var speed = document.getElementById("speed-input").value;
@@ -248,11 +254,13 @@ function registerGUIEvents() {
 			soundBtn.style.background = 'none';
 			soundBtn.innerText = 'sound off';
 			soundBtn.setAttribute('value','false');
+			soundBtn.setAttribute('title', 'enable sound');
 			settings[0] = false;
 		} else {
 			soundBtn.style.background = 'rgb(153, 153, 153)';
 			soundBtn.innerText = 'sound on';
 			soundBtn.setAttribute('value','true');
+			soundBtn.setAttribute('title', 'disable sound');
 			settings[0] = true;
 		};
 
