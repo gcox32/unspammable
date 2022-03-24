@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Post, Tag
+from .models import Post
+from .forms import CommentForm
+from django.shortcuts import render, get_object_or_404
+
 
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
@@ -12,10 +16,6 @@ def list_by_tag(request, slug):
     context['blog_posts'] = Post.objects.filter(tags__name=tag)
 
     return render(request, 'blogIndex.html', context)
-
-from .models import Post
-from .forms import CommentForm
-from django.shortcuts import render, get_object_or_404
 
 def post_detail(request, slug):
     template_name = 'postDetail.html'

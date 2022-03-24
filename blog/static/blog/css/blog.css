@@ -67,3 +67,11 @@
 .tag:hover {
     border-color: red;
 }
+.blog-container {
+    width: 95%;
+    height: 98%;
+    margin: 1%;
+    padding: 50px 20px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 16px;
+}

@@ -937,18 +937,18 @@ function updateParty(fileOrBlob, style, game) {
 			partySlotLvls[i].innerHTML = levelList[i]
 
 			// add hover 
-			var hoverCss = `.party-slot:nth-child(${i+1}) {
+			var hoverCss = `.party-slot:nth-child(${i+2}) {
 								transition: all 100ms ease-in-out;
 							}
-							.party-slot:nth-child(${i+1}):hover {
+							.party-slot:nth-child(${i+2}):hover {
 								cursor:pointer; 
 								box-shadow:0px 8px 16px rgb(0 0 0 / 60%);
 							}
-							.party-slot:nth-child(${i+1}):active {
+							.party-slot:nth-child(${i+2}):active {
 								transform: scale(0.95);
 							}`
 			style.appendChild(document.createTextNode(hoverCss));
-
+			
 			partySlots[i].addEventListener("click", toggleModal);
 
 		} else {
