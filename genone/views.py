@@ -28,6 +28,9 @@ def gameboy(request):
             if len(SaveState.objects.filter(user=request.user, game=game)) > 0:
                 result = vers + "-savestate" # user-specific save state assigned to cartridge
                 con.__setattr__('fileLoc', filename)
+            else:
+                result = vers + "-new" # blank game assigned to cartridge
+                con.__setattr__('stateValue', result)
         else:
             result = vers + "-new" # blank game assigned to cartridge
             con.__setattr__('stateValue', result)

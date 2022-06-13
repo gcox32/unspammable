@@ -13,7 +13,7 @@ var keyZones = [
 	["start", [13]]
 ];
 var gameList = [
-	'blue.gb', 'yellow.gbc', 'red.gb', 'green.gb'
+	'blue.gbc', 'yellow.gbc', 'red.gbc', 'green.gb'
 ]
 
 function windowingInitialize() {
