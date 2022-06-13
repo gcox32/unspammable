@@ -95,7 +95,12 @@ function registerGUIEvents() {
 	});
 	addEvent("click", document.getElementById("refresh-party"), function () {
 		var game = document.getElementById("active-cart").textContent;
-		updateParty(gameboy.saveState(), 'gif', game);
+		setInterval(
+			function () {
+				updateParty(gameboy.saveState(), 'gif', game)	
+			},
+			5000
+		);
 	})
 	addEvent("mousedown", document.getElementById("refresh-party"), function() {
 		document.getElementById("refresh-icon").setAttribute("src", "/staticfiles/genone/images/icons/refresh.gif");
