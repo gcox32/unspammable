@@ -95,12 +95,7 @@ function registerGUIEvents() {
 	});
 	addEvent("click", document.getElementById("refresh-party"), function () {
 		var game = document.getElementById("active-cart").textContent;
-		setInterval(
-			function () {
-				updateParty(gameboy.saveState(), 'gif', game)	
-			},
-			5000
-		);
+		updateParty(gameboy.saveState(), 'gif', game);
 	})
 	addEvent("mousedown", document.getElementById("refresh-party"), function() {
 		document.getElementById("refresh-icon").setAttribute("src", "/staticfiles/genone/images/icons/refresh.gif");
@@ -454,7 +449,12 @@ function loadSavedGame(filepath, callback) {
 
 			try {
 				var game = document.getElementById("active-cart").textContent
-				updateParty(saveStateArray, 'gif', game);
+				setInterval(
+					function () {
+						updateParty(gameboy.saveState(), 'gif', game)	
+					},
+					5000
+				);
 			} catch(err) {
 				console.log(err);
 			};
