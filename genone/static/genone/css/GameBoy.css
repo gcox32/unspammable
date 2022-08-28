@@ -52,6 +52,12 @@ body {
 	border: 4px rgba(255,255,255, .5) solid;
 	border-radius: 20px 20px 50% 50% / 48px 48px;
 	transition: 500ms ease-in-out;
+	user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	user-zoom: none;
+	-ms-user-zoom: none;
+	-webkit-user-zoom: none;
 }
 @media screen and (max-width: 700px){
 	.console-container{
