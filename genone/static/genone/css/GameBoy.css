@@ -58,6 +58,7 @@ body {
 	user-zoom: none;
 	-ms-user-zoom: none;
 	-webkit-user-zoom: none;
+	touch-action: manipulation;
 }
 @media screen and (max-width: 700px){
 	.console-container{
