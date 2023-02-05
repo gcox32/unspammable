@@ -94,7 +94,7 @@ def cartridge(request, title):
             if request.user.is_authenticated and prev and not new:
                 # send save state that matches user and game
                 saveState = SaveState.objects.filter(user=request.user, game=game)[0]
-                chars = saveState.data[1:-1].replace("\\", "")
+                chars = saveState.data
                 with open(tempfile, 'w') as f:
                     f.write(chars)
                 bytes = open(os.path.join(settings.BASE_DIR, tempfile),'rb')
