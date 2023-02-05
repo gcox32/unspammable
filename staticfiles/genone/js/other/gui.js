@@ -439,17 +439,17 @@ function loadNewGame(filepath, callback) {
 function loadSavedGame(filepath, callback) {
 	var xhr = new XMLHttpRequest();
 	const filename = filepath.split('/')[2];
-	console.log(filepath);
+	// console.log(filepath);
 	xhr.open("GET", filepath, true);
 	xhr.send();
 
 	xhr.onreadystatechange = async function() {
 		if (this.status==200) {
-			saveStateArray = await JSON.parse(xhr.response);
+			saveStateArray = JSON.parse(await xhr.response);
 			callback(saveStateArray);
 			try {
 				var game = document.getElementById("active-cart").textContent
-				setInterval(
+				updateInterval = setInterval(
 					function () {
 						updateParty(gameboy.saveState(), 'gif', game)	
 					},
@@ -521,6 +521,8 @@ function loadSavedGameFunc(saveFileLoc) {
 function loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc) {
 	document.getElementById("on-light").style.opacity = 1;
 	backgroundSwitch(game);
+	clearParty();
+	try {clearInterval(updateInterval);} catch(err) {console.log(err)};
 
 	if (clickedCode == game + "-new") {
 		loadNewGameFunc(gameFile);
@@ -855,7 +857,7 @@ function getPartyInfo(fileOrBlob, style, game) {
 			party.push(bank[i]);
 		}
 	}
-
+	// console.log(party);
 	var typeDict = {
 		'0':'NORMAL',
 		'1':'FIGHTING',
