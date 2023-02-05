@@ -5,5 +5,5 @@ venv/
 *unspammable/.env
 
 # savestate json files
-genone/roms/savestates/*.json
-*compareJson.py
+genone/*.json
+compare_json.py

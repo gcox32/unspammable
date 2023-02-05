@@ -443,14 +443,10 @@ function loadSavedGame(filepath, callback) {
 	xhr.open("GET", filepath, true);
 	xhr.send();
 
-	xhr.onreadystatechange = function() {
+	xhr.onreadystatechange = async function() {
 		if (this.status==200) {
-			// console.log(xhr.response);
-			saveStateArray = JSON.parse(xhr.response);
-			// saveStateArray = xhr.response;
-			// console.log(saveStateArray);
+			saveStateArray = await JSON.parse(xhr.response);
 			callback(saveStateArray);
-
 			try {
 				var game = document.getElementById("active-cart").textContent
 				setInterval(
@@ -842,7 +838,7 @@ function getPartyInfo(fileOrBlob, style, game) {
 	switch(game) {
 		case "yellow": offset = 355, bankIdx = 23; break;
 		case "red": offset = 53604, bankIdx = 19; break;
-		case "blue": offset = 53604, bankIdx = 19; break;
+		case "blue": offset = 53603, bankIdx = 19; break;
 		default: offset = 0, bankIdx = 0;
 	};
 	var bank = fileOrBlob[bankIdx];
