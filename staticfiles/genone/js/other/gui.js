@@ -439,12 +439,16 @@ function loadNewGame(filepath, callback) {
 function loadSavedGame(filepath, callback) {
 	var xhr = new XMLHttpRequest();
 	const filename = filepath.split('/')[2];
+	console.log(filepath);
 	xhr.open("GET", filepath, true);
 	xhr.send();
 
 	xhr.onreadystatechange = function() {
 		if (this.status==200) {
+			// console.log(xhr.response);
 			saveStateArray = JSON.parse(xhr.response);
+			// saveStateArray = xhr.response;
+			// console.log(saveStateArray);
 			callback(saveStateArray);
 
 			try {
@@ -458,9 +462,9 @@ function loadSavedGame(filepath, callback) {
 			} catch(err) {
 				console.log(err);
 			};
+			return saveStateArray;
 		};
 	};
-	return saveStateArray;
 };
 
 function uploadSaveFile(file, savename) {
@@ -487,8 +491,6 @@ function uploadSaveFile(file, savename) {
 		};
 	};
 };
-
-
 
 function getVars(gameIdx) {
 	var gameFile = gameList[gameIdx];

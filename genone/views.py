@@ -54,6 +54,8 @@ def cartridge(request, title):
     if request.user.is_authenticated:
         if len(SaveState.objects.filter(user=request.user, game=game)) > 0:
             prev = True
+        else:
+            prev = False
     else:
         prev = False
     
@@ -101,6 +103,7 @@ def cartridge(request, title):
                 # send blank new game
                 bytes = open(os.path.join(settings.BASE_DIR, f'genone/roms/{title}'), 'rb') 
                 response = FileResponse(bytes)
+                print(response)
         except Exception as e:
             print(e)
             response = JsonResponse({
@@ -111,5 +114,4 @@ def cartridge(request, title):
     return response
 
 def wtp(request):
-
     return auth_check(request, 'wtp.html', context={})

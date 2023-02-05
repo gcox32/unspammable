@@ -7,23 +7,46 @@ tags_query = """
         JOIN "blog_tag" t ON bt.tag_id = t.id;
 """
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv('../../unspammable/.env')
+    host=os.getenv('HOST')
+    port="5432"
+    dbname=os.getenv('DB')
+    user='ykycwabgufyanv'
+    password=os.getenv('PASSWORD')
+
+except ImportError:
+    from django.conf import settings
+    settings.configure()
+    db = settings.DATABASES['default']
+    host=db['HOST']
+    port="5432"
+    dbname=db['DB']
+    user='ykycwabgufyanv'
+    password=db['PASSWORD']
+
 def create_connection():
     # connect to pg db
-    host = os.environ['HOST']
-    port = "5432"
-    dbname = os.environ['DB']
-    user = os.environ['USER']
-    pw = os.environ['PASSWORD']
     con = psycopg2.connect(
         host=host, 
-        port=port, 
+        port="5432", 
         dbname=dbname, 
         user=user, 
-        password=pw, 
+        password=password, 
         gssencmode="disable"
         )
 
     return con
+
+def make_dict(result, columns):
+    results = []
+    for row in result:
+        row_dict = {}
+        for i, col in enumerate(columns):
+            row_dict[col.name] = row[i]
+        results.append(row_dict)
+    return results
 
 def make_queryset(cursor):
     data = cursor.fetchall()

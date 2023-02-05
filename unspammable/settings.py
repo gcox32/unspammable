@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'genone',
 
     # websocket
-    'channels',
+    # 'channels',
 ]
 
 MIDDLEWARE = [

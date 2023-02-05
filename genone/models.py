@@ -1,7 +1,6 @@
 from django.db import models
-from jsonfield import JSONField
 from django.contrib.auth import get_user_model
-from django.db.models.deletion import SET, SET_NULL
+from django.db.models.deletion import SET_NULL
 
 
 class Game(models.Model):
@@ -28,7 +27,7 @@ class SaveState(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    data = JSONField()
+    data = models.JSONField()
 
     def __str__(self):
         return str(self.user) + '_' + self.game
