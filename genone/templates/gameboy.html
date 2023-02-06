@@ -1,6 +1,9 @@
 {% load static %}
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="{% static 'unspammable/images/icons/clear_bg_4.png' %}"/>
+    <title>unspammable - gbc</title> 
     <link rel="stylesheet" href="{% static 'genone/css/GameBoy.css' %}"/>
     <link rel="stylesheet" href="{% static 'unspammable/css/modal.css' %}"/>
 
@@ -13,8 +16,8 @@
     </script>
     <script type="text/javascript" src="{% static 'genone/js/other/windowStack.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/gui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'genone/js/other/party.js' %}"></script>    
     <script type="text/javascript" src="{% static 'genone/js/other/base64.js' %}"></script>
-    <script type="text/javascript" src="{% static 'genone/js/other/json2.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/swfobject.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/resampler.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/XAudioServer.js' %}"></script>
@@ -63,7 +66,7 @@
         <div class="game-setting" id="game-speed">
             <label>Adjust Speed</label>
             <div class="input-row">
-                <input id="speed-input" value="1.0">
+                <input type="number" id="speed-input" value="1" disabled>
                 <div class="btn sm-btn gray-border" id="adjust-speed-btn">apply</div>
             </div>
         </div>

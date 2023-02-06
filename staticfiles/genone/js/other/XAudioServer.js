@@ -1,15 +1,16 @@
-//2010-2013 Grant Galitz - XAudioJS realtime audio output compatibility library:
 var XAudioJSscriptsHandle = document.getElementsByTagName("script");
 var XAudioJSsourceHandle = XAudioJSscriptsHandle[XAudioJSscriptsHandle.length-1].src;
-function XAudioServer(channels, sampleRate, minBufferSize, maxBufferSize, underRunCallback, volume, failureCallback) {
-	XAudioJSChannelsAllocated = Math.max(channels, 1);
-	this.XAudioJSSampleRate = Math.abs(sampleRate);
-	XAudioJSMinBufferSize = (minBufferSize >= (XAudioJSSamplesPerCallback * XAudioJSChannelsAllocated) && minBufferSize < maxBufferSize) ? (minBufferSize & (-XAudioJSChannelsAllocated)) : (XAudioJSSamplesPerCallback * XAudioJSChannelsAllocated);
-	XAudioJSMaxBufferSize = (Math.floor(maxBufferSize) > XAudioJSMinBufferSize + XAudioJSChannelsAllocated) ? (maxBufferSize & (-XAudioJSChannelsAllocated)) : (XAudioJSMinBufferSize * XAudioJSChannelsAllocated);
-	this.underRunCallback = (typeof underRunCallback == "function") ? underRunCallback : function () {};
-	XAudioJSVolume = (volume >= 0 && volume <= 1) ? volume : 1;
-	this.failureCallback = (typeof failureCallback == "function") ? failureCallback : function () { throw(new Error("XAudioJS has encountered a fatal error.")); };
-	this.initializeAudio();
+class XAudioServer {
+	constructor(channels, sampleRate, minBufferSize, maxBufferSize, underRunCallback, volume, failureCallback) {
+		XAudioJSChannelsAllocated = Math.max(channels, 1);
+		this.XAudioJSSampleRate = Math.abs(sampleRate);
+		XAudioJSMinBufferSize = (minBufferSize >= (XAudioJSSamplesPerCallback * XAudioJSChannelsAllocated) && minBufferSize < maxBufferSize) ? (minBufferSize & (-XAudioJSChannelsAllocated)) : (XAudioJSSamplesPerCallback * XAudioJSChannelsAllocated);
+		XAudioJSMaxBufferSize = (Math.floor(maxBufferSize) > XAudioJSMinBufferSize + XAudioJSChannelsAllocated) ? (maxBufferSize & (-XAudioJSChannelsAllocated)) : (XAudioJSMinBufferSize * XAudioJSChannelsAllocated);
+		this.underRunCallback = (typeof underRunCallback == "function") ? underRunCallback : function () {};
+		XAudioJSVolume = (volume >= 0 && volume <= 1) ? volume : 1;
+		this.failureCallback = (typeof failureCallback == "function") ? failureCallback : function () { throw(new Error("XAudioJS has encountered a fatal error.")); };
+		this.initializeAudio();
+	}
 }
 XAudioServer.prototype.MOZWriteAudioNoCallback = function (buffer) {
     //Resample before passing to the moz audio api:
@@ -182,6 +183,8 @@ XAudioServer.prototype.initializeMozAudio = function () {
 	//}
     this.initializeResampler(XAudioJSMozAudioSampleRate);
 }
+// this is deprecated, but probably not going anywhere anytime soon
+// blog article for updating: https://developer.chrome.com/blog/audio-worklet/
 XAudioServer.prototype.initializeWebAudio = function () {
 	if (!XAudioJSWebAudioLaunchedContext) {
         try {
