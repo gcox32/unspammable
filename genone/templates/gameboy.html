@@ -16,6 +16,7 @@
     </script>
     <script type="text/javascript" src="{% static 'genone/js/other/windowStack.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/gui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'genone/js/other/dicts.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/party.js' %}"></script>    
     <script type="text/javascript" src="{% static 'genone/js/other/base64.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/swfobject.js' %}"></script>
@@ -27,16 +28,12 @@
     <title>unspammable</title>
     
 </head>
-
 <body>
     <div id="active-party">
         <div class="gray-border" id="refresh-party" title="refresh party"><img id="refresh-icon" src="{% static 'genone/images/icons/refresh.png' %}" height="20px"></div>
-        <div class="party-slot gray-border"><div class="img-wrap"><img class="party-slot-img"/></div><div class="lvl"></div></div>
-        <div class="party-slot gray-border"><div class="img-wrap"><img class="party-slot-img"/></div><div class="lvl"></div></div>
-        <div class="party-slot gray-border"><div class="img-wrap"><img class="party-slot-img"/></div><div class="lvl"></div></div>
-        <div class="party-slot gray-border"><div class="img-wrap"><img class="party-slot-img"/></div><div class="lvl"></div></div>
-        <div class="party-slot gray-border"><div class="img-wrap"><img class="party-slot-img"/></div><div class="lvl"></div></div>
-        <div class="party-slot gray-border"><div class="img-wrap"><img class="party-slot-img"/></div><div class="lvl"></div></div>
+        {% for i in range %}
+            <div class="party-slot gray-border" id="party-slot-{{i}}"><div class="img-wrap" id="img-wrap-{{i}}"><img class="party-slot-img" id="party-slot-img-{{i}}"/></div><div class="lvl" id="lvl-{{i}}"></div></div>
+        {% endfor %}
     </div>
     <div class="cart-drawer">
         <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
@@ -109,14 +106,43 @@
             <canvas id="fullscreen" class="maximum"></canvas>
         </div>
     </div>
-    <div class="modal" style="display: none;" id="pokemon-modal-0">
-        <div class="modal_overlay"></div>
-        <div class="modal_content">
-            <img>
-
-            <button title="Close" class="close_modal" style="right:0; top:0;">
+    {% for i in range %}
+    <div class="modal" style="display: none;" id="pokemon-modal-{{i}}">
+        <div class="modal_overlay" id="modal-overlay-{{i}}" name="modal-overlay-{{i}}"></div>
+        <div class="modal_content" id="modal-content-{{i}}" style="width: auto;">
+            <button title="close" class="close_modal" id="close-modal-{{i}}" style="right:0; top:0;">
                 x
             </button>
+            <div class="modal-title" id="modal-title-{{i}}"></div>
+            <div class="row">
+                <div class="col" id="stats-{{i}}">
+                    <div class="modal-section-title">STATS</div>
+                    <div class="stat" id="stats-hp-{{i}}">HP: </div>
+                    <div class="stat" id="stats-atk-{{i}}">ATTACK: </div>
+                    <div class="stat" id="stats-def-{{i}}">DEFENSE: </div>
+                    <div class="stat" id="stats-spd-{{i}}">SPEED: </div>
+                    <div class="stat" id="stats-spc-{{i}}">SPECIAL: </div>
+                </div>
+                <div class="col" style="align-items: center; justify-content: inherit;">
+                    <img id="modal-img-{{i}}">
+                    <p id="type-{{i}}"></p>
+                </div>
+                <div class="col" id="evs-{{i}}">
+                    <div class="modal-section-title">EVS</div>
+                    <div class="stat" id="evs-hp-{{i}}">HP: </div>
+                    <div class="stat" id="evs-atk-{{i}}">ATTACK: </div>
+                    <div class="stat" id="evs-def-{{i}}">DEFENSE: </div>
+                    <div class="stat" id="evs-spd-{{i}}">SPEED: </div>
+                    <div class="stat" id="evs-spc-{{i}}">SPECIAL: </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 1em; min-width: 500px; justify-content: space-evenly;">
+                <div id="modal-move-0-{{i}}"></div>
+                <div id="modal-move-1-{{i}}"></div>
+                <div id="modal-move-2-{{i}}"></div>
+                <div id="modal-move-3-{{i}}"></div>
+            </div>
         </div>
     </div>
+    {% endfor %}
 </body>

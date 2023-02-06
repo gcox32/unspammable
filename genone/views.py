@@ -17,6 +17,7 @@ def gameboy(request):
     context = get_platforms_credentials(request)
     all_games = Game.objects.all()
     context['games'] = all_games
+    context['range'] = range(6)
     
     for game, con in zip(all_games, context['games']):
         vers = game.version

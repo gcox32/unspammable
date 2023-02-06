@@ -60,7 +60,6 @@ function pause() {
 			autoSave();
 			clearLastEmulation();
 			var pauser = document.getElementById("pause-btn");
-			console.log(pauser);
 			pauser.style.background = 'rgba(153, 153, 153, 1)';
 			pauser.innerText = 'paused';
 		}

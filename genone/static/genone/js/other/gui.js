@@ -2,6 +2,7 @@ var inFullscreen = false;
 var mainCanvas = null;
 var fullscreenCanvas = null;
 var showAsMinimal = false;
+var intervalPaused = false;
 var keyZones = [
 	["right", [39]],
 	["left", [37]],
@@ -443,7 +444,9 @@ function loadSavedGame(filepath, callback) {
 				var game = document.getElementById("active-cart").textContent
 				updateInterval = setInterval(
 					function () {
-						updateParty(gameboy.saveState(), 'gif', game)	
+						if(!intervalPaused) {
+							updateParty(gameboy.saveState(), 'gif', game)	
+						}
 					},
 					5000
 				);
