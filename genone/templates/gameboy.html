@@ -109,7 +109,7 @@
     {% for i in range %}
     <div class="modal" style="display: none;" id="pokemon-modal-{{i}}">
         <div class="modal_overlay" id="modal-overlay-{{i}}" name="modal-overlay-{{i}}"></div>
-        <div class="modal_content" id="modal-content-{{i}}" style="width: auto;">
+        <div class="modal_content pb-0" id="modal-content-{{i}}" style="width: auto;">
             <button title="close" class="close_modal" id="close-modal-{{i}}" style="right:0; top:0;">
                 x
             </button>
@@ -137,10 +137,10 @@
                 </div>
             </div>
             <div class="row" style="padding-top: 1em; min-width: 500px; justify-content: space-evenly;">
-                <div id="modal-move-0-{{i}}"></div>
-                <div id="modal-move-1-{{i}}"></div>
-                <div id="modal-move-2-{{i}}"></div>
-                <div id="modal-move-3-{{i}}"></div>
+                <div class="moveslot" id="modal-move-0-{{i}}"></div>
+                <div class="moveslot" id="modal-move-1-{{i}}"></div>
+                <div class="moveslot" id="modal-move-2-{{i}}"></div>
+                <div class="moveslot" id="modal-move-3-{{i}}"></div>
             </div>
         </div>
     </div>

@@ -236,14 +236,13 @@ function registerGUIEvents() {
 	addEvent('change', document.querySelector('.switch input[type="checkbox"]'), toggleMobileMode);
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
-	addEvent("keyup", document,  function (event) {
-		if (event.keyCode == 27) {
-			//Fullscreen on/off
-			fullscreenPlayer();
-		}
-		else {
-			//Control keys / other
-			keyUp(event);
+	addEvent("keyup", document,  function (e) {
+		e = e || window.event;
+		if (e.key === 'Escape') {
+			var modals = document.getElementsByClassName('modal');
+			for (let i=0; i<modals.length; i++) {
+				modals[i].style.display = 'none';
+			}
 		}
 	});
 	addEvent("MozOrientation", window, GameBoyGyroSignalHandler);

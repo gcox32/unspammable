@@ -1,6 +1,16 @@
 const moveBytes = [8, 9, 10, 11];
 const currentPPBytes = [29, 30, 31, 32];
 
+document.onkeydown = function(e) {
+    e = e || window.event;
+    if (e.key === 'Escape') {
+        var modals = document.getElementsByClassName('modal');
+        for (let i=0; i<modals.length; i++) {
+            modals[i].style.display = 'none';
+        }
+    }
+};
+
 class Move {
     constructor(idx, currentPP, moveslot) {
         this.idx = idx;
@@ -243,7 +253,12 @@ function buildModal(idx, pokemon) {
         if(pokemonMoves[i].details.name!=='NULL'){
             moveElm.style.display = 'block';
             moveElm.innerText = pokemonMoves[i].details.name;
+            // console.log(pokemonMoves[i].details);
+            moveType = pokemonMoves[i].details.type.toLowerCase().replace('_type','');
+            moveElm.classList.add(`${moveType}-type`);
+            moveElm.classList.remove('no-border-r');
         } else {
+            document.getElementById(`modal-move-${i-1}-${idx}`).classList.add('no-border-r');
             moveElm.style.display = 'none';
         }
     }
