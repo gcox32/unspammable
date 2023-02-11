@@ -82,7 +82,7 @@ body {
 	height: 928px;
 	background-image: url('/staticfiles/genone/images/gameboy-bg.png');
 	background-size: cover;
-	left: 245px;
+	left: 320px;
 	top: -20px;
 	border: 4px rgba(255,255,255, .5) solid;
 	border-radius: 20px 20px 50% 50% / 48px 48px;
@@ -201,10 +201,18 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 }
 
 /* revamp */
-.cart-drawer {
+.arrows {
+	z-index: 20;
+	position: absolute;
+	height: 100%;
+	width: 40px;
+	left: 0;
+	top: 0;
+}
+.drawer {
 	z-index: 3;
 	position: absolute;
-	width: 300px;
+	width: 280px;
 	height: 100%;
 	padding-top: 10px;
 	padding-bottom: 30px;
@@ -215,53 +223,35 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	transition: 300ms ease-in-out;
+	transition: 250ms ease-in-out;
 	background: rgba(255,255,255, .1);
-	transform: translateX(0deg);
+	transform: translateX(-280px);
+	overflow-y: scroll;
 }
 .cart-drawer::-webkit-scrollbar {
 	width: 0;
 }
-.settings {
-	z-index: 3;
+.arrow {
 	position: absolute;
-	width: 340px;
-	height: 100%;
-	right: 0;
-	top: 0;
-	overflow-y: auto;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	transition: 300ms ease-in-out;
-	background: rgba(255,255,255, .1);
-	overflow-y: scroll;
-}
-.settings::-webkit-scrollbar {
-	width: 0;
-}
-.drawer-arrow {
-	position: absolute;
-	top: 375px;
+	top: 300px;
 	left: 0;
+	height: 50px;
+	width: 50px;
 	transition: 300ms ease-in-out;
-}
-.drawer-arrow:hover {
-	cursor: pointer;
+	background-image: url('/staticfiles/genone/images/arrow.png');
+	background-size: cover;
 }
 #settings-arrow {
-	left: 10px;
+	top: 375px;
 }
-.drawer-arrow:active {
+#party-arrow {
+	top: 450px;
+}
+.arrow:hover {
+	cursor: pointer;
+}
+.arrow:active {
 	transform: rotate(180deg);
-}
-#cartridge-arrow {
-	transform: rotate(180deg);
-	right: 0;
-	left: auto;
-}
-#cartridge-arrow:active {
-	transform: rotate(360deg);
 }
 .cartridge {
 	border-radius: 4px;
@@ -275,7 +265,6 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 .hidden-info {
 	display: none;
 }
-
 .btn {
 	border-radius: 16px;
 	width: 120px;
@@ -431,18 +420,15 @@ input:hover {
     display: flex;
     align-items: center;
 }
-
 .switch {
     display: inline-block;
     height: 34px;
     position: relative;
     width: 60px;
 }
-
 .switch input {
     display:none;
 }
-
 .slider {
     background-color: #ccc;
     bottom: 0;
@@ -453,7 +439,6 @@ input:hover {
     top: 0;
     transition: .4s;
 }
-
 .slider:before {
     background-color: #fff;
     bottom: 4px;
@@ -464,28 +449,25 @@ input:hover {
     transition: .4s;
     width: 26px;
 }
-
 input:checked + .slider {
     background-color: #66bb6a;
 }
-
 input:checked + .slider:before {
     transform: translateX(26px);
 }
-
 .slider.round {
     border-radius: 34px;
 }
-
 .slider.round:before {
     border-radius: 50%;
 }
-
 .icon-row {
+	align-items: center;
 	width: 100%;
 	padding: 10px;
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
 }
 a.card {
 	height: 100px;
@@ -514,23 +496,6 @@ a.card {
 	outline: 4px white solid;
 	cursor: pointer;
 }
-
-/* active party */
-#active-party {
-	position: absolute;
-	margin: 0;
-	width: 180px;
-	height: 100%;
-	background: rgba(255,255,255, .2);
-	left: 60px;
-	top: 0;
-	flex-direction: column;
-	display: flex;
-	align-items: center;
-	transform: translateX(-260px);
-	transition: 300ms ease-in-out;
-}
-
 .party-slot {
 	height: 190px;
 	width: 155px;
@@ -541,7 +506,6 @@ a.card {
 	justify-content: center;
 	align-items: stretch;
 }
-
 .img-wrap {
 	height: 100%;
 	width: 90%;
@@ -555,7 +519,6 @@ a.card {
 	transition: opacity 1000ms ease-in-out;
 	height: 100%;
 }
-
 .lvl {
 	position: relative;
 	left: -5px;
@@ -567,7 +530,7 @@ a.card {
 	cursor: default;
 }
 #refresh-party {
-	width: 85%;
+	width: 60%;
 	border-radius: 16px;
 	padding: 2px;
 	margin-top: 5px;
@@ -611,8 +574,9 @@ a.card {
 	text-align: center;
 }
 .stat {
+	height: 10px;
+	width: 120px;
 	padding-bottom: 5px;
-	white-space: pre;
 }
 .moveslot {
 	padding: 1em;
@@ -627,4 +591,42 @@ a.card {
 }
 .moveslot.no-border-r {
 	border-right: none;
+}
+.stat-card {
+	width: 156px;
+	perspective: 1000px;
+	position: relative;
+	transition: transform 100ms ease-in-out;
+}
+.stat-card:active {
+	transform: scale(0.99);
+}
+.stat-card:hover:hover {
+	cursor: pointer;
+}
+.front, .back {
+	backface-visibility: hidden;
+	transition: transform 300ms;
+}
+.front {
+	transform: rotateY(0deg);
+}
+.back {
+	background-color: lightcoral;
+	transform: rotateY(180deg);
+}
+.flipped .front {
+	transform: rotateY(180deg);
+}
+.flipped .back {
+	transform: rotateY(0deg);
+}
+.m-0 {
+	margin: 0 !important;
+}
+.right-0 {
+	right: 0;
+}
+.pos-abs {
+	position: absolute;
 }

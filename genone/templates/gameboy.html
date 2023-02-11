@@ -29,22 +29,26 @@
     
 </head>
 <body>
-    <div id="active-party">
+    <div class="arrows">
+        <img class="arrow" id="cartridge-arrow">
+        <img class="arrow" id="settings-arrow">
+        <img class="arrow" id="party-arrow">
+    </div>
+    <div class="drawer" id="active-party">
         <div class="gray-border" id="refresh-party" title="refresh party"><img id="refresh-icon" src="{% static 'genone/images/icons/refresh.png' %}" height="20px"></div>
         {% for i in range %}
             <div class="party-slot gray-border" id="party-slot-{{i}}"><div class="img-wrap" id="img-wrap-{{i}}"><img class="party-slot-img" id="party-slot-img-{{i}}"/></div><div class="lvl" id="lvl-{{i}}"></div></div>
         {% endfor %}
     </div>
-    <div class="cart-drawer">
-        <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="cartridge-arrow">
+    <div class="drawer" id="carts">
+        
     {% for game in games %}
         <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
             <img src="/staticfiles/genone/images/{{ game.image }}" height="170px"/>
         </div><br>
     {% endfor %}
     </div>
-    <div class="settings">
-        <img src="{% static 'genone/images/arrow.png' %}" height="50px" class="drawer-arrow" id="settings-arrow">
+    <div class="drawer" id="settings">
         {% if user.is_authenticated %}
         <div class="btn gray-border" id="saver" value="blue" title="save file">save game</div>
         {% else %}
@@ -78,7 +82,7 @@
     <div class="hidden-info" id="active-cart" value=""></div>
     <div class="hidden-info" id="current-user" value="{{ request.user.id }}">{{ request.user.id }}</div>
     
-    <div class="console-container">
+    <div class="console-container" id="console">
         <div id="GameBoy" class="window">
             <div id="gfx">
                 <canvas id="mainCanvas"></canvas>
@@ -107,42 +111,60 @@
         </div>
     </div>
     {% for i in range %}
-    <div class="modal" style="display: none;" id="pokemon-modal-{{i}}">
-        <div class="modal_overlay" id="modal-overlay-{{i}}" name="modal-overlay-{{i}}"></div>
-        <div class="modal_content pb-0" id="modal-content-{{i}}" style="width: auto;">
-            <button title="close" class="close_modal" id="close-modal-{{i}}" style="right:0; top:0;">
-                x
-            </button>
-            <div class="modal-title" id="modal-title-{{i}}"></div>
-            <div class="row">
-                <div class="col" id="stats-{{i}}">
-                    <div class="modal-section-title">STATS</div>
-                    <div class="stat" id="stats-hp-{{i}}">HP: </div>
-                    <div class="stat" id="stats-atk-{{i}}">ATTACK: </div>
-                    <div class="stat" id="stats-def-{{i}}">DEFENSE: </div>
-                    <div class="stat" id="stats-spd-{{i}}">SPEED: </div>
-                    <div class="stat" id="stats-spc-{{i}}">SPECIAL: </div>
+        <div class="modal" style="display: none;" id="pokemon-modal-{{i}}">
+            <div class="modal_overlay" id="modal-overlay-{{i}}" name="modal-overlay-{{i}}"></div>
+            <div class="modal_content pb-0" id="modal-content-{{i}}" style="width: auto;">
+                <button title="close" class="close_modal" id="close-modal-{{i}}" style="right:0; top:0;">
+                    x
+                </button>
+                <div class="modal-title" id="modal-title-{{i}}"></div>
+                <div class="row">
+                    <div id="stats-card-{{i}}" class="stat-card">
+                        <div class="col front" id="stats-{{i}}">
+                            <div class="modal-section-title">STATS</div>
+                            <div class="stat"><p class="pos-abs m-0">HP:</p><p id="stats-hp-{{i}}" class="pos-abs right-0 m-0"></p></div>
+                            <div class="stat"><p class="pos-abs m-0">ATTACK:</p><p id="stats-atk-{{i}}" class="pos-abs right-0 m-0"></p></div>
+                            <div class="stat"><p class="pos-abs m-0">DEFENSE:</p><p id="stats-def-{{i}}" class="pos-abs right-0 m-0"></p></div>
+                            <div class="stat"><p class="pos-abs m-0">SPEED:</p><p id="stats-spd-{{i}}" class="pos-abs right-0 m-0"></p></div>
+                            <div class="stat"><p class="pos-abs m-0">SPECIAL:</p><p id="stats-spc-{{i}}" class="pos-abs right-0 m-0"></p></div>
+                        </div>
+                        <div class="back" id="stats-spider-{{i}}">
+                            Spider chart
+                        </div>
+                    </div>
+                    <div class="col" style="align-items: center; justify-content: inherit;">
+                        <img id="modal-img-{{i}}">
+                        <p id="type-{{i}}"></p>
+                    </div>
+                    <div id="evs-card-{{i}}" class="stat-card">
+                        <div class="col front" id="evs-{{i}}">
+                            <div class="modal-section-title">EVS</div>
+                            <div class="stat"><p class="pos-abs m-0">HP:</p><p class="pos-abs right-0 m-0" id="evs-hp-{{i}}"></p></div>
+                            <div class="stat"><p class="pos-abs m-0">ATTACK:</p><p class="pos-abs right-0 m-0" id="evs-atk-{{i}}"></p></div>
+                            <div class="stat"><p class="pos-abs m-0">DEFENSE:</p><p class="pos-abs right-0 m-0" id="evs-def-{{i}}"></p></div>
+                            <div class="stat"><p class="pos-abs m-0">SPEED:</p><p class="pos-abs right-0 m-0" id="evs-spd-{{i}}"></p></div>
+                            <div class="stat"><p class="pos-abs m-0">SPECIAL:</p><p class="pos-abs right-0 m-0" id="evs-spc-{{i}}"></p></div>
+                        </div>
+                        <div class="back" id="evs-bar-{{i}}">
+                            Bar chart
+                        </div>
+                    </div>
                 </div>
-                <div class="col" style="align-items: center; justify-content: inherit;">
-                    <img id="modal-img-{{i}}">
-                    <p id="type-{{i}}"></p>
+                <div class="row" style="padding-top: 1em; min-width: 500px; justify-content: space-evenly;">
+                    <div class="moveslot" id="modal-move-0-{{i}}"></div>
+                    <div class="moveslot" id="modal-move-1-{{i}}"></div>
+                    <div class="moveslot" id="modal-move-2-{{i}}"></div>
+                    <div class="moveslot" id="modal-move-3-{{i}}"></div>
                 </div>
-                <div class="col" id="evs-{{i}}">
-                    <div class="modal-section-title">EVS</div>
-                    <div class="stat" id="evs-hp-{{i}}">HP: </div>
-                    <div class="stat" id="evs-atk-{{i}}">ATTACK: </div>
-                    <div class="stat" id="evs-def-{{i}}">DEFENSE: </div>
-                    <div class="stat" id="evs-spd-{{i}}">SPEED: </div>
-                    <div class="stat" id="evs-spc-{{i}}">SPECIAL: </div>
-                </div>
-            </div>
-            <div class="row" style="padding-top: 1em; min-width: 500px; justify-content: space-evenly;">
-                <div class="moveslot" id="modal-move-0-{{i}}"></div>
-                <div class="moveslot" id="modal-move-1-{{i}}"></div>
-                <div class="moveslot" id="modal-move-2-{{i}}"></div>
-                <div class="moveslot" id="modal-move-3-{{i}}"></div>
             </div>
         </div>
-    </div>
     {% endfor %}
 </body>
+
+<script>
+    var drawers = document.getElementsByClassName('drawer');
+    var arrows = document.getElementsByClassName('arrow');
+	var toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
+	var mobileWrapper = document.getElementById('mobile-wrapper');
+	var gameboy = document.getElementById('console');
+</script>

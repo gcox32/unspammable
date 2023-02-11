@@ -227,11 +227,14 @@ function buildModal(idx, pokemon) {
 
     // section 1: stats
     pokemonStats = pokemon.stats;
-    document.getElementById(`stats-hp-${idx}`).innerText =  `HP:      ${pokemonStats.HP}`;
-    document.getElementById(`stats-atk-${idx}`).innerText = `ATTACK:  ${pokemonStats.ATK}`;
-    document.getElementById(`stats-def-${idx}`).innerText = `DEFENSE: ${pokemonStats.DEF}`;
-    document.getElementById(`stats-spd-${idx}`).innerText = `SPEED:   ${pokemonStats.SPD}`;
-    document.getElementById(`stats-spc-${idx}`).innerText = `SPECIAL: ${pokemonStats.SPC}`;
+    document.getElementById(`stats-hp-${idx}`).innerText =  pokemonStats.HP;
+    document.getElementById(`stats-atk-${idx}`).innerText = pokemonStats.ATK;
+    document.getElementById(`stats-def-${idx}`).innerText = pokemonStats.DEF;
+    document.getElementById(`stats-spd-${idx}`).innerText = pokemonStats.SPD;
+    document.getElementById(`stats-spc-${idx}`).innerText = pokemonStats.SPC;
+    document.getElementById(`stats-card-${idx}`).addEventListener("click", function() {
+        this.classList.toggle("flipped");
+    });
 
     // section 2: image + type
     document.getElementById(`modal-img-${idx}`).src = pokemon.image;
@@ -240,11 +243,14 @@ function buildModal(idx, pokemon) {
 
     // section 3: EVs
     pokemonEVs = pokemon.evs;
-    document.getElementById(`evs-hp-${idx}`).innerText =  `HP:      ${pokemonEVs.HP[1]}`;
-    document.getElementById(`evs-atk-${idx}`).innerText = `ATTACK:  ${pokemonEVs.ATK[1]}`;
-    document.getElementById(`evs-def-${idx}`).innerText = `DEFENSE: ${pokemonEVs.DEF[1]}`;
-    document.getElementById(`evs-spd-${idx}`).innerText = `SPEED:   ${pokemonEVs.SPD[1]}`;
-    document.getElementById(`evs-spc-${idx}`).innerText = `SPECIAL: ${pokemonEVs.SPC[1]}`;
+    document.getElementById(`evs-hp-${idx}`).innerText =  pokemonEVs.HP[1];
+    document.getElementById(`evs-atk-${idx}`).innerText = pokemonEVs.ATK[1];
+    document.getElementById(`evs-def-${idx}`).innerText = pokemonEVs.DEF[1];
+    document.getElementById(`evs-spd-${idx}`).innerText = pokemonEVs.SPD[1];
+    document.getElementById(`evs-spc-${idx}`).innerText = pokemonEVs.SPC[1];
+    document.getElementById(`evs-card-${idx}`).addEventListener("click", function() {
+        this.classList.toggle("flipped");
+    });
 
     // section 4: moveset
     pokemonMoves = pokemon.moves;
@@ -262,4 +268,5 @@ function buildModal(idx, pokemon) {
             moveElm.style.display = 'none';
         }
     }
-}
+};
+

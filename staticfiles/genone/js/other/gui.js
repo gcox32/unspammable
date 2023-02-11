@@ -36,22 +36,18 @@ function registerGUIEvents() {
 	console.log("In registerGUIEvents() : Registering GUI Events.", -1);
 	addEvent("click", document.getElementById("blue"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(0);
-		toggleCartDrawer();
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 	addEvent("click", document.getElementById("yellow"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(1);
-		toggleCartDrawer();
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 	addEvent("click", document.getElementById("red"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(2);
-		toggleCartDrawer();
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 	addEvent("click", document.getElementById("green"), function() {
 		var [gameFile, game, clickedCode, saveFileLoc] = getVars(3);
-		toggleCartDrawer();
 		loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc);
 	});
 // 
@@ -229,11 +225,6 @@ function registerGUIEvents() {
 		releaseBtn(keyEvent, 16);
 		clearInterval(interval);
 	});
-	// drawer nav bars
-	addEvent('click', document.getElementById('cartridge-arrow'), toggleCartDrawer);
-	addEvent('click', document.getElementById('settings-arrow'), toggleSettingsDrawer);
-	// mobile mode
-	addEvent('change', document.querySelector('.switch input[type="checkbox"]'), toggleMobileMode);
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
 	addEvent("keyup", document,  function (e) {
@@ -274,6 +265,18 @@ function registerGUIEvents() {
 	addEvent("unload", window, function () {
 		autoSave();
 	});
+	for(let i=0; i<arrows.length; i++) {
+		addEvent("click", arrows[i], function() {
+			if(arrows[i].style.transform == 'rotate(180deg)') {
+				console.log('true');
+				pushInDrawers();
+			} else {
+				pushInDrawers();
+				arrows[i].style.transform = 'rotate(180deg)';
+				drawers[i].style.transform = 'translateX(0px)';
+			}
+		})
+	};
 };
 
 function keyDown(event) {
@@ -546,63 +549,6 @@ function backgroundSwitch(version) {
 		default:bg.style.backgroundColor = "rgb(49,143,205)";
 	}
 };
-function toggleCartDrawer() {
-	var cartArrow = document.getElementById("cartridge-arrow");
-	var cartDrawer = document.getElementsByClassName("cart-drawer")[0];
-	var activeParty = document.getElementById('active-party');
-
-	if (cartArrow.style.transform != 'rotate(360deg)') {
-		cartArrow.style.transform = 'rotate(360deg)';
-		cartDrawer.style.transform = 'translateX(-83%)';
-		activeParty.style.transform = 'translateX(0)';
-
-	} else {
-		cartArrow.style.transform = 'rotate(180deg)';
-		cartDrawer.style.transform = 'translateX(0%)';
-		activeParty.style.transform = 'translateX(-260px)';
-	};
-};
-function toggleSettingsDrawer() {
-	var settingsArrow = document.getElementById("settings-arrow");
-	var settingsDrawer = document.getElementsByClassName("settings")[0];
-	if (settingsArrow.style.transform != 'rotate(180deg)') {
-		settingsArrow.style.transform = 'rotate(180deg)';
-		settingsDrawer.style.transform = 'translateX(80%)';
-	} else {
-		settingsArrow.style.transform = 'none';
-		settingsDrawer.style.transform = 'translateX(0%)';
-	};
-};
-function toggleMobileMode() {
-	var toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
-	var settingsArrow = document.getElementById("settings-arrow");
-	var cartArrow = document.getElementById("cartridge-arrow");
-    var mobileWrapper = document.getElementById('mobile-wrapper');
-	var gameboy = document.getElementsByClassName('console-container')[0];
-
-	if (toggleSwitch.checked) {
-		if (settingsArrow.style.transform != 'rotate(180deg)') {
-			toggleSettingsDrawer();
-		};
-		if (cartArrow.style.transform != 'rotate(360deg)') {
-			toggleCartDrawer();
-		};
-		mobileWrapper.style.overflow = 'hidden';
-		gameboy.style.top = '0';
-		gameboy.style.left = '0';
-
-	} else {
-		if (settingsArrow.style.transform == 'rotate(180deg)') {
-			toggleSettingsDrawer();
-		};
-		if (cartArrow.style.transform == 'rotate(360deg)') {
-			toggleCartDrawer();
-		};
-		mobileWrapper.style.overflow = 'auto';
-		gameboy.style.top = '-20px';
-		gameboy.style.left = '346px';
-	}
-};
 // buttons
 function clickBtn(eventObj, keyCode) {
 	keyEvent = new KeyboardEvent("keydown", {
@@ -625,3 +571,9 @@ function releaseBtn(eventObj, keyCode) {
 	document.dispatchEvent(keyEvent);
 };
 
+function pushInDrawers() {
+	for(let i=0; i<drawers.length; i++) {
+		arrows[i].style.transform = 'none';
+		drawers[i].style.transform = 'translateX(-260px)';
+	}
+}
