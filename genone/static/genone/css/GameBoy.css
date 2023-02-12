@@ -593,10 +593,11 @@ a.card {
 	border-right: none;
 }
 .stat-card {
-	width: 156px;
+	width: 160px;
 	perspective: 1000px;
 	position: relative;
 	transition: transform 100ms ease-in-out;
+	margin-bottom: 1em;
 }
 .stat-card:active {
 	transform: scale(0.99);
@@ -612,8 +613,13 @@ a.card {
 	transform: rotateY(0deg);
 }
 .back {
-	background-color: lightcoral;
 	transform: rotateY(180deg);
+	position: absolute;
+	top: -50px;
+}
+.back canvas {
+	height: 160px !important;
+	width: 160px !important;
 }
 .flipped .front {
 	transform: rotateY(180deg);

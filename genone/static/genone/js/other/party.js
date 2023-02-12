@@ -235,6 +235,7 @@ function buildModal(idx, pokemon) {
     document.getElementById(`stats-card-${idx}`).addEventListener("click", function() {
         this.classList.toggle("flipped");
     });
+    spiderChart(idx, pokemon.stats);
 
     // section 2: image + type
     document.getElementById(`modal-img-${idx}`).src = pokemon.image;
@@ -270,3 +271,41 @@ function buildModal(idx, pokemon) {
     }
 };
 
+function spiderChart(idx, stats) {
+    wrapper = document.getElementById(`stats-spider-${idx}`);
+    wrapper.innerHTML = '';
+    canvas = document.createElement('canvas');
+    wrapper.appendChild(canvas);
+
+    data = {
+        labels: ['HP','ATK','DEF','SPD','SPC'],
+        datasets: [{
+            label: '',
+            data: [stats.HP, stats.ATK, stats.DEF, stats.SPD, stats.SPC],
+            fill: true,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgb(255, 99, 132)',
+            pointBackgroundColor: 'rgb(255, 99, 132)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgb(255, 99, 132)'
+        }]
+    };
+    const config = {
+        type: 'radar',
+        data: data,
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            elements: {
+                line: {
+                    borderWidth: 2
+                }
+            }
+        },
+    };
+    new Chart(canvas, config);
+}

@@ -14,6 +14,8 @@
             windowingInitialize();
         };
     </script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/windowStack.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/gui.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/other/dicts.js' %}"></script>
@@ -25,6 +27,7 @@
     <script type="text/javascript" src="{% static 'genone/js/other/resize.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/GameBoyCore.js' %}"></script>
     <script type="text/javascript" src="{% static 'genone/js/GameBoyIO.js' %}"></script>
+    
     <title>unspammable</title>
     
 </head>
@@ -129,7 +132,7 @@
                             <div class="stat"><p class="pos-abs m-0">SPECIAL:</p><p id="stats-spc-{{i}}" class="pos-abs right-0 m-0"></p></div>
                         </div>
                         <div class="back" id="stats-spider-{{i}}">
-                            Spider chart
+                            <canvas id="spider-chart-{{i}}"></canvas>
                         </div>
                     </div>
                     <div class="col" style="align-items: center; justify-content: inherit;">

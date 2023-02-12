@@ -238,15 +238,6 @@ function registerGUIEvents() {
 			keyUp(event);
 		}
 	});
-	// addEvent("keyup", document,  function (e) {
-	// 	e = e || window.event;
-	// 	if (e.key === 'Escape') {
-	// 		var modals = document.getElementsByClassName('modal');
-	// 		for (let i=0; i<modals.length; i++) {
-	// 			modals[i].style.display = 'none';
-	// 		}
-	// 	}
-	// });
 	addEvent("MozOrientation", window, GameBoyGyroSignalHandler);
 	addEvent("deviceorientation", window, GameBoyGyroSignalHandler);
 	addEvent("click", document.getElementById("enable-sound"), function () {
@@ -586,11 +577,10 @@ function pullOutPartyDrawer() {
 	pushInDrawers();
 	partyArrow.style.transform = 'rotate(180deg)'
 	partyDrawer.style.transform = 'translateX(0)'
-}
-
+};
 function pushInDrawers() {
 	for(let i=0; i<drawers.length; i++) {
 		arrows[i].style.transform = 'none';
 		drawers[i].style.transform = 'translateX(-260px)';
 	}
-}
+};
