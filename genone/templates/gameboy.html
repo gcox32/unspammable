@@ -30,9 +30,9 @@
 </head>
 <body>
     <div class="arrows">
-        <img class="arrow" id="cartridge-arrow">
-        <img class="arrow" id="settings-arrow">
         <img class="arrow" id="party-arrow">
+        <img class="arrow" id="cartridge-arrow" style="transform: rotate(180deg);">
+        <img class="arrow" id="settings-arrow">
     </div>
     <div class="drawer" id="active-party">
         <div class="gray-border" id="refresh-party" title="refresh party"><img id="refresh-icon" src="{% static 'genone/images/icons/refresh.png' %}" height="20px"></div>
@@ -40,7 +40,7 @@
             <div class="party-slot gray-border" id="party-slot-{{i}}"><div class="img-wrap" id="img-wrap-{{i}}"><img class="party-slot-img" id="party-slot-img-{{i}}"/></div><div class="lvl" id="lvl-{{i}}"></div></div>
         {% endfor %}
     </div>
-    <div class="drawer" id="carts">
+    <div class="drawer" id="carts" style="transform: translateX(0);">
         
     {% for game in games %}
         <div class="cartridge" id="{{ game.version }}" value="{{ game.stateValue }}" name="{{ game.fileLoc }}">
@@ -164,6 +164,8 @@
 <script>
     var drawers = document.getElementsByClassName('drawer');
     var arrows = document.getElementsByClassName('arrow');
+    var partyArrow = document.getElementById('party-arrow');
+	var partyDrawer = document.getElementById('active-party');
 	var toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
 	var mobileWrapper = document.getElementById('mobile-wrapper');
 	var gameboy = document.getElementById('console');

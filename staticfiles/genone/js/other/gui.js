@@ -22,6 +22,7 @@ function windowingInitialize() {
 	windowStacks[0] = windowCreate("GameBoy", true);
 	mainCanvas = document.getElementById("mainCanvas");
 	fullscreenCanvas = document.getElementById("fullscreen");
+
 	try {
 		//Hook the GUI controls.
 		registerGUIEvents();
@@ -227,15 +228,25 @@ function registerGUIEvents() {
 	});
 // ****************************************************************************
 	addEvent("keydown", document, keyDown);
-	addEvent("keyup", document,  function (e) {
-		e = e || window.event;
-		if (e.key === 'Escape') {
-			var modals = document.getElementsByClassName('modal');
-			for (let i=0; i<modals.length; i++) {
-				modals[i].style.display = 'none';
-			}
+	addEvent("keyup", document,  function (event) {
+		if (event.keyCode == 27) {
+			//Fullscreen on/off
+			fullscreenPlayer();
+		}
+		else {
+			//Control keys / other
+			keyUp(event);
 		}
 	});
+	// addEvent("keyup", document,  function (e) {
+	// 	e = e || window.event;
+	// 	if (e.key === 'Escape') {
+	// 		var modals = document.getElementsByClassName('modal');
+	// 		for (let i=0; i<modals.length; i++) {
+	// 			modals[i].style.display = 'none';
+	// 		}
+	// 	}
+	// });
 	addEvent("MozOrientation", window, GameBoyGyroSignalHandler);
 	addEvent("deviceorientation", window, GameBoyGyroSignalHandler);
 	addEvent("click", document.getElementById("enable-sound"), function () {
@@ -268,7 +279,6 @@ function registerGUIEvents() {
 	for(let i=0; i<arrows.length; i++) {
 		addEvent("click", arrows[i], function() {
 			if(arrows[i].style.transform == 'rotate(180deg)') {
-				console.log('true');
 				pushInDrawers();
 			} else {
 				pushInDrawers();
@@ -523,6 +533,7 @@ function loadSavedorNewGame(clickedCode, game, gameFile, saveFileLoc) {
 	document.getElementById('speed-input').disabled = false;
 	document.getElementById('speed-input').value = 1;
 	backgroundSwitch(game);
+	pullOutPartyDrawer();
 	clearParty();
 	try {
 		clearInterval(updateInterval);
@@ -570,6 +581,12 @@ function releaseBtn(eventObj, keyCode) {
 		keyCode : keyCode});
 	document.dispatchEvent(keyEvent);
 };
+
+function pullOutPartyDrawer() {
+	pushInDrawers();
+	partyArrow.style.transform = 'rotate(180deg)'
+	partyDrawer.style.transform = 'translateX(0)'
+}
 
 function pushInDrawers() {
 	for(let i=0; i<drawers.length; i++) {
