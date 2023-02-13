@@ -431,7 +431,6 @@ function loadNewGame(filepath, callback) {
 	};
 	return [myBlob, myFile]
 };
-
 function loadSavedGame(filepath, callback) {
 	var xhr = new XMLHttpRequest();
 	const filename = filepath.split('/')[2];
@@ -448,7 +447,7 @@ function loadSavedGame(filepath, callback) {
 				updateInterval = setInterval(
 					function () {
 						if(!intervalPaused) {
-							updateParty(gameboy.saveState(), 'gif', game)	
+							updateParty(gameboy.saveState(), 'gif', game, clear=false);	
 						}
 					},
 					5000
@@ -463,7 +462,6 @@ function loadSavedGame(filepath, callback) {
 		};
 	};
 };
-
 function uploadSaveFile(file, savename) {
 	const filename = savename + ".json";
 	const dest = "/genone/roms/" + filename;
@@ -488,7 +486,6 @@ function uploadSaveFile(file, savename) {
 		};
 	};
 };
-
 function getVars(gameIdx) {
 	var gameFile = gameList[gameIdx];
 	var game = gameFile.split('.')[0];
@@ -551,6 +548,7 @@ function backgroundSwitch(version) {
 		default:bg.style.backgroundColor = "rgb(49,143,205)";
 	}
 };
+
 // buttons
 function clickBtn(eventObj, keyCode) {
 	keyEvent = new KeyboardEvent("keydown", {
@@ -573,6 +571,7 @@ function releaseBtn(eventObj, keyCode) {
 	document.dispatchEvent(keyEvent);
 };
 
+// drawers
 function pullOutPartyDrawer() {
 	pushInDrawers();
 	partyArrow.style.transform = 'rotate(180deg)'
@@ -581,6 +580,6 @@ function pullOutPartyDrawer() {
 function pushInDrawers() {
 	for(let i=0; i<drawers.length; i++) {
 		arrows[i].style.transform = 'none';
-		drawers[i].style.transform = 'translateX(-260px)';
+		drawers[i].style.transform = 'translateX(-280px)';
 	}
 };

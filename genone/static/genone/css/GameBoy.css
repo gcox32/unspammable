@@ -212,7 +212,7 @@ body > #fullscreenContainer > canvas#fullscreen.minimum {
 .drawer {
 	z-index: 3;
 	position: absolute;
-	width: 280px;
+	width: 300px;
 	height: 100%;
 	padding-top: 10px;
 	padding-bottom: 30px;

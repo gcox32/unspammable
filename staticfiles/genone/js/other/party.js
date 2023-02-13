@@ -1,15 +1,15 @@
 const moveBytes = [8, 9, 10, 11];
 const currentPPBytes = [29, 30, 31, 32];
 
-document.onkeydown = function(e) {
-    e = e || window.event;
-    if (e.key === 'Escape') {
-        var modals = document.getElementsByClassName('modal');
-        for (let i=0; i<modals.length; i++) {
-            modals[i].style.display = 'none';
-        }
-    }
-};
+// document.onkeyup = function(e) {
+//     e = e || window.event;
+//     if (e.key === 'Escape') {
+//         var modals = document.getElementsByClassName('modal');
+//         for (let i=0; i<modals.length; i++) {
+//             modals[i].style.display = 'none';
+//         }
+//     }
+// };
 
 class Move {
     constructor(idx, currentPP, moveslot) {
@@ -134,14 +134,14 @@ function getPartyInfo(fileOrBlob, style, game) {
     }
     return partyList;
 };
-function updateParty(fileOrBlob, style, game) {
+function updateParty(fileOrBlob, style, game, clear=true) {
 	// get rom indices from save data
 	var partyData = getPartyInfo(fileOrBlob, style, game);
 	var partySlots = document.getElementsByClassName('party-slot');
 	var partySlotImgs = document.getElementsByClassName('party-slot-img');
 	var partySlotLvls = document.getElementsByClassName('lvl');
 
-	clearParty();
+	if(clear){clearParty();};
 
 	var style = document.createElement('style');
 	style.id = 'party-slots-css'
@@ -235,7 +235,10 @@ function buildModal(idx, pokemon) {
     document.getElementById(`stats-card-${idx}`).addEventListener("click", function() {
         this.classList.toggle("flipped");
     });
-    spiderChart(idx, pokemon.stats);
+
+    stats = pokemon.stats;
+    data = [stats.HP, stats.ATK, stats.DEF, stats.SPD, stats.SPC]
+    spiderChart(idx, data);
 
     // section 2: image + type
     document.getElementById(`modal-img-${idx}`).src = pokemon.image;
@@ -272,16 +275,18 @@ function buildModal(idx, pokemon) {
 };
 
 function spiderChart(idx, stats) {
-    wrapper = document.getElementById(`stats-spider-${idx}`);
-    wrapper.innerHTML = '';
-    canvas = document.createElement('canvas');
+    document.getElementById(`spider-chart-${idx}`).remove();
+    let wrapper = document.getElementById(`stats-spider-${idx}`);
+    let canvas = document.createElement('canvas');
+
+    canvas.setAttribute('id',`spider-chart-${idx}`);
     wrapper.appendChild(canvas);
 
     data = {
         labels: ['HP','ATK','DEF','SPD','SPC'],
         datasets: [{
             label: '',
-            data: [stats.HP, stats.ATK, stats.DEF, stats.SPD, stats.SPC],
+            data: stats,
             fill: true,
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgb(255, 99, 132)',
@@ -307,5 +312,10 @@ function spiderChart(idx, stats) {
             }
         },
     };
-    new Chart(canvas, config);
+    try {
+        var chart = new Chart(canvas, config);
+    } catch (err) {
+        console.log(err);
+    }
+
 }

@@ -62,6 +62,7 @@ function pause() {
 			var pauser = document.getElementById("pause-btn");
 			pauser.style.background = 'rgba(153, 153, 153, 1)';
 			pauser.innerText = 'paused';
+			intervalPaused = true;
 		}
 		else {
 			console.log("GameBoy core has already been paused.", 1);
@@ -114,7 +115,7 @@ function saveSRAM() {
 			}
 		}
 		else {
-			console.log("Cannot save a game that does not have battery backed SRAM specified.", 1);
+			// console.log("Cannot save a game that does not have battery backed SRAM specified.", 1);
 		}
 		saveRTC();
 	}
