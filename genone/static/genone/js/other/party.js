@@ -259,14 +259,28 @@ function buildModal(idx, pokemon) {
     // section 4: moveset
     pokemonMoves = pokemon.moves;
     for(let i=0; i<pokemonMoves.length; i++) {
+        moveI = pokemonMoves[i];
+        moveDetails = moveI.details;
         moveElm = document.getElementById(`modal-move-${i}-${idx}`);
-        if(pokemonMoves[i].details.name!=='NULL'){
+        if(moveDetails.name!=='NULL'){
+            moveType = moveDetails.type.toLowerCase().replace('_type','');
+            moveTypeClass = `${moveType}-type`;
+
+            moveSummaryId = `move-summary-${i}-${idx}`;
+            moveSummary = document.getElementById(moveSummaryId);
+            moveSummary.classList.add(moveTypeClass);
+            // move summary components
+            document.getElementById(`move-bp-${i}-${idx}`).innerText = `POWER: ${moveDetails.basepower}`;
+            document.getElementById(`move-desc-${i}-${idx}`).innerText = `${moveDetails.description} (${moveDetails.type})`;
+            document.getElementById(`move-acc-${i}-${idx}`).innerText = `ACC: ${moveDetails.accuracy}%`;
+
             moveElm.style.display = 'block';
-            moveElm.innerText = pokemonMoves[i].details.name;
-            // console.log(pokemonMoves[i].details);
-            moveType = pokemonMoves[i].details.type.toLowerCase().replace('_type','');
-            moveElm.classList.add(`${moveType}-type`);
+            moveElm.innerText = moveDetails.name;
+            moveElm.classList.add(moveTypeClass);
             moveElm.classList.remove('no-border-r');
+            moveElm.setAttribute('data-hide', 'move-summary');
+            moveElm.setAttribute('data-target', moveSummaryId);
+            moveElm.addEventListener("click", toggleShow);
         } else {
             document.getElementById(`modal-move-${i-1}-${idx}`).classList.add('no-border-r');
             moveElm.style.display = 'none';
@@ -317,5 +331,20 @@ function spiderChart(idx, stats) {
     } catch (err) {
         console.log(err);
     }
-
 }
+
+function toggleShow() {
+    const hideClass = this.getAttribute('data-hide');
+    const allElements = document.querySelectorAll(`.${hideClass}`);
+    const target = this.getAttribute('data-target');
+
+    allElements.forEach(elm => {
+        if (elm.id == target) {
+            elm.classList.toggle('show');
+        } else {
+            if (elm.classList.contains('show')) {
+                elm.classList.remove('show');
+            };
+        };
+    });
+};

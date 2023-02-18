@@ -636,3 +636,26 @@ a.card {
 .pos-abs {
 	position: absolute;
 }
+.move-content {
+	/* max-height: 0; */
+	overflow: hidden;
+	transition: all 0.3s ease-out;
+}
+.move-summary {
+	display: none;
+	padding: 1em;
+	margin-bottom: 1em;
+	width: -webkit-fill-available;
+	justify-content: space-between;
+	align-items: center;
+}
+.move-summary-component {
+	line-height: 1.5em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	text-align: center;
+	min-width: 120px;
+}
+.show {
+	display: flex;
+}
