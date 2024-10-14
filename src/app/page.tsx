@@ -1,11 +1,12 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import Logout from "@/components/auth/LogOut";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+
+const { signOut } = useAuthenticator();
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <Logout />
       <main className={styles.main}>
         <Image
           className={styles.logo}
@@ -47,6 +48,7 @@ export default function Home() {
             Read our docs
           </a>
         </div>
+        <button onClick={signOut}>Sign out</button>
       </main>
       <footer className={styles.footer}>
         <a
