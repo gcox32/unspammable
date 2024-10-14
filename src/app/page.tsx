@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
+
 const { signOut } = useAuthenticator();
 
 export default function Home() {
