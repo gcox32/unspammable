@@ -2,10 +2,13 @@
 
 import React from "react";
 import { Amplify } from "aws-amplify";
-import "./app.css";
+import "@/src/styles/app.css";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import outputs from "@/amplify_outputs.json";
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer";
+import { Metadata } from "next";
 
 Amplify.configure(outputs);
 
@@ -24,9 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Authenticator>
+        <Authenticator.Provider >
+          <Navigation />
+
           {children}
-        </Authenticator>
+          <Footer />
+        </Authenticator.Provider >
       </body>
     </html>
   );
