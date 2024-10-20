@@ -6,7 +6,7 @@ export default function AboutPage() {
   return (
     <main>
       <h1>About Us</h1>
-      <p>Welcome to the About page. Here's where you tell your story.</p>
+      <p>This is the About page. Now you know.</p>
     </main>
   );
 }

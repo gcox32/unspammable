@@ -16,7 +16,7 @@ export default function HomePage() {
   return (
     <main>
       <div>
-        🥳 App successfully hosted.
+        This is the app.
       </div>
     </main>
   );
