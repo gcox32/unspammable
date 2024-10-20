@@ -1,53 +1,84 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Hub } from "aws-amplify/utils";
 import Link from "next/link";
-import { useAuthenticator, Authenticator } from "@aws-amplify/ui-react";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useRouter, usePathname } from "next/navigation";
 import Logo from "@/src/components/Logo";
+import Snackbar from "@/src/components/Snackbar";
 import '@/src/styles/components/Navigation.css';
 
 export default function Navigation() {
   const { user, signOut } = useAuthenticator();
   const router = useRouter();
   const currentPath = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   const handleSignIn = () => {
-    // Redirect to sign-in and pass the current page as 'next'
     router.push(`/auth/sign-in?next=${currentPath}`);
   };
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      setSnackbarMessage("Failed to sign out. Please try again.");
+      setSnackbarType("error");
+      setSnackbarVisible(true);
+      setTimeout(() => setSnackbarVisible(false), 3000);
+    }
+  };
+
+  useEffect(() => {
+    const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
+      switch (payload.event) {
+        case "signedOut":
+          setSnackbarMessage("Signed out successfully.");
+          setSnackbarType("success");
+          setSnackbarVisible(true);
+          setTimeout(() => setSnackbarVisible(false), 3000);
+          break;
+        default:
+          console.log("Unhandled auth event: ", payload.event);
+      }
+    });
+
+    return () => hubListenerCancelToken();
+  }, []);
+
   return (
-<nav>
-  <div className="nav-logo">
-    <Link href="/">
-      <Logo width={50} height={50} />
-    </Link>
-  </div>
+    <nav>
+      <div className="nav-logo">
+        <Link href="/">
+          <Logo width={50} height={50} />
+        </Link>
+      </div>
 
-  {/* Hidden checkbox to control the menu */}
-  <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+      <input type="checkbox" id="menu-toggle" className="menu-toggle" />
 
-  {/* Label for hamburger icon */}
-  <label htmlFor="menu-toggle" className="hamburger">
-    <span className="hamburger-icon">&#9776;</span>
-  </label>
+      <label htmlFor="menu-toggle" className="hamburger">
+        <span className="hamburger-icon">&#9776;</span>
+      </label>
 
-  {/* Navigation links */}
-  <ul className="nav-links">
-    <li><Link href="/about">About</Link></li>
-    <li><Link href="/contact">Contact</Link></li>
-    {user ? (
-      <li>
-        <button className="nav-button" onClick={signOut}>Sign Out</button>
-      </li>
-    ) : (
-      <li>
-        <button className="nav-button" onClick={handleSignIn}>Sign In</button>
-      </li>
-    )}
-  </ul>
-</nav>
+      <ul className="nav-links">
+        <li><Link href="/about">About</Link></li>
+        <li><Link href="/contact">Contact</Link></li>
+        {user ? (
+          <li>
+            <button className="nav-button" onClick={handleSignOut}>Sign Out</button>
+          </li>
+        ) : (
+          <li>
+            <button className="nav-button" onClick={handleSignIn}>Sign In</button>
+          </li>
+        )}
+      </ul>
+
+      <Snackbar message={snackbarMessage} type={snackbarType} visible={snackbarVisible} />
+    </nav>
   );
 }
