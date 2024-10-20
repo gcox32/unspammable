@@ -28,11 +28,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Authenticator.Provider >
+          <Navigation />
           <Suspense>
-            <Navigation />
             {children}
-            <Footer />
           </Suspense>
+          <Footer />
         </Authenticator.Provider >
       </body>
     </html>

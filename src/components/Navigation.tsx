@@ -22,7 +22,7 @@ export default function Navigation() {
 <nav>
   <div className="nav-logo">
     <Link href="/">
-      <Logo width={40} height={40} color="lightblue" strokeColor="blue" />
+      <Logo width={50} height={50} />
     </Link>
   </div>
 

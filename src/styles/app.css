@@ -14,12 +14,6 @@ body {
   flex-direction: column;
 }
 
-nav {
-  background-color: #333;
-  padding: 1rem;
-  color: white;
-}
-
 /* Flex-grow for main content */
 main {
   flex: 1;
@@ -36,16 +30,6 @@ main {
   justify-content: center;
   align-items: center;
   padding: 1rem;
-}
-
-footer {
-  background-color: #333;
-  color: white;
-  text-align: center;
-  padding: 1rem;
-  width: 100%;
-  position: relative;
-  bottom: 0;
 }
 
 
