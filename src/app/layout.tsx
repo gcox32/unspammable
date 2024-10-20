@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { Suspense } from "react";
 import { Amplify } from "aws-amplify";
 import "@/src/styles/app.css";
 import { Authenticator } from "@aws-amplify/ui-react";
@@ -28,10 +28,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Authenticator.Provider >
-          <Navigation />
-
-          {children}
-          <Footer />
+          <Suspense>
+            <Navigation />
+            {children}
+            <Footer />
+          </Suspense>
         </Authenticator.Provider >
       </body>
     </html>
