@@ -10,7 +10,7 @@ import Snackbar from "@/src/components/Snackbar";
 import '@/src/styles/components/Navigation.css';
 
 export default function Navigation() {
-  const { user, signOut } = useAuthenticator();
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
   const currentPath = usePathname();
 

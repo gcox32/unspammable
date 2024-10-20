@@ -5,7 +5,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useRouter } from "next/navigation";
 
 export default function SignOutButton() {
-  const { signOut } = useAuthenticator();
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
 
   const handleSignOut = async () => {

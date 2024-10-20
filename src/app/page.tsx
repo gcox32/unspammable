@@ -2,7 +2,6 @@
 
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 import "@/src/styles/app.css";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
