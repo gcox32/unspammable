@@ -5,14 +5,14 @@ import { useSearchParams } from "next/navigation"
 import "@aws-amplify/ui-react/styles.css"
 import { useAuthRedirect } from "@/src/hooks/useAuthRedirect"
 
-export default function SignIn() {
+export default function ConfirmSignUp() {
   const searchParams = useSearchParams()
   const nextUrl = searchParams.get('next') || '/'
   useAuthRedirect(nextUrl)
 
   return (
     <main className="auth-page">
-      <Authenticator hideSignUp initialState="signIn" />
+      <Authenticator hideSignUp initialState="signUp" />
     </main>
   )
-}
+} 
