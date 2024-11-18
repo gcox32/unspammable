@@ -1,5 +1,9 @@
 ### **Data Structure Summary**
 
+Here's the updated summary with the new fields integrated into **Exercise** and **Workout Log**:
+
+---
+
 #### **1. Exercise**
 - **Purpose**: Represents a distinct, reusable exercise definition.
 - **Fields**:
@@ -10,10 +14,10 @@
   - `category` (String, optional): Category of the exercise (e.g., "Strength", "Conditioning").
   - `equipment` (Array of Strings, optional): Equipment required (e.g., ["Barbell", "Squat Rack"]).
   - `default_measures` (Array):
-    - Each measure includes:
       - `measure_id` (UUID): Unique identifier.
       - `type` (String): Type of measure (e.g., "weight", "reps", "time").
       - `unit` (String): Unit of measurement (e.g., "kg", "reps", "seconds").
+  - `output_function` (String, optional): Name of the function used to calculate the exercise's output score (e.g., "calculate_push_up_output").
 
 ---
 
@@ -49,7 +53,6 @@
   - `workout_id` (UUID): Unique identifier.
   - `template_id` (UUID): Reference to the associated workout template.
   - `date` (DateTime): Scheduled or completed date of the workout.
-  - **Athletes** (Array): List of athlete IDs participating in the workout.
 
 ---
 
@@ -60,19 +63,26 @@
   - `workout_id` (UUID): Reference to the specific workout.
   - `athlete_id` (UUID): Reference to the athlete completing the workout.
   - `completion_date` (DateTime): Timestamp of workout completion.
+  - `as_perscribed` (Boolean): Indicates if the workout was performed as prescribed.
   - **Part Logs** (Array):
     - Each log includes:
       - `part_log_id` (UUID): Unique identifier.
       - `part_template_id` (UUID): Reference to the part template in the workout.
       - `status` (String): Completion status (e.g., "Completed", "Skipped").
+      - `as_perscribed` (Boolean): Indicates if the part was performed as prescribed.
       - **Exercise Logs** (Array):
         - Each log includes:
           - `exercise_log_id` (UUID): Unique identifier.
           - `exercise_id` (UUID): Reference to the exercise in the model.
+          - `as_perscribed` (Boolean): Indicates if the exercise was performed as prescribed.
           - **Measure Values** (Array):
             - Each value includes:
               - `measure_id` (UUID): Reference to the measure in the exercise model.
               - `actual_value` (Float): Value entered by the athlete (e.g., weight lifted, reps completed).
+          - `output_score` (JSON, optional): The calculated output score for the exercise, including:
+            - `work` (Float): Total work done, based on exercise parameters and athlete data.
+            - `power` (Float, optional): Average power generated, if time data is available.
+
               
 ---
 
