@@ -1,3 +1,5 @@
+import { calculateWorkAndPower } from "../../calculateWorkAndPower";
+
 export const calculateBackSquatOutput = (athlete, measures) => {
     const weight = measures.weight || 0; // Barbell weight in kg
     const reps = measures.reps || 0; // Reps completed
@@ -12,11 +14,6 @@ export const calculateBackSquatOutput = (athlete, measures) => {
       distance = athlete.legLength / 2; // Approximate squat depth as half of leg length
     }
   
-    const work = weight * distance * reps; // Work = weight x distance x reps
-    if (time) {
-      const power = work / time; // Power = Work / Time
-      return { work, power };
-    }
-    return { work };
+    return calculateWorkAndPower(weight, distance, reps, time);
   };
   
