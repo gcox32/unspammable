@@ -65,12 +65,13 @@ export default function Navigation() {
       </label>
 
       <ul className="nav-links">
-        <li><Link href="/about">About</Link></li>
-        <li><Link href="/contact">Contact</Link></li>
         {user ? (
-          <li>
-            <button className="nav-button" onClick={handleSignOut}>Sign Out</button>
-          </li>
+          <>
+            <li><Link href="/profile">Profile</Link></li>
+            <li>
+              <button className="nav-button" onClick={handleSignOut}>Sign Out</button>
+            </li>
+          </>
         ) : (
           <li>
             <button className="nav-button" onClick={handleSignIn}>Sign In</button>
