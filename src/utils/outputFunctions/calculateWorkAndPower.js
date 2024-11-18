@@ -1,7 +1,7 @@
 export const calculateWorkAndPower = (weight, distance, reps, time = null) => {
-    const work = weight * distance * reps; // Work = weight x distance x reps
+    const work = (weight * distance * reps) / 1000; // measured in kJ
     if (time) {
-      const power = work / time; // Power = Work / Time
+      const power = work / time; // measured in kW
       return { work, power };
     }
     return { work };
