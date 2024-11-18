@@ -108,6 +108,7 @@ main {
 }
 
 .about-page .formula code {
+  font-family: monospace;
   font-size: 1.2rem;
 }
 
@@ -161,6 +162,107 @@ body {
 main {
     flex: 1 0 auto; /* This ensures main content takes up available space */
     padding: 1rem;
+}
+
+/* Add these new styles */
+
+.about-page .calculation-inputs,
+.about-page .calculation-steps,
+.about-page .case,
+.about-page .example-calculation,
+.about-page .enhancement {
+  background: #F7F7F7;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.about-page .input-group {
+  margin-bottom: 1.5rem;
+}
+
+.about-page .input-group h4 {
+  color: #F6701B;
+  margin-bottom: 0.5rem;
+}
+
+.about-page .calculation-steps ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+.about-page .calculation-steps li {
+  margin-bottom: 1.5rem;
+}
+
+.about-page .example-calculation .step {
+  margin-bottom: 2rem;
+}
+
+.about-page .code-block {
+  background: #000000;
+  color: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.about-page .note {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #5A5C5E;
+}
+
+.about-page .enhancement {
+  border-left: 4px solid #F6701B;
+}
+
+.about-page .conclusion {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-page .conclusion p {
+  font-size: 1.2rem;
+}
+
+/* Add mathematical formula styles */
+.about-page .math-formula {
+  background: #000000;
+  color: #FFFFFF;
+  padding: 1.5rem 2rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  text-align: center;
+  font-family: "Computer Modern", serif;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.about-page .math-formula em {
+  font-style: italic;
+}
+
+/* Update the existing formula styles to be more specific */
+.about-page .formula {
+  background: #000000;
+  color: #FFFFFF;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.about-page .formula code {
+  font-family: monospace;
+  font-size: 1.2rem;
+}
+
+/* Add styles for mathematical variables in text */
+.about-page em {
+  font-style: italic;
+  font-family: "Computer Modern", serif;
 }
 
 
