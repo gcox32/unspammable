@@ -1,4 +1,4 @@
-import { calculateWorkAndPower } from "../../calculateWorkAndPower";
+import { calculateWorkAndPower } from "../calculateWorkAndPower";
 
 export const calculateDeadliftOutput = (athlete, measures) => {
     const weight = measures.weight || 0; // Barbell weight in kg

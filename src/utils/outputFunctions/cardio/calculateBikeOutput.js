@@ -1,4 +1,4 @@
-import { calculateWorkAndPower } from "../../calculateWorkAndPower";
+import { calculateWorkAndPower } from "../calculateWorkAndPower";
 
 export const calculateBikeOutput = (athlete, measures) => {
   const calories = measures.calories || null; // Machine-reported calories

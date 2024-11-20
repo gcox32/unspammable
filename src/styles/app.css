@@ -265,4 +265,136 @@ main {
   font-family: "Computer Modern", serif;
 }
 
+.calculator-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.calculator-page h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.calculator-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.exercise-section,
+.athlete-section {
+  background: #F7F7F7;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #5A5C5E;
+  font-weight: 500;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.measures-inputs {
+  margin-top: 2rem;
+}
+
+.calculate-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background-color: #F6701B;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calculate-button:hover {
+  background-color: #e05f0f;
+}
+
+.output-section {
+  background: #F7F7F7;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.score-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.score-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.score-item label {
+  display: block;
+  color: #5A5C5E;
+  margin-bottom: 0.5rem;
+}
+
+.score-item span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #F6701B;
+}
+
+@media (max-width: 768px) {
+  .calculator-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .calculator-page {
+    padding: 1rem;
+  }
+}
+
+.input-with-toggle {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.unit-toggle {
+  padding: 0.25rem 0.5rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.unit-toggle:hover {
+  background-color: #e0e0e0;
+}
+
 

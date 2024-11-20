@@ -1,8 +1,13 @@
 export const calculateOutput = async (category, outputFunctionName, athlete, measures) => {
   try {
-    const { default: outputFunction } = await import(`./outputFunctions/${category}/${outputFunctionName}`);
+    const categoryModule = await import(`./${category}/index`);
+    const outputFunction = categoryModule[outputFunctionName];
+    if (!outputFunction) {
+      throw new Error(`Output function '${outputFunctionName}' not found in category '${category}'.`);
+    }
     return outputFunction(athlete, measures);
   } catch (error) {
-    throw new Error(`Output function '${outputFunctionName}' in category '${category}' not found.`);
+    throw new Error(`Error calculating output: ${error.message}`);
   }
 };
+

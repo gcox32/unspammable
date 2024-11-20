@@ -1,4 +1,4 @@
-import { calculateWorkAndPower } from "../../calculateWorkAndPower";
+import { calculateWorkAndPower } from "../calculateWorkAndPower";
 
 export const calculatePushUpOutput = (athlete, measures) => {
     const bodyweight = athlete.weight; // Athlete's weight in kg
