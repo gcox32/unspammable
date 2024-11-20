@@ -1,12 +1,12 @@
 export const convertToMetric = (value, unit) => {
     if (unit === 'lbs') {
-        return value * 2.20462, 'kg';
+        value = value / 2.20462;
     } else if (unit === 'in') {
-        return value * 0.0254, 'm';
+        value = value * 2.54;
     } else if (unit === 'ft') {
-        return value * 0.3048, 'm';
+        value = value * 30.48;
     } else if (unit === 'mi') {
-        return value * 1609.34, 'm';
+        value = value * 1609.34;
     }
-    return value, unit;
+    return Math.round(value * 100) / 100;
 }   

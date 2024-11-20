@@ -8,6 +8,7 @@ import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 import { convertToMetric } from "@/src/utils/convertToMetric";
+import { convertToImperial } from "@/src/utils/convertToImperial";
 
 // Exercise categories and their corresponding functions
 const EXERCISE_CATEGORIES = {
@@ -28,7 +29,7 @@ const EXERCISE_OUTPUT_FUNCTIONS = {
 };
 
 interface ExerciseMeasures {
-  weight?: number;
+  externalLoad?: number;
   reps?: number;
   distance?: number;
   time?: number;
@@ -37,7 +38,7 @@ interface ExerciseMeasures {
 
 interface AthleteMetrics {
   weight: number;
-  height?: number;
+  height: number;
   limbLength?: number;
   legLength?: number;
 }
@@ -45,7 +46,10 @@ interface AthleteMetrics {
 interface UnitPreferences {
   weight: 'metric' | 'imperial';
   height: 'metric' | 'imperial';
+  externalLoad: 'metric' | 'imperial';
   distance: 'metric' | 'imperial';
+  limbLength: 'metric' | 'imperial';
+  legLength: 'metric' | 'imperial';
 }
 
 export default function HomePage() {
@@ -53,19 +57,57 @@ export default function HomePage() {
   const [selectedExercise, setSelectedExercise] = useState<string>("");
   const [measures, setMeasures] = useState<ExerciseMeasures>({});
   const [athleteMetrics, setAthleteMetrics] = useState<AthleteMetrics>({
-    weight: 0
+    weight: 0,
+    height: 0,
+    limbLength: 0,
+    legLength: 0
   });
   const [outputScore, setOutputScore] = useState<any>(null);
   const outputRef = useRef<HTMLDivElement>(null);
   const [unitPreferences, setUnitPreferences] = useState<UnitPreferences>({
     weight: 'metric',
     height: 'metric',
-    distance: 'metric'
+    externalLoad: 'metric',
+    distance: 'metric',
+    limbLength: 'metric',
+    legLength: 'metric'
   });
 
   const handleCalculate = async () => {
     try {
       const outputFunctionName = EXERCISE_OUTPUT_FUNCTIONS[selectedExercise as keyof typeof EXERCISE_OUTPUT_FUNCTIONS];
+      
+      // Convert all measurements to metric before sending
+      const metricMeasures = {
+        ...measures,
+        externalLoad: measures.externalLoad && unitPreferences.externalLoad === 'imperial' 
+          ? convertToMetric(measures.externalLoad, 'lbs') 
+          : measures.externalLoad,
+      };
+
+      const metricAthleteMetrics = {
+        ...athleteMetrics,
+        weight: athleteMetrics.weight && unitPreferences.weight === 'imperial'
+          ? convertToMetric(athleteMetrics.weight, 'lbs')
+          : athleteMetrics.weight,
+        height: athleteMetrics.height && unitPreferences.height === 'imperial'
+          ? convertToMetric(athleteMetrics.height, 'in')
+          : athleteMetrics.height,
+        limbLength: athleteMetrics.limbLength && unitPreferences.limbLength === 'imperial'
+          ? convertToMetric(athleteMetrics.limbLength, 'in')
+          : athleteMetrics.limbLength,
+        legLength: athleteMetrics.legLength && unitPreferences.legLength === 'imperial'
+          ? convertToMetric(athleteMetrics.legLength, 'in')
+          : athleteMetrics.legLength,
+      };
+
+      // Convert length measurements from cm to m before sending
+      const metricsInMeters = {
+        ...metricAthleteMetrics,
+        height: metricAthleteMetrics.height ? metricAthleteMetrics.height / 100 : undefined,
+        limbLength: metricAthleteMetrics.limbLength ? metricAthleteMetrics.limbLength / 100 : undefined,
+        legLength: metricAthleteMetrics.legLength ? metricAthleteMetrics.legLength / 100 : undefined,
+      };
       
       const response = await fetch('/api/calculate-output', {
         method: 'POST',
@@ -75,43 +117,47 @@ export default function HomePage() {
         body: JSON.stringify({
           category: selectedCategory,
           outputFunctionName,
-          measures,
-          athleteMetrics
+          measures: metricMeasures,
+          athleteMetrics: metricsInMeters
         }),
       });
       
       const result = await response.json();
       
-      // First scroll to the output section
-      outputRef.current?.scrollIntoView({ behavior: 'smooth' });
+      // Set the output score first
+      setOutputScore(result);
       
-      // Wait for scroll to complete (approximately 500ms)
+      // Add a small delay before scrolling to ensure the output section is rendered
       setTimeout(() => {
-        // Initialize counting animation
-        let startWork = 0;
-        let startPower = 0;
-        const duration = 1000; // 1 second animation
-        const steps = 60; // 60 steps for smooth animation
-        const stepDuration = duration / steps;
+        outputRef.current?.scrollIntoView({ behavior: 'smooth' });
         
-        const workIncrement = result.work / steps;
-        const powerIncrement = result.power ? result.power / steps : 0;
-        
-        const counter = setInterval(() => {
-          startWork += workIncrement;
-          startPower += powerIncrement;
+        // Start the counting animation after scrolling
+        setTimeout(() => {
+          let startWork = 0;
+          let startPower = 0;
+          const duration = 1000;
+          const steps = 60;
+          const stepDuration = duration / steps;
           
-          setOutputScore({
-            work: Math.min(startWork, result.work),
-            power: result.power ? Math.min(startPower, result.power) : undefined
-          });
+          const workIncrement = result.work / steps;
+          const powerIncrement = result.power ? result.power / steps : 0;
           
-          if (startWork >= result.work) {
-            clearInterval(counter);
-            setOutputScore(result); // Ensure final values are exact
-          }
-        }, stepDuration);
-      }, 500);
+          const counter = setInterval(() => {
+            startWork += workIncrement;
+            startPower += powerIncrement;
+            
+            setOutputScore({
+              work: Math.min(startWork, result.work),
+              power: result.power ? Math.min(startPower, result.power) : undefined
+            });
+            
+            if (startWork >= result.work) {
+              clearInterval(counter);
+              setOutputScore(result); // Ensure final values are exact
+            }
+          }, stepDuration);
+        }, 500);
+      }, 100);  // Small delay to ensure ref is available
       
     } catch (error) {
       console.error('Error calculating output:', error);
@@ -124,13 +170,7 @@ export default function HomePage() {
     if (value === '' || isNaN(numValue)) {
       setMeasures({ ...measures, [field]: undefined });
     } else {
-      let convertedValue = Math.max(0, numValue);
-      
-      // Convert to metric if needed
-      if (field === 'weight' && unitPreferences.weight === 'imperial') {
-        convertedValue = convertToMetric(convertedValue, 'lbs');
-      }
-      
+      const convertedValue = Math.max(0, numValue);
       setMeasures({ ...measures, [field]: convertedValue });
     }
   };
@@ -140,34 +180,40 @@ export default function HomePage() {
     if (value === '' || isNaN(numValue)) {
       setAthleteMetrics({ ...athleteMetrics, [field]: undefined });
     } else {
-      let convertedValue = Math.max(0, numValue);
-      
-      // Convert to metric if needed
-      if (field === 'weight' && unitPreferences.weight === 'imperial') {
-        convertedValue = convertToMetric(convertedValue, 'lbs');
-      } else if ((field === 'height' || field === 'limbLength' || field === 'legLength') 
-          && unitPreferences.height === 'imperial') {
-        convertedValue = convertToMetric(convertedValue, 'in');
-      }
-      
+      const convertedValue = Math.max(0, numValue);
       setAthleteMetrics({ ...athleteMetrics, [field]: convertedValue });
     }
   };
 
-  // Helper function to display values in selected unit
-  const displayValue = (value: number | undefined, type: 'weight' | 'height' | 'distance'): string => {
-    if (value === undefined) return '';
+  const handleUnitToggle = (field: keyof UnitPreferences) => {
+    const currentUnit = unitPreferences[field];
+    const newUnit = currentUnit === 'metric' ? 'imperial' : 'metric';
     
-    if (unitPreferences[type] === 'imperial') {
-      switch (type) {
-        case 'weight':
-          return (value * 2.20462).toFixed(1); // kg to lbs
-        case 'height':
-        case 'distance':
-          return (value * 0.393701).toFixed(1); // cm to inches
-      }
+    // Convert the value if it exists
+    if (field === 'weight' && athleteMetrics.weight !== undefined) {
+      const convertedWeight = currentUnit === 'metric' 
+        ? convertToImperial(athleteMetrics.weight, 'lbs')
+        : convertToMetric(athleteMetrics.weight, 'lbs');
+      setAthleteMetrics(prev => ({ ...prev, weight: convertedWeight }));
+    } else if (field === 'height' && athleteMetrics.height !== undefined) {
+      const convertedHeight = currentUnit === 'metric'
+        ? convertToImperial(athleteMetrics.height, 'in')
+        : convertToMetric(athleteMetrics.height, 'in');
+      setAthleteMetrics(prev => ({ ...prev, height: convertedHeight }));
+    } else if (field === 'limbLength' && athleteMetrics.limbLength !== undefined) {
+      const convertedLimbLength = currentUnit === 'metric'
+        ? convertToImperial(athleteMetrics.limbLength, 'in')
+        : convertToMetric(athleteMetrics.limbLength, 'in');
+      setAthleteMetrics(prev => ({ ...prev, limbLength: convertedLimbLength }));
+    } else if (field === 'legLength' && athleteMetrics.legLength !== undefined) {
+      const convertedLegLength = currentUnit === 'metric'
+        ? convertToImperial(athleteMetrics.legLength, 'in')
+        : convertToMetric(athleteMetrics.legLength, 'in');
+      setAthleteMetrics(prev => ({ ...prev, legLength: convertedLegLength }));
     }
-    return value.toFixed(1);
+    
+    // Update the unit preference
+    setUnitPreferences(prev => ({ ...prev, [field]: newUnit }));
   };
 
   return (
@@ -210,23 +256,20 @@ export default function HomePage() {
           <div className="measures-inputs">
             <h3>Exercise Measures</h3>
             <div className="input-group">
-              <label>External Load ({unitPreferences.weight === 'metric' ? 'kg' : 'lbs'}):</label>
+              <label>External Load ({unitPreferences.externalLoad === 'metric' ? 'kg' : 'lbs'}):</label>
               <div className="input-with-toggle">
                 <input
                   type="number"
                   min="0"
                   step="any"
-                  value={measures.weight || ''}
-                  onChange={(e) => handleMeasureChange('weight', e.target.value)}
+                  value={measures.externalLoad || ''}
+                  onChange={(e) => handleMeasureChange('externalLoad', e.target.value)}
                 />
                 <button 
                   className="unit-toggle"
-                  onClick={() => setUnitPreferences({
-                    ...unitPreferences,
-                    weight: unitPreferences.weight === 'metric' ? 'imperial' : 'metric'
-                  })}
+                  onClick={() => handleUnitToggle('externalLoad')}
                 >
-                  {unitPreferences.weight === 'metric' ? 'kg' : 'lbs'}
+                  {unitPreferences.externalLoad === 'metric' ? 'kg' : 'lbs'}
                 </button>
               </div>
             </div>
@@ -239,6 +282,24 @@ export default function HomePage() {
                 value={measures.reps || ''}
                 onChange={(e) => handleMeasureChange('reps', e.target.value)}
               />
+            </div>
+            <div className="input-group">
+              <label>Distance ({unitPreferences.distance === 'metric' ? 'm' : 'ft'}):</label>
+              <div className="input-with-toggle">
+                <input
+                  type="number"
+                  min="0"
+                  step="any"
+                  value={measures.distance || ''}
+                  onChange={(e) => handleMeasureChange('distance', e.target.value)}
+                />
+                <button 
+                  className="unit-toggle"
+                  onClick={() => handleUnitToggle('distance')}
+                >
+                  {unitPreferences.distance === 'metric' ? 'm' : 'ft'}
+                </button>
+              </div>
             </div>
             <div className="input-group">
               <label>Time (seconds):</label>
@@ -257,7 +318,7 @@ export default function HomePage() {
           <h2>Athlete Metrics</h2>
           
           <div className="input-group">
-            <label>Body Weight ({unitPreferences.weight === 'metric' ? 'kg' : 'lbs'}):</label>
+            <label>Body Weight* ({unitPreferences.weight === 'metric' ? 'kg' : 'lbs'}):</label>
             <div className="input-with-toggle">
               <input
                 type="number"
@@ -268,10 +329,7 @@ export default function HomePage() {
               />
               <button 
                 className="unit-toggle"
-                onClick={() => setUnitPreferences({
-                  ...unitPreferences,
-                  weight: unitPreferences.weight === 'metric' ? 'imperial' : 'metric'
-                })}
+                onClick={() => handleUnitToggle('weight')}
               >
                 {unitPreferences.weight === 'metric' ? 'kg' : 'lbs'}
               </button>
@@ -279,7 +337,7 @@ export default function HomePage() {
           </div>
           
           <div className="input-group">
-            <label>Height ({unitPreferences.height === 'metric' ? 'cm' : 'in'}):</label>
+            <label>Height* ({unitPreferences.height === 'metric' ? 'cm' : 'in'}):</label>
             <div className="input-with-toggle">
               <input
                 type="number"
@@ -290,10 +348,7 @@ export default function HomePage() {
               />
               <button 
                 className="unit-toggle"
-                onClick={() => setUnitPreferences({
-                  ...unitPreferences,
-                  height: unitPreferences.height === 'metric' ? 'imperial' : 'metric'
-                })}
+                onClick={() => handleUnitToggle('height')}
               >
                 {unitPreferences.height === 'metric' ? 'cm' : 'in'}
               </button>
@@ -301,31 +356,53 @@ export default function HomePage() {
           </div>
           
           <div className="input-group">
-            <label>Limb Length (cm):</label>
-            <input
-              type="number"
-              min="0"
-              step="any"
-              value={athleteMetrics.limbLength || ''}
-              onChange={(e) => handleAthleteMetricChange('limbLength', e.target.value)}
-            />
+            <label>Limb Length ({unitPreferences.limbLength === 'metric' ? 'cm' : 'in'}):</label>
+            <div className="input-with-toggle">
+              <input
+                type="number"
+                min="0"
+                step="any"
+                value={athleteMetrics.limbLength || ''}
+                onChange={(e) => handleAthleteMetricChange('limbLength', e.target.value)}
+              />
+              <button 
+                className="unit-toggle"
+                onClick={() => handleUnitToggle('limbLength')}
+              >
+                {unitPreferences.limbLength === 'metric' ? 'cm' : 'in'}
+              </button>
+            </div>
           </div>
           
           <div className="input-group">
-            <label>Leg Length (cm):</label>
-            <input
-              type="number"
-              min="0"
-              step="any"
-              value={athleteMetrics.legLength || ''}
-              onChange={(e) => handleAthleteMetricChange('legLength', e.target.value)}
-            />
+            <label>Leg Length ({unitPreferences.legLength === 'metric' ? 'cm' : 'in'}):</label>
+            <div className="input-with-toggle">
+              <input
+                type="number"
+                min="0"
+                step="any"
+                value={athleteMetrics.legLength || ''}
+                onChange={(e) => handleAthleteMetricChange('legLength', e.target.value)}
+              />
+              <button 
+                className="unit-toggle"
+                onClick={() => handleUnitToggle('legLength')}
+              >
+                {unitPreferences.legLength === 'metric' ? 'cm' : 'in'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <button className="calculate-button" onClick={handleCalculate}>
-        Calculate Output Score
+      <button 
+        className="calculate-button" 
+        onClick={handleCalculate}
+        disabled={!athleteMetrics.weight || !athleteMetrics.height}
+      >
+        {!athleteMetrics.weight || !athleteMetrics.height 
+          ? 'Please enter required fields' 
+          : 'Calculate Output Score'}
       </button>
 
       {outputScore && (
