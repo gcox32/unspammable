@@ -4,8 +4,8 @@ import { calculateOutput } from '@/src/utils/outputFunctions/calculateOutput';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { measures, athleteMetrics, constants } = body;
-    const result = calculateOutput(athleteMetrics, measures, constants);
+    const { measuresArray, athleteMetrics, time, constantsArray } = body;
+    const result = calculateOutput(athleteMetrics, measuresArray, time, constantsArray);
     return NextResponse.json(result);
   } catch (error) {
     console.error('Calculation error:', error);

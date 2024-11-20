@@ -9,53 +9,15 @@ import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 import { convertUnits } from "@/src/utils/convertUnits";
 import { EXERCISE_CONSTANTS } from "@/src/utils/outputFunctions/exerciseConstants";
-
-// Exercise categories and their corresponding functions
-const EXERCISE_CATEGORIES = {
-  bodyweight: ["Push-Up", "Pull-Up"],
-  strength: ["Back Squat", "Deadlift", "Shoulder Press"],
-  cardio: ["Run", "Bike", "Row"]
-};
-
-const EXERCISE_OUTPUT_FUNCTIONS = {
-  "Push-Up": "calculatePushUpOutput",
-  "Pull-Up": "calculatePullUpOutput",
-  "Back Squat": "calculateBackSquatOutput",
-  "Deadlift": "calculateDeadliftOutput",
-  "Shoulder Press": "calculateShoulderPressOutput",
-  "Run": "calculateRunOutput",
-  "Bike": "calculateBikeOutput",
-  "Row": "calculateRowOutput"
-};
-
-interface ExerciseMeasures {
-  externalLoad?: number;
-  reps?: number;
-  distance?: number;
-  time?: number;
-  calories?: number;
-}
-
-interface AthleteMetrics {
-  weight: number;
-  height: number;
-  limbLength?: number;
-  legLength?: number;
-}
-
-interface UnitPreferences {
-  weight: 'metric' | 'imperial';
-  height: 'metric' | 'imperial';
-  externalLoad: 'metric' | 'imperial';
-  distance: 'metric' | 'imperial';
-  limbLength: 'metric' | 'imperial';
-  legLength: 'metric' | 'imperial';
-}
+import ExerciseDetailsCard from '@/src/components/ExerciseDetailsCard';
+import { 
+  ExerciseMeasures, 
+  AthleteMetrics, 
+  UnitPreferences,
+  EXERCISE_CATEGORIES 
+} from '@/src/types/exercise';
 
 export default function HomePage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedExercise, setSelectedExercise] = useState<string>("");
-  const [measures, setMeasures] = useState<ExerciseMeasures>({});
   const [athleteMetrics, setAthleteMetrics] = useState<AthleteMetrics>({
     weight: 0,
     height: 0,
@@ -73,68 +35,59 @@ export default function HomePage() {
     legLength: 'metric'
   });
   const [error, setError] = useState<string | null>(null);
+  const [exercises, setExercises] = useState<Array<{
+    category: string;
+    exercise: string;
+    measures: ExerciseMeasures;
+  }>>([{
+    category: '',
+    exercise: '',
+    measures: {}
+  }]);
+  const [totalTime, setTotalTime] = useState<number | undefined>(undefined);
 
   const handleCalculate = async () => {
     try {
-      setError(null); // Clear any previous errors
+      setError(null);
       
       // Validate required inputs
       if (!athleteMetrics.weight) {
         throw new Error('Athlete weight is required');
       }
 
-      // Get the exercise constants
-      const constants = EXERCISE_CONSTANTS[selectedExercise as keyof typeof EXERCISE_CONSTANTS] || {
-        defaultDistance: 0.5,
-        useLimbLength: false,
-        useBodyweight: false,
-        limbLengthFactor: 1
-      };
-      
       // Convert measurements to metric
-      const metricMeasures = {
-        ...measures,
-        externalLoad: measures.externalLoad && unitPreferences.externalLoad === 'imperial' 
-          ? convertUnits(measures.externalLoad, 'lbs', 'kg')
-          : measures.externalLoad,
-        distance: measures.distance && unitPreferences.distance === 'imperial'
-          ? convertUnits(measures.distance, 'ft', 'm')
-          : measures.distance
-      };
+      const metricMeasures = exercises.map(exercise => ({
+        ...exercise.measures,
+        externalLoad: exercise.measures.externalLoad && unitPreferences.externalLoad === 'imperial' 
+          ? convertUnits(exercise.measures.externalLoad, 'lbs', 'kg')
+          : exercise.measures.externalLoad,
+        distance: exercise.measures.distance && unitPreferences.distance === 'imperial'
+          ? convertUnits(exercise.measures.distance, 'ft', 'm')
+          : exercise.measures.distance
+      }));
 
-      const metricAthleteMetrics = {
-        ...athleteMetrics,
-        weight: athleteMetrics.weight && unitPreferences.weight === 'imperial'
-          ? convertUnits(athleteMetrics.weight, 'lbs', 'kg')
-          : athleteMetrics.weight,
-        height: athleteMetrics.height && unitPreferences.height === 'imperial'
-          ? convertUnits(athleteMetrics.height, 'in', 'cm')
-          : athleteMetrics.height,
-        limbLength: athleteMetrics.limbLength && unitPreferences.limbLength === 'imperial'
-          ? convertUnits(athleteMetrics.limbLength, 'in', 'cm')
-          : athleteMetrics.limbLength,
-        legLength: athleteMetrics.legLength && unitPreferences.legLength === 'imperial'
-          ? convertUnits(athleteMetrics.legLength, 'in', 'cm')
-          : athleteMetrics.legLength,
-      };
-
-      // Convert length measurements from cm to m
       const metricsInMeters = {
-        ...metricAthleteMetrics,
-        height: metricAthleteMetrics.height ? metricAthleteMetrics.height / 100 : undefined,
-        limbLength: metricAthleteMetrics.limbLength ? metricAthleteMetrics.limbLength / 100 : undefined,
-        legLength: metricAthleteMetrics.legLength ? metricAthleteMetrics.legLength / 100 : undefined,
+        ...athleteMetrics,
+        weight: unitPreferences.weight === 'imperial' ? convertUnits(athleteMetrics.weight, 'lbs', 'kg') : athleteMetrics.weight,
+        height: unitPreferences.height === 'imperial' ? convertUnits(athleteMetrics.height, 'in', 'cm') : athleteMetrics.height,
+        limbLength: unitPreferences.limbLength === 'imperial' ? convertUnits(athleteMetrics.limbLength, 'in', 'cm') : athleteMetrics.limbLength,
+        legLength: unitPreferences.legLength === 'imperial' ? convertUnits(athleteMetrics.legLength, 'in', 'cm') : athleteMetrics.legLength
       };
-      
+
       const response = await fetch('/api/calculate-output', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          measures: metricMeasures,
+          measuresArray: metricMeasures,
           athleteMetrics: metricsInMeters,
-          constants
+          time: totalTime,
+          constantsArray: exercises.map(exercise => 
+            EXERCISE_CONSTANTS[exercise.exercise as keyof typeof EXERCISE_CONSTANTS] || {
+              defaultDistance: 0.5
+            }
+          )
         }),
       });
 
@@ -144,15 +97,14 @@ export default function HomePage() {
       }
       
       const result = await response.json();
-      
-      if (!result.work) {
-        throw new Error('Invalid calculation result');
-      }
-      
-      // Set the output score and handle animation
-      setOutputScore(result);
-      
-      // Scroll and animate as before
+      const newOutputScore = {
+        work: result.work,
+        power: totalTime ? result.power : undefined
+      };
+
+      setOutputScore(newOutputScore);
+
+      // Move animation code here, after setting the new value
       setTimeout(() => {
         outputRef.current?.scrollIntoView({ behavior: 'smooth' });
         
@@ -162,22 +114,21 @@ export default function HomePage() {
           const duration = 1000;
           const steps = 60;
           const stepDuration = duration / steps;
-          
-          const workIncrement = result.work / steps;
-          const powerIncrement = result.power ? result.power / steps : 0;
+          const workIncrement = newOutputScore.work / steps;
+          const powerIncrement = newOutputScore.power ? newOutputScore.power / steps : 0;
           
           const counter = setInterval(() => {
             startWork += workIncrement;
             startPower += powerIncrement;
             
             setOutputScore({
-              work: Math.min(startWork, result.work),
-              power: result.power ? Math.min(startPower, result.power) : undefined
+              work: Math.min(startWork, newOutputScore.work),
+              power: newOutputScore.power ? Math.min(startPower, newOutputScore.power) : undefined
             });
             
-            if (startWork >= result.work) {
+            if (startWork >= newOutputScore.work) {
               clearInterval(counter);
-              setOutputScore(result);
+              setOutputScore(newOutputScore);
             }
           }, stepDuration);
         }, 500);
@@ -186,20 +137,9 @@ export default function HomePage() {
     } catch (error) {
       console.error('Error calculating output:', error);
       setError(error instanceof Error ? error.message : 'An unexpected error occurred');
-      setOutputScore(null); // Clear any previous output
+      setOutputScore(null);
     }
-  };
-
-  // Updated input handlers with validation
-  const handleMeasureChange = (field: keyof ExerciseMeasures, value: string) => {
-    const numValue = parseFloat(value);
-    if (value === '' || isNaN(numValue)) {
-      setMeasures({ ...measures, [field]: undefined });
-    } else {
-      const convertedValue = Math.max(0, numValue);
-      setMeasures({ ...measures, [field]: convertedValue });
-    }
-  };
+  }
 
   const handleAthleteMetricChange = (field: keyof AthleteMetrics, value: string) => {
     const numValue = parseFloat(value);
@@ -215,7 +155,7 @@ export default function HomePage() {
     const currentUnit = unitPreferences[field];
     const newUnit = currentUnit === 'metric' ? 'imperial' : 'metric';
     
-    // Convert the value if it exists
+    // Handle athlete metrics conversions (no changes needed here)
     if (field === 'weight' && athleteMetrics.weight !== undefined) {
       const convertedWeight = currentUnit === 'metric' 
         ? convertUnits(athleteMetrics.weight, 'kg', 'lbs')
@@ -236,20 +176,49 @@ export default function HomePage() {
         ? convertUnits(athleteMetrics.legLength, 'cm', 'in')
         : convertUnits(athleteMetrics.legLength, 'in', 'cm');
       setAthleteMetrics(prev => ({ ...prev, legLength: convertedLegLength }));
-    } else if (field === 'externalLoad' && measures.externalLoad !== undefined) {
-      const convertedExternalLoad = currentUnit === 'metric'
-        ? convertUnits(measures.externalLoad, 'kg', 'lbs')
-        : convertUnits(measures.externalLoad, 'lbs', 'kg');
-      setMeasures(prev => ({ ...prev, externalLoad: convertedExternalLoad }));
-    } else if (field === 'distance' && measures.distance !== undefined) {
-      const convertedDistance = currentUnit === 'metric'
-        ? convertUnits(measures.distance, 'm', 'ft')
-        : convertUnits(measures.distance, 'ft', 'm');
-      setMeasures(prev => ({ ...prev, distance: convertedDistance }));
+    }
+    
+    // Handle exercise-specific conversions
+    if ((field === 'externalLoad' || field === 'distance') && exercises.length > 0) {
+      setExercises(prevExercises => prevExercises.map(exercise => {
+        const measures = exercise.measures;
+        const convertedLoad = currentUnit === 'metric'
+          ? convertUnits(measures.externalLoad, 'kg', 'lbs')
+          : convertUnits(measures.externalLoad, 'lbs', 'kg');
+        const convertedDistance = currentUnit === 'metric'
+          ? convertUnits(measures.distance, 'm', 'ft')
+          : convertUnits(measures.distance, 'ft', 'm');
+        return {
+          ...exercise,
+          measures: {
+            ...measures,
+            externalLoad: convertedLoad,
+            distance: convertedDistance
+          }
+        };
+      }));
     }
     
     // Update the unit preference
     setUnitPreferences(prev => ({ ...prev, [field]: newUnit }));
+  };
+
+  const addExercise = () => {
+    setExercises([...exercises, {
+      category: '',
+      exercise: '',
+      measures: {}
+    }]);
+  };
+
+  const removeExercise = (index: number) => {
+    setExercises(exercises.filter((_, i) => i !== index));
+  };
+
+  const updateExercise = (index: number, updates: Partial<typeof exercises[0]>) => {
+    setExercises(exercises.map((exercise, i) => 
+      i === index ? { ...exercise, ...updates } : exercise
+    ));
   };
 
   return (
@@ -260,114 +229,31 @@ export default function HomePage() {
         <div className="exercise-section">
           <h2>Exercise Details</h2>
           
-          <div className="input-group">
-            <label>Category:</label>
-            <select 
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              <option value="">Select Category</option>
-              {Object.keys(EXERCISE_CATEGORIES).map(category => (
-                <option key={category} value={category}>
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </option>
-              ))}
-            </select>
-          </div>
+          {exercises.map((exercise, index) => (
+            <ExerciseDetailsCard
+              key={index}
+              exerciseIndex={index}
+              selectedCategory={exercise.category}
+              selectedExercise={exercise.exercise}
+              measures={exercise.measures}
+              unitPreferences={unitPreferences}
+              onCategoryChange={(value) => updateExercise(index, { category: value })}
+              onExerciseChange={(value) => updateExercise(index, { exercise: value })}
+              onMeasureChange={(field, value) => updateExercise(index, {
+                measures: { ...exercise.measures, [field]: parseFloat(value) || undefined }
+              })}
+              onUnitToggle={handleUnitToggle}
+              onRemove={() => removeExercise(index)}
+              EXERCISE_CATEGORIES={EXERCISE_CATEGORIES}
+            />
+          ))}
 
-          <div className="input-group">
-            <label>Exercise:</label>
-            <select
-              value={selectedExercise}
-              onChange={(e) => setSelectedExercise(e.target.value)}
-              disabled={!selectedCategory}
-            >
-              <option value="">Select Exercise</option>
-              {selectedCategory && EXERCISE_CATEGORIES[selectedCategory as keyof typeof EXERCISE_CATEGORIES].map(exercise => (
-                <option key={exercise} value={exercise}>{exercise}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="measures-inputs">
-            <h3>Exercise Measures</h3>
-            
-            {/* Only show external load for non-cardio exercises */}
-            {selectedExercise && !["Bike", "Row"].includes(selectedExercise) && (
-              <div className="input-group">
-                <label>External Load ({unitPreferences.externalLoad === 'metric' ? 'kg' : 'lbs'}):</label>
-                <div className="input-with-toggle">
-                  <input
-                    type="number"
-                    min="0"
-                    step="any"
-                    value={measures.externalLoad || ''}
-                    onChange={(e) => handleMeasureChange('externalLoad', e.target.value)}
-                  />
-                  <button 
-                    className="unit-toggle"
-                    onClick={() => handleUnitToggle('externalLoad')}
-                  >
-                    {unitPreferences.externalLoad === 'metric' ? 'kg' : 'lbs'}
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Show calories input for Bike and Row */}
-            {selectedExercise && ["Bike", "Row"].includes(selectedExercise) && (
-              <div className="input-group">
-                <label>Calories:</label>
-                <input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={measures.calories || ''}
-                  onChange={(e) => handleMeasureChange('calories', e.target.value)}
-                />
-              </div>
-            )}
-
-            {/* Rest of the existing inputs */}
-            <div className="input-group">
-              <label>Reps:</label>
-              <input
-                type="number"
-                min="0"
-                step="1"
-                value={measures.reps || ''}
-                onChange={(e) => handleMeasureChange('reps', e.target.value)}
-              />
-            </div>
-            <div className="input-group">
-              <label>Distance ({unitPreferences.distance === 'metric' ? 'm' : 'ft'}):</label>
-              <div className="input-with-toggle">
-                <input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={measures.distance || ''}
-                  onChange={(e) => handleMeasureChange('distance', e.target.value)}
-                />
-                <button 
-                  className="unit-toggle"
-                  onClick={() => handleUnitToggle('distance')}
-                >
-                  {unitPreferences.distance === 'metric' ? 'm' : 'ft'}
-                </button>
-              </div>
-            </div>
-            <div className="input-group">
-              <label>Time (seconds):</label>
-              <input
-                type="number"
-                min="0"
-                step="1"
-                value={measures.time || ''}
-                onChange={(e) => handleMeasureChange('time', e.target.value)}
-              />
-            </div>
-          </div>
+          <button 
+            className="add-exercise-button"
+            onClick={addExercise}
+          >
+            + Add Exercise
+          </button>
         </div>
 
         <div className="athlete-section">
@@ -451,6 +337,19 @@ export default function HomePage() {
         </div>
       </div>
 
+      <div className="time-input-section">
+        <div className="input-group">
+          <label>Total Time (seconds):</label>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            value={totalTime || ''}
+            onChange={(e) => setTotalTime(e.target.value ? parseFloat(e.target.value) : undefined)}
+          />
+        </div>
+      </div>
+
       <button 
         className="calculate-button" 
         onClick={handleCalculate}
@@ -473,12 +372,12 @@ export default function HomePage() {
           <div className="score-display">
             <div className="score-item">
               <label>Work:</label>
-              <span>{outputScore.work.toFixed(2)} kJ</span>
+              <span>{outputScore.work.toFixed(2)} Joules</span>
             </div>
             {outputScore.power && (
               <div className="score-item">
                 <label>Average Power:</label>
-                <span>{outputScore.power.toFixed(2)} kW</span>
+                <span>{outputScore.power.toFixed(2)} Watts</span>
               </div>
             )}
           </div>
