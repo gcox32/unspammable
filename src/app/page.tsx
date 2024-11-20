@@ -7,8 +7,8 @@ import "@/src/styles/app.css";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
-import { convertToMetric } from "@/src/utils/convertToMetric";
-import { convertToImperial } from "@/src/utils/convertToImperial";
+import { convertUnits } from "@/src/utils/convertUnits";
+import { EXERCISE_CONSTANTS } from "@/src/utils/outputFunctions/exerciseConstants";
 
 // Exercise categories and their corresponding functions
 const EXERCISE_CATEGORIES = {
@@ -72,36 +72,53 @@ export default function HomePage() {
     limbLength: 'metric',
     legLength: 'metric'
   });
+  const [error, setError] = useState<string | null>(null);
 
   const handleCalculate = async () => {
     try {
-      const outputFunctionName = EXERCISE_OUTPUT_FUNCTIONS[selectedExercise as keyof typeof EXERCISE_OUTPUT_FUNCTIONS];
+      setError(null); // Clear any previous errors
       
-      // Convert all measurements to metric before sending
+      // Validate required inputs
+      if (!athleteMetrics.weight) {
+        throw new Error('Athlete weight is required');
+      }
+
+      // Get the exercise constants
+      const constants = EXERCISE_CONSTANTS[selectedExercise as keyof typeof EXERCISE_CONSTANTS] || {
+        defaultDistance: 0.5,
+        useLimbLength: false,
+        useBodyweight: false,
+        limbLengthFactor: 1
+      };
+      
+      // Convert measurements to metric
       const metricMeasures = {
         ...measures,
         externalLoad: measures.externalLoad && unitPreferences.externalLoad === 'imperial' 
-          ? convertToMetric(measures.externalLoad, 'lbs') 
+          ? convertUnits(measures.externalLoad, 'lbs', 'kg')
           : measures.externalLoad,
+        distance: measures.distance && unitPreferences.distance === 'imperial'
+          ? convertUnits(measures.distance, 'ft', 'm')
+          : measures.distance
       };
 
       const metricAthleteMetrics = {
         ...athleteMetrics,
         weight: athleteMetrics.weight && unitPreferences.weight === 'imperial'
-          ? convertToMetric(athleteMetrics.weight, 'lbs')
+          ? convertUnits(athleteMetrics.weight, 'lbs', 'kg')
           : athleteMetrics.weight,
         height: athleteMetrics.height && unitPreferences.height === 'imperial'
-          ? convertToMetric(athleteMetrics.height, 'in')
+          ? convertUnits(athleteMetrics.height, 'in', 'cm')
           : athleteMetrics.height,
         limbLength: athleteMetrics.limbLength && unitPreferences.limbLength === 'imperial'
-          ? convertToMetric(athleteMetrics.limbLength, 'in')
+          ? convertUnits(athleteMetrics.limbLength, 'in', 'cm')
           : athleteMetrics.limbLength,
         legLength: athleteMetrics.legLength && unitPreferences.legLength === 'imperial'
-          ? convertToMetric(athleteMetrics.legLength, 'in')
+          ? convertUnits(athleteMetrics.legLength, 'in', 'cm')
           : athleteMetrics.legLength,
       };
 
-      // Convert length measurements from cm to m before sending
+      // Convert length measurements from cm to m
       const metricsInMeters = {
         ...metricAthleteMetrics,
         height: metricAthleteMetrics.height ? metricAthleteMetrics.height / 100 : undefined,
@@ -115,23 +132,30 @@ export default function HomePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          category: selectedCategory,
-          outputFunctionName,
           measures: metricMeasures,
-          athleteMetrics: metricsInMeters
+          athleteMetrics: metricsInMeters,
+          constants
         }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to calculate output');
+      }
       
       const result = await response.json();
       
-      // Set the output score first
+      if (!result.work) {
+        throw new Error('Invalid calculation result');
+      }
+      
+      // Set the output score and handle animation
       setOutputScore(result);
       
-      // Add a small delay before scrolling to ensure the output section is rendered
+      // Scroll and animate as before
       setTimeout(() => {
         outputRef.current?.scrollIntoView({ behavior: 'smooth' });
         
-        // Start the counting animation after scrolling
         setTimeout(() => {
           let startWork = 0;
           let startPower = 0;
@@ -153,14 +177,16 @@ export default function HomePage() {
             
             if (startWork >= result.work) {
               clearInterval(counter);
-              setOutputScore(result); // Ensure final values are exact
+              setOutputScore(result);
             }
           }, stepDuration);
         }, 500);
-      }, 100);  // Small delay to ensure ref is available
+      }, 100);
       
     } catch (error) {
       console.error('Error calculating output:', error);
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred');
+      setOutputScore(null); // Clear any previous output
     }
   };
 
@@ -192,24 +218,34 @@ export default function HomePage() {
     // Convert the value if it exists
     if (field === 'weight' && athleteMetrics.weight !== undefined) {
       const convertedWeight = currentUnit === 'metric' 
-        ? convertToImperial(athleteMetrics.weight, 'lbs')
-        : convertToMetric(athleteMetrics.weight, 'lbs');
+        ? convertUnits(athleteMetrics.weight, 'kg', 'lbs')
+        : convertUnits(athleteMetrics.weight, 'lbs', 'kg');
       setAthleteMetrics(prev => ({ ...prev, weight: convertedWeight }));
     } else if (field === 'height' && athleteMetrics.height !== undefined) {
       const convertedHeight = currentUnit === 'metric'
-        ? convertToImperial(athleteMetrics.height, 'in')
-        : convertToMetric(athleteMetrics.height, 'in');
+        ? convertUnits(athleteMetrics.height, 'cm', 'in')
+        : convertUnits(athleteMetrics.height, 'in', 'cm');
       setAthleteMetrics(prev => ({ ...prev, height: convertedHeight }));
     } else if (field === 'limbLength' && athleteMetrics.limbLength !== undefined) {
       const convertedLimbLength = currentUnit === 'metric'
-        ? convertToImperial(athleteMetrics.limbLength, 'in')
-        : convertToMetric(athleteMetrics.limbLength, 'in');
+        ? convertUnits(athleteMetrics.limbLength, 'cm', 'in')
+        : convertUnits(athleteMetrics.limbLength, 'in', 'cm');
       setAthleteMetrics(prev => ({ ...prev, limbLength: convertedLimbLength }));
     } else if (field === 'legLength' && athleteMetrics.legLength !== undefined) {
       const convertedLegLength = currentUnit === 'metric'
-        ? convertToImperial(athleteMetrics.legLength, 'in')
-        : convertToMetric(athleteMetrics.legLength, 'in');
+        ? convertUnits(athleteMetrics.legLength, 'cm', 'in')
+        : convertUnits(athleteMetrics.legLength, 'in', 'cm');
       setAthleteMetrics(prev => ({ ...prev, legLength: convertedLegLength }));
+    } else if (field === 'externalLoad' && measures.externalLoad !== undefined) {
+      const convertedExternalLoad = currentUnit === 'metric'
+        ? convertUnits(measures.externalLoad, 'kg', 'lbs')
+        : convertUnits(measures.externalLoad, 'lbs', 'kg');
+      setMeasures(prev => ({ ...prev, externalLoad: convertedExternalLoad }));
+    } else if (field === 'distance' && measures.distance !== undefined) {
+      const convertedDistance = currentUnit === 'metric'
+        ? convertUnits(measures.distance, 'm', 'ft')
+        : convertUnits(measures.distance, 'ft', 'm');
+      setMeasures(prev => ({ ...prev, distance: convertedDistance }));
     }
     
     // Update the unit preference
@@ -255,24 +291,44 @@ export default function HomePage() {
 
           <div className="measures-inputs">
             <h3>Exercise Measures</h3>
-            <div className="input-group">
-              <label>External Load ({unitPreferences.externalLoad === 'metric' ? 'kg' : 'lbs'}):</label>
-              <div className="input-with-toggle">
+            
+            {/* Only show external load for non-cardio exercises */}
+            {selectedExercise && !["Bike", "Row"].includes(selectedExercise) && (
+              <div className="input-group">
+                <label>External Load ({unitPreferences.externalLoad === 'metric' ? 'kg' : 'lbs'}):</label>
+                <div className="input-with-toggle">
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    value={measures.externalLoad || ''}
+                    onChange={(e) => handleMeasureChange('externalLoad', e.target.value)}
+                  />
+                  <button 
+                    className="unit-toggle"
+                    onClick={() => handleUnitToggle('externalLoad')}
+                  >
+                    {unitPreferences.externalLoad === 'metric' ? 'kg' : 'lbs'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Show calories input for Bike and Row */}
+            {selectedExercise && ["Bike", "Row"].includes(selectedExercise) && (
+              <div className="input-group">
+                <label>Calories:</label>
                 <input
                   type="number"
                   min="0"
                   step="any"
-                  value={measures.externalLoad || ''}
-                  onChange={(e) => handleMeasureChange('externalLoad', e.target.value)}
+                  value={measures.calories || ''}
+                  onChange={(e) => handleMeasureChange('calories', e.target.value)}
                 />
-                <button 
-                  className="unit-toggle"
-                  onClick={() => handleUnitToggle('externalLoad')}
-                >
-                  {unitPreferences.externalLoad === 'metric' ? 'kg' : 'lbs'}
-                </button>
               </div>
-            </div>
+            )}
+
+            {/* Rest of the existing inputs */}
             <div className="input-group">
               <label>Reps:</label>
               <input
@@ -404,6 +460,12 @@ export default function HomePage() {
           ? 'Please enter required fields' 
           : 'Calculate Output Score'}
       </button>
+
+      {error && (
+        <div className="error-message">
+          {error}
+        </div>
+      )}
 
       {outputScore && (
         <div className="output-section" ref={outputRef}>

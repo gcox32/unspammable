@@ -1,9 +1,5 @@
 ### **Data Structure Summary**
 
-Here's the updated summary with the new fields integrated into **Exercise** and **Workout Log**:
-
----
-
 #### **1. Exercise**
 - **Purpose**: Represents a distinct, reusable exercise definition.
 - **Fields**:
