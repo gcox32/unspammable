@@ -1,4 +1,4 @@
-export const calculateOutput = (athlete, measuresArray, time = null, constantsArray = []) => {
+export const calculateOutput = (athlete, measuresArray, time = null, constantsArray = [], acceleration = 9.81) => {
   // Validate required inputs
   if (!athlete?.weight) {
     throw new Error('Athlete weight is required');
@@ -25,6 +25,7 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
     } else {
       // Simplified weight calculation - always consider bodyweight with factor
       const weight = (athlete.weight * constants.bodyweightFactor) + (measures.externalLoad || 0);
+      const force = weight * (acceleration / 9.81); // Normalize to gravity
 
       // Calculate distance to use
       let distance = constants.defaultDistance;
@@ -52,7 +53,7 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
       const reps = measures.reps || 1;
 
       // Calculate work for this measure
-      const work = weight * distance * reps;
+      const work = force * distance * reps;
       totalWork += work;
     }
   });
