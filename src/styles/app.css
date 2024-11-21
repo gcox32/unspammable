@@ -452,7 +452,18 @@ main {
 }
 
 .exercise-details {
+  padding: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 200ms ease-in-out;
+}
+
+.exercise-details.expanded {
   padding: 1rem;
+  max-height: 1000px;
+  opacity: 1;
+  background: #f0f0f0;
 }
 
 .add-exercise-button {
@@ -472,6 +483,27 @@ main {
   background-color: #e6e6e6;
   border-color: #F6701B;
   color: #F6701B;
+}
+
+.exercise-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.exercise-number-label {
+  font-size: 0.75rem;
+  color: #F6701B;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.exercise-name {
+  margin-top: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 

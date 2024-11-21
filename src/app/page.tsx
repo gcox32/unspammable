@@ -19,8 +19,8 @@ import {
 
 export default function HomePage() {
   const [athleteMetrics, setAthleteMetrics] = useState<AthleteMetrics>({
-    weight: 0,
-    height: 0,
+    weight: 80,
+    height: 180,
     limbLength: 0,
     legLength: 0
   });
@@ -155,7 +155,7 @@ export default function HomePage() {
     const currentUnit = unitPreferences[field];
     const newUnit = currentUnit === 'metric' ? 'imperial' : 'metric';
     
-    // Handle athlete metrics conversions (no changes needed here)
+    // Handle athlete metrics conversions
     if (field === 'weight' && athleteMetrics.weight !== undefined) {
       const convertedWeight = currentUnit === 'metric' 
         ? convertUnits(athleteMetrics.weight, 'kg', 'lbs')
@@ -179,22 +179,25 @@ export default function HomePage() {
     }
     
     // Handle exercise-specific conversions
-    if ((field === 'externalLoad' || field === 'distance') && exercises.length > 0) {
+    if (field === 'externalLoad' || field === 'distance') {
       setExercises(prevExercises => prevExercises.map(exercise => {
-        const measures = exercise.measures;
-        const convertedLoad = currentUnit === 'metric'
-          ? convertUnits(measures.externalLoad, 'kg', 'lbs')
-          : convertUnits(measures.externalLoad, 'lbs', 'kg');
-        const convertedDistance = currentUnit === 'metric'
-          ? convertUnits(measures.distance, 'm', 'ft')
-          : convertUnits(measures.distance, 'ft', 'm');
+        const measures = { ...exercise.measures };
+        
+        if (field === 'externalLoad' && measures.externalLoad !== undefined) {
+          measures.externalLoad = currentUnit === 'metric'
+            ? convertUnits(measures.externalLoad, 'kg', 'lbs')
+            : convertUnits(measures.externalLoad, 'lbs', 'kg');
+        }
+        
+        if (field === 'distance' && measures.distance !== undefined) {
+          measures.distance = currentUnit === 'metric'
+            ? convertUnits(measures.distance, 'm', 'ft')
+            : convertUnits(measures.distance, 'ft', 'm');
+        }
+        
         return {
           ...exercise,
-          measures: {
-            ...measures,
-            externalLoad: convertedLoad,
-            distance: convertedDistance
-          }
+          measures
         };
       }));
     }
@@ -215,10 +218,47 @@ export default function HomePage() {
     setExercises(exercises.filter((_, i) => i !== index));
   };
 
-  const updateExercise = (index: number, updates: Partial<typeof exercises[0]>) => {
-    setExercises(exercises.map((exercise, i) => 
-      i === index ? { ...exercise, ...updates } : exercise
-    ));
+  const handleCategoryChange = (index: number, value: string) => {
+    setExercises(exercises.map((exercise, i) => {
+      if (i === index) {
+        // Reset exercise and measures when category changes
+        return {
+          ...exercise,
+          category: value,
+          exercise: '', // Reset exercise selection
+          measures: {} // Reset all measures
+        };
+      }
+      return exercise;
+    }));
+  };
+
+  const handleExerciseChange = (index: number, value: string) => {
+    setExercises(exercises.map((exercise, i) => {
+      if (i === index) {
+        return {
+          ...exercise,
+          exercise: value,
+          measures: {} // Reset measures when exercise changes
+        };
+      }
+      return exercise;
+    }));
+  };
+
+  const handleMeasureChange = (index: number, field: keyof ExerciseMeasures, value: string) => {
+    setExercises(exercises.map((exercise, i) => {
+      if (i === index) {
+        return {
+          ...exercise,
+          measures: {
+            ...exercise.measures,
+            [field]: parseFloat(value) || undefined
+          }
+        };
+      }
+      return exercise;
+    }));
   };
 
   return (
@@ -237,11 +277,9 @@ export default function HomePage() {
               selectedExercise={exercise.exercise}
               measures={exercise.measures}
               unitPreferences={unitPreferences}
-              onCategoryChange={(value) => updateExercise(index, { category: value })}
-              onExerciseChange={(value) => updateExercise(index, { exercise: value })}
-              onMeasureChange={(field, value) => updateExercise(index, {
-                measures: { ...exercise.measures, [field]: parseFloat(value) || undefined }
-              })}
+              onCategoryChange={(value) => handleCategoryChange(index, value)}
+              onExerciseChange={(value) => handleExerciseChange(index, value)}
+              onMeasureChange={(field, value) => handleMeasureChange(index, field, value)}
               onUnitToggle={handleUnitToggle}
               onRemove={() => removeExercise(index)}
               EXERCISE_CATEGORIES={EXERCISE_CATEGORIES}
@@ -298,7 +336,7 @@ export default function HomePage() {
           </div>
           
           <div className="input-group">
-            <label>Limb Length ({unitPreferences.limbLength === 'metric' ? 'cm' : 'in'}):</label>
+            <label>Arm Length ({unitPreferences.limbLength === 'metric' ? 'cm' : 'in'}):</label>
             <div className="input-with-toggle">
               <input
                 type="number"
@@ -372,12 +410,12 @@ export default function HomePage() {
           <div className="score-display">
             <div className="score-item">
               <label>Work:</label>
-              <span>{outputScore.work.toFixed(2)} Joules</span>
+              <span>{Math.round(outputScore.work).toLocaleString()} Joules</span>
             </div>
             {outputScore.power && (
               <div className="score-item">
                 <label>Average Power:</label>
-                <span>{outputScore.power.toFixed(2)} Watts</span>
+                <span>{Number(outputScore.power.toFixed(2)).toLocaleString()} Watts</span>
               </div>
             )}
           </div>

@@ -22,8 +22,48 @@ export interface UnitPreferences {
   legLength: 'metric' | 'imperial';
 }
 
+export interface ExerciseDefinition {
+  name: string;
+  availableMeasures: (keyof ExerciseMeasures)[];
+}
+
 export const EXERCISE_CATEGORIES = {
-  bodyweight: ["Push-Up", "Pull-Up"],
-  strength: ["Back Squat", "Deadlift", "Shoulder Press"],
-  cardio: ["Run", "Bike", "Row"]
-} as Record<string, string[]>; 
+  bodyweight: [
+    {
+      name: "Push-Up",
+      availableMeasures: ['reps', 'externalLoad']
+    },
+    {
+      name: "Pull-Up",
+      availableMeasures: ['reps', 'externalLoad']
+    }
+  ],
+  strength: [
+    {
+      name: "Back Squat",
+      availableMeasures: ['reps', 'externalLoad']
+    },
+    {
+      name: "Deadlift",
+      availableMeasures: ['reps', 'externalLoad']
+    },
+    {
+      name: "Shoulder Press",
+      availableMeasures: ['reps', 'externalLoad']
+    }
+  ],
+  cardio: [
+    {
+      name: "Run",
+      availableMeasures: ['distance', 'externalLoad']
+    },
+    {
+      name: "Bike",
+      availableMeasures: ['calories', 'distance']
+    },
+    {
+      name: "Row",
+      availableMeasures: ['calories', 'distance']
+    }
+  ]
+} as Record<string, ExerciseDefinition[]>; 
