@@ -1,0 +1,509 @@
+/* Keep authentication styles */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.auth-error {
+  text-align: center;
+  padding: 2rem;
+  max-width: 400px;
+}
+
+.auth-error h1 {
+  margin-bottom: 1rem;
+}
+
+.auth-error p {
+  margin-bottom: 2rem;
+  color: #f44336;
+}
+
+.auth-error a {
+  color: #2196F3;
+  text-decoration: underline;
+}
+
+/* Remove conflicting styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+main {
+  padding: 1rem;
+}
+
+/* Authenticator styles */
+[data-amplify-authenticator] {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.about-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--foreground);
+}
+
+.about-page section {
+  margin-bottom: 4rem;
+}
+
+.about-page .hero {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.about-page .hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #F6701B;
+}
+
+.about-page .hero p {
+  font-size: 1.2rem;
+  color: #5A5C5E;
+}
+
+.about-page h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #000000;
+}
+
+.about-page h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #35AAE0;
+}
+
+.about-page p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: #5A5C5E;
+}
+
+.about-page .principle {
+  background: #F7F7F7;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.about-page .formula {
+  background: #000000;
+  color: #FFFFFF;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.about-page .formula code {
+  font-family: monospace;
+  font-size: 1.2rem;
+}
+
+.about-page ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.about-page ul li {
+  margin-bottom: 0.5rem;
+  color: #5A5C5E;
+}
+
+.about-page .feature {
+  border-left: 4px solid #35AAE0;
+  padding-left: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .about-page {
+    padding: 1rem;
+  }
+  
+  .about-page .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .about-page h2 {
+    font-size: 1.5rem;
+  }
+  
+  .about-page h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Add these styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto; /* This ensures main content takes up available space */
+    padding: 1rem;
+}
+
+/* Add these new styles */
+
+.about-page .calculation-inputs,
+.about-page .calculation-steps,
+.about-page .case,
+.about-page .example-calculation,
+.about-page .enhancement {
+  background: #F7F7F7;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.about-page .input-group {
+  margin-bottom: 1.5rem;
+}
+
+.about-page .input-group h4 {
+  color: #F6701B;
+  margin-bottom: 0.5rem;
+}
+
+.about-page .calculation-steps ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+.about-page .calculation-steps li {
+  margin-bottom: 1.5rem;
+}
+
+.about-page .example-calculation .step {
+  margin-bottom: 2rem;
+}
+
+.about-page .code-block {
+  background: #000000;
+  color: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.about-page .note {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #5A5C5E;
+}
+
+.about-page .enhancement {
+  border-left: 4px solid #F6701B;
+}
+
+.about-page .conclusion {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-page .conclusion p {
+  font-size: 1.2rem;
+}
+
+/* Add mathematical formula styles */
+.about-page .math-formula {
+  background: #000000;
+  color: #FFFFFF;
+  padding: 1.5rem 2rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  text-align: center;
+  font-family: "Computer Modern", serif;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.about-page .math-formula em {
+  font-style: italic;
+}
+
+/* Update the existing formula styles to be more specific */
+.about-page .formula {
+  background: #000000;
+  color: #FFFFFF;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.about-page .formula code {
+  font-family: monospace;
+  font-size: 1.2rem;
+}
+
+/* Add styles for mathematical variables in text */
+.about-page em {
+  font-style: italic;
+  font-family: "Computer Modern", serif;
+}
+
+.calculator-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.calculator-page h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.calculator-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.exercise-section,
+.athlete-section {
+  background: #F7F7F7;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #5A5C5E;
+  font-weight: 500;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.measures-inputs {
+  margin-top: 2rem;
+}
+
+.calculate-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background-color: #F6701B;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calculate-button:hover {
+  background-color: #e05f0f;
+}
+
+.output-section {
+  background: #F7F7F7;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.score-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.score-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.score-item label {
+  display: block;
+  color: #5A5C5E;
+  margin-bottom: 0.5rem;
+}
+
+.score-item span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #F6701B;
+}
+
+@media (max-width: 768px) {
+  .calculator-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .calculator-page {
+    padding: 1rem;
+  }
+}
+
+.input-with-toggle {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.unit-toggle {
+  padding: 0.25rem 0.5rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.unit-toggle:hover {
+  background-color: #e0e0e0;
+}
+
+.exercise-card {
+  background: #F7F7F7;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.exercise-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f0f0f0;
+}
+
+.exercise-summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.exercise-number {
+  font-weight: 600;
+  color: #F6701B;
+}
+
+.exercise-name {
+  color: #5A5C5E;
+}
+
+.exercise-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.collapse-button,
+.remove-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.collapse-button:hover,
+.remove-button:hover {
+  background-color: #e0e0e0;
+}
+
+.remove-button {
+  color: #EC3838;
+}
+
+.exercise-details {
+  padding: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 200ms ease-in-out;
+}
+
+.exercise-details.expanded {
+  padding: 1rem;
+  max-height: 1000px;
+  opacity: 1;
+  background: #f0f0f0;
+}
+
+.add-exercise-button {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  color: #5A5C5E;
+  cursor: pointer;
+  margin: 1rem 0;
+  transition: all 0.2s;
+}
+
+.add-exercise-button:hover {
+  background-color: #e6e6e6;
+  border-color: #F6701B;
+  color: #F6701B;
+}
+
+.exercise-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.exercise-number-label {
+  font-size: 0.75rem;
+  color: #F6701B;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.exercise-name {
+  margin-top: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+
