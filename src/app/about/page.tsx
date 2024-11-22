@@ -43,6 +43,25 @@ export default function AboutPage() {
         </div>
 
         <div className="principle">
+          <h3>Acceleration Normalization</h3>
+          <p>
+            For movements with significant acceleration changes, the force calculation is normalized against standard gravity (g ≈ 9.81 m/s²):
+          </p>
+          <div className="math-formula">
+            F = weight × (a / g)
+          </div>
+          <p>Where:</p>
+          <ul>
+            <li><em>F</em> = Normalized force</li>
+            <li><em>a</em> = Movement-specific acceleration</li>
+            <li><em>g</em> = Standard gravity (9.81 m/s²)</li>
+          </ul>
+          <p className="note">
+            For most exercises where acceleration is close to gravity, this normalization factor approaches 1, simplifying to F = weight.
+          </p>
+        </div>
+
+        <div className="principle">
           <h3>Power</h3>
           <p>
             <strong>Power</strong> is the rate at which work is performed:
