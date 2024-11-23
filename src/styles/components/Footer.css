@@ -4,6 +4,7 @@ footer {
     padding: 2rem;
     width: 100%;
     margin-top: auto;
+    border-top: 5px solid #F6701B;
 }
 
 .footer-content {

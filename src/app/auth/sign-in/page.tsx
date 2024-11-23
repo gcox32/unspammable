@@ -11,8 +11,9 @@ export default function SignIn() {
   useAuthRedirect(nextUrl)
 
   return (
-    <main className="auth-page">
+    <div className="auth-form-container">
+      <h2>Sign In</h2>
       <Authenticator hideSignUp initialState="signIn" />
-    </main>
+    </div>
   )
 }

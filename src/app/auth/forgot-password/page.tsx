@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import "@aws-amplify/ui-react/styles.css";
 import { useAuthRedirect } from "@/src/hooks/useAuthRedirect";
 
-export default function ForgotPasswordPage() {
+export default function ForgotPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams.get('next') || '/auth/sign-in';
@@ -32,11 +32,12 @@ export default function ForgotPasswordPage() {
     });
 
     return () => hubListenerCancelToken();
-  }, [router, searchParams]);
+  }, [router, nextUrl]);
 
   return (
-    <main className="auth-page">
+    <div className="auth-form-container">
+      <h2>Reset Password</h2>
       <Authenticator initialState="forgotPassword" />
-    </main>
+    </div>
   );
 }
