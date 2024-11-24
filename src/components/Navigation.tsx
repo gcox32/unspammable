@@ -1,31 +1,27 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { FaCog } from "react-icons/fa";
-import Logo from "./Logo";
 import Sidebar from "./Sidebar";
 import PageSettingsSidebar from "./PageSettingsSidebar";
 import UserSidebar from "./UserSidebar";
 import { useRouter } from "next/navigation";
 import "../styles/components/Navigation.css";
+import PersistentSidebar from './PersistentSidebar';
+import { useSidebar } from "@/src/contexts/SidebarContext";
 
 export default function Navigation() {
   const { user } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
   const [pageSettingsSidebarOpen, setPageSettingsSidebarOpen] = useState(false);
   const [userSidebarOpen, setUserSidebarOpen] = useState(false);
+  const { isExpanded } = useSidebar();
 
   return (
     <>
-      <nav>
-        <div className="nav-logo">
-          <Link href="/">
-            <Logo width={50} height={50} />
-          </Link>
-        </div>
-
+      <PersistentSidebar />
+      <nav className={`main-nav ${isExpanded ? 'sidebar-expanded' : ''}`}>
         <div className="nav-controls">
           {user ? (
             <>
@@ -66,7 +62,7 @@ export default function Navigation() {
         onClose={() => setUserSidebarOpen(false)}
         position="right"
       >
-        <UserSidebar />
+        <UserSidebar user={user} />
       </Sidebar>
     </>
   );

@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useRouter } from "next/navigation";
 
-export default function UserSidebar() {
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
+export default function UserSidebar({ user }: { user: any }) {
+  const { signOut } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
 
   const handleSignOut = async () => {
