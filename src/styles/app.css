@@ -7,6 +7,28 @@ html, body {
 
 main {
   padding: 1rem;
+
+}
+
+main .content {
+  border: 1px dashed #5A5C5E;
+  border-radius: 1rem;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+:root {
+  --background: #ffffff;
+  --text: #000000;
+  --sidebar-bg: #333;
+  --sidebar-text: #5A5C5E;
+}
+
+.dark-mode {
+  --background: #1a1a1a;
+  --text: #ffffff;
+  --sidebar-bg: #000000;
+  --sidebar-text: #ffffff;
 }
 
 /* Authenticator styles */
@@ -19,7 +41,6 @@ main {
 }
 
 .about-page {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   color: var(--foreground);
@@ -238,7 +259,6 @@ main {
 }
 
 .calculator-page {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -478,8 +498,12 @@ main {
   font-weight: 600;
 }
 
+
+.main-content-container {
+  padding: 1rem;
+}
+
 .main-content {
-  margin-left: 60px;
   transition: margin-left 0.3s ease;
 }
 
@@ -503,6 +527,23 @@ main {
   flex: 1;
   width: 100%;
   transition: width 0.3s ease;
+}
+
+
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar {
+  background-color: var(--sidebar-bg);
+}
+
+.sidebar nav ul li a,
+.sidebar nav ul li button {
+  color: var(--sidebar-text);
 }
 
 

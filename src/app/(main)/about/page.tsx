@@ -5,7 +5,7 @@ import "@/src/styles/app.css";
 
 export default function AboutPage() {
   return (
-    <main className="about-page">
+    <div className="about-page content">
       <section className="hero">
         <h1>Output Score Calculation Framework</h1>
         <p>A quantitative approach to measuring athletic performance through physics-based metrics</p>
@@ -236,6 +236,6 @@ export default function AboutPage() {
           The <strong>output score</strong> framework combines principles of physics with dynamic programming to offer scalable, accurate performance metrics. By leveraging work and power as foundational metrics, this system provides meaningful insights into athlete progress across a wide variety of exercises.
         </p>
       </section>
-    </main>
+    </div>
   );
 }

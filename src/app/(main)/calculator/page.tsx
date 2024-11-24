@@ -262,7 +262,7 @@ export default function CalculatorPage() {
   };
 
   return (
-    <main className="calculator-page">
+    <div className="calculator-page content">
       <h1>Output Score Calculator</h1>
       
       <div className="calculator-container">
@@ -421,6 +421,6 @@ export default function CalculatorPage() {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 }

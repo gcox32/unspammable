@@ -6,6 +6,7 @@ import "@/src/styles/irontribe.css";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import outputs from "@/amplify_outputs.json";
+import { ThemeProvider } from "../contexts/ThemeContext";
 
 Amplify.configure(outputs);
 
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Authenticator.Provider>
-          {children}
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
         </Authenticator.Provider>
       </body>
     </html>

@@ -19,7 +19,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="dashboard-page">
+    <div className="dashboard-page content">
       <h1>Dashboard</h1>
       <div className="dashboard-content">
         <div className="welcome-section">
@@ -32,6 +32,6 @@ export default function DashboardPage() {
           {/* Add dashboard stats here */}
         </div>
       </div>
-    </main>
+    </div>
   );
 } 
