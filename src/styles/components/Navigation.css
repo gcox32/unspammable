@@ -307,11 +307,13 @@ nav {
 }
 
 .persistent-nav {
-  margin-top: 60px;
+  margin-top: 2rem;
   width: 100%;
   display: flex;
   justify-content: flex-start;
   padding: 0;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .persistent-nav ul {
@@ -328,6 +330,7 @@ nav {
   text-decoration: none;
   transition: background-color 0.2s;
   white-space: nowrap;
+  width: 100%;
 }
 
 .persistent-nav li a:hover {
@@ -369,4 +372,24 @@ nav {
 
 .theme-toggle-button .label {
   font-size: 1rem;
-} 
+}
+
+.nav-group {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.nav-group-title {
+  color: transparent;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 1rem;
+  margin: 1rem 0 0.5rem;
+  height: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-group-title.expanded {
+  color: #5A5C5E;
+}

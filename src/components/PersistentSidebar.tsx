@@ -1,8 +1,18 @@
 import React from 'react';
-import { FaChevronLeft, FaChevronRight, FaHome, FaCog, FaUser } from 'react-icons/fa';
+import { 
+    FaChevronLeft, 
+    FaChevronRight, 
+    FaChartLine, 
+    FaTachometerAlt, 
+    FaRunning,
+    FaDumbbell,
+    FaPuzzlePiece,
+    FaListUl
+} from 'react-icons/fa';
 import Link from 'next/link';
 import Logo from './Logo';
 import { useSidebar } from '../contexts/SidebarContext';
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface NavItem {
     icon: React.ReactNode;
@@ -10,13 +20,37 @@ interface NavItem {
     href: string;
 }
 
-const navItems: NavItem[] = [
-    { icon: <FaCog />, label: 'Settings', href: '/about' },
-    { icon: <FaUser />, label: 'Profile', href: '/contact' },
+interface NavGroup {
+    title: string;
+    items: NavItem[];
+}
+
+const navGroups: NavGroup[] = [
+    {
+        title: 'Overview',
+        items: [
+            { icon: <FaChartLine />, label: 'Metrics', href: '/metrics' },
+            { icon: <FaTachometerAlt />, label: 'Dashboard', href: '/dashboard' },
+            { icon: <FaRunning />, label: 'Tracking', href: '/tracking' },
+        ]
+    },
+    {
+        title: 'Management',
+        items: [
+            { icon: <FaDumbbell />, label: 'Workouts', href: '/workouts' },
+            { icon: <FaPuzzlePiece />, label: 'Workout Parts', href: '/workout-parts' },
+            { icon: <FaListUl />, label: 'Exercises', href: '/exercises' },
+        ]
+    }
 ];
 
 export default function PersistentSidebar() {
     const { isExpanded, setIsExpanded } = useSidebar();
+    const { user } = useAuthenticator((context) => [context.user]);
+
+    if (!user) {
+        return null;
+    }
 
     return (
         <div className={`persistent-sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
@@ -33,16 +67,23 @@ export default function PersistentSidebar() {
                 </Link>
             </div>
             <nav className="persistent-nav">
-                <ul>
-                    {navItems.map((item, index) => (
-                        <li key={index}>
-                            <Link href={item.href}>
-                                <span className="icon">{item.icon}</span>
-                                {isExpanded && <span className="label">{item.label}</span>}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                {navGroups.map((group, groupIndex) => (
+                    <div key={groupIndex} className="nav-group">
+                        <h3 className={`nav-group-title ${isExpanded ? 'expanded' : ''}`}>
+                            {group.title}
+                        </h3>
+                        <ul>
+                            {group.items.map((item, itemIndex) => (
+                                <li key={itemIndex}>
+                                    <Link href={item.href}>
+                                        <span className="icon">{item.icon}</span>
+                                        {isExpanded && <span className="label">{item.label}</span>}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
             </nav>
         </div>
     );

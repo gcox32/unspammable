@@ -3,12 +3,14 @@
 import Navigation from "@/src/components/Navigation";
 import Footer from "@/src/components/Footer";
 import { SidebarProvider, useSidebar } from "@/src/contexts/SidebarContext";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 function MainContent({ children }: { children: React.ReactNode }) {
     const { isExpanded } = useSidebar();
+    const { user } = useAuthenticator((context) => [context.user]);
 
     return (
-        <div className={`app-container ${isExpanded ? 'sidebar-expanded' : ''}`}>
+        <div className={`app-container ${isExpanded ? 'sidebar-expanded' : ''} ${!user ? 'no-sidebar' : ''}`}>
             <Navigation />
             <main className="main-content">
                 {children}

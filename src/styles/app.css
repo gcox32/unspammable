@@ -546,4 +546,8 @@ body {
   color: var(--sidebar-text);
 }
 
+.app-container.no-sidebar {
+    padding-left: 0;
+}
+
 
