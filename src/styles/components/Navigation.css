@@ -113,6 +113,26 @@ nav {
   .menu-toggle:checked+.hamburger+.nav-links {
     display: flex;
   }
+
+  .toggle-button {
+    display: none !important;
+  }
+
+  .persistent-sidebar {
+    width: 60px !important; /* Force collapsed state on mobile */
+  }
+
+  .persistent-sidebar.expanded {
+    width: 60px !important;
+  }
+
+  .nav-group-title {
+    display: none;
+  }
+
+  .persistent-nav .label {
+    display: none;
+  }
 }
 
 .sidebar-overlay {

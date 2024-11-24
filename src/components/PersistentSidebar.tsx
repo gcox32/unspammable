@@ -7,7 +7,8 @@ import {
     FaRunning,
     FaDumbbell,
     FaPuzzlePiece,
-    FaListUl
+    FaListUl,
+    FaCalculator
 } from 'react-icons/fa';
 import Link from 'next/link';
 import Logo from './Logo';
@@ -40,6 +41,12 @@ const navGroups: NavGroup[] = [
             { icon: <FaDumbbell />, label: 'Workouts', href: '/workouts' },
             { icon: <FaPuzzlePiece />, label: 'Workout Parts', href: '/workout-parts' },
             { icon: <FaListUl />, label: 'Exercises', href: '/exercises' },
+        ]
+    },
+    {
+        title: 'Tools',
+        items: [
+            { icon: <FaCalculator />, label: 'Calculator', href: '/calculator' },
         ]
     }
 ];
