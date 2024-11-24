@@ -177,3 +177,40 @@
     border-color: #FCA5A5;
     color: #DC2626;
 }
+
+.loading-placeholder {
+  width: 100%;
+  max-width: 400px;
+}
+
+.loading-title {
+  height: 40px;
+  width: 60%;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite;
+}
+
+.loading-description {
+  height: 24px;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  animation: pulse 1.5s infinite;
+}
+
+.loading-form {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.6; }
+}

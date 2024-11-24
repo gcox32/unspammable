@@ -2,6 +2,8 @@
 
 import '@/src/styles/auth.css';
 import { usePathname } from 'next/navigation';
+import { Suspense } from 'react';
+import AuthLoadingState from '@/src/components/AuthLoadingState';
 
 const BANNER_CONTENT = {
   '/auth/sign-in': {
@@ -34,16 +36,18 @@ export default function AuthLayout({
   };
 
   return (
-    <div className="auth-layout">
-      <div className="auth-banner">
-        <div className="banner-content">
-          <h1>{content.title}</h1>
-          <p>{content.description}</p>
+    <Suspense fallback={<AuthLoadingState />}> 
+      <div className="auth-layout">
+        <div className="auth-banner">
+          <div className="banner-content">
+            <h1>{content.title}</h1>
+            <p>{content.description}</p>
+          </div>
+        </div>
+        <div className="auth-content">
+          {children}
         </div>
       </div>
-      <div className="auth-content">
-        {children}
-      </div>
-    </div>
+    </Suspense>
   );
 } 
