@@ -74,25 +74,12 @@ nav {
   background-color: #FFFFFF90;
 }
 
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: white;
-  cursor: pointer;
-}
-
 .menu-toggle {
   display: none;
 }
 
 /* Mobile menu styles */
 @media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-
   .nav-links {
     display: none;
     flex-direction: column;
@@ -108,10 +95,6 @@ nav {
 
   .nav-links li {
     margin: 1rem 0;
-  }
-
-  .menu-toggle:checked+.hamburger+.nav-links {
-    display: flex;
   }
 
   .toggle-button {
