@@ -52,6 +52,21 @@ const schema = a.schema({
     allow.groups(["ADMIN", "COACH", "ATHLETE"])
   ]),
 
+  // AI generation
+  Interpretation: a.generation({
+    aiModel: a.ai.model("Claude 3.5 Sonnet"),
+    systemPrompt: `You are a medical professional who is tasked with interpreting bloodwork numbers and advising athletes on their training and nutrition.`,
+  })
+  .arguments({
+    content: a.string()
+  })
+  .returns({
+    interpretation: a.string()
+  })
+  .authorization(allow => [
+    allow.groups(["ADMIN", "COACH"])
+  ]),
+
   // Templates: Prescribed workouts with components and exercises
   WorkoutTemplate: a.model({
     id: a.id().required(),
@@ -88,7 +103,7 @@ const schema = a.schema({
     allow.group("COACH").to(["read"]),
     allow.group("ATHLETE").to(["read"])
   ]),
-    Measure: a.model({
+  Measure: a.model({
     id: a.id().required(),
     workoutComponentTemplateScoreId: a.id().required(),
     type: a.string().required(),
@@ -126,7 +141,7 @@ const schema = a.schema({
     id: a.id().required(),
     name: a.string().required(),
     description: a.string(),
-    outputConstants: a.json(),
+    outputConstants: a.hasOne('ExerciseOutputConstants', 'exerciseTemplateId'),
     videoUrl: a.string(),
     category: a.string(),
     equipment: a.string().array(),
@@ -136,6 +151,18 @@ const schema = a.schema({
     allow.group("ADMIN"),
     allow.group("COACH").to(["read"]),
     allow.group("ATHLETE").to(["read"])
+  ]),
+  ExerciseOutputConstants: a.model({
+    id: a.id().required(),
+    bodyweightFactor: a.float(),
+    defaultDistance: a.float(),
+    armLengthFactor: a.float(),
+    legLengthFactor: a.float(),
+    useCalories: a.boolean(),
+    exerciseTemplateId: a.id().required(),
+    exerciseTemplate: a.belongsTo('ExerciseTemplate', 'exerciseTemplateId')
+  }).authorization(allow => [
+    allow.group("ADMIN")
   ]),
 
   // Instances (actual workouts with dates and perscribed workloads)

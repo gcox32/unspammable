@@ -39,7 +39,7 @@ const navGroups: NavGroup[] = [
         title: 'Management',
         items: [
             { icon: <FaDumbbell />, label: 'Workouts', href: '/workouts' },
-            { icon: <FaPuzzlePiece />, label: 'Components', href: '/components' },
+            { icon: <FaPuzzlePiece />, label: 'Components', href: '/workout-components' },
             { icon: <FaListUl />, label: 'Exercises', href: '/exercises' },
         ]
     },

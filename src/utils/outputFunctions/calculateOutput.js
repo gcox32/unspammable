@@ -11,8 +11,8 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
     const constants = constantsArray[index] || {
       useCalories: false,
       defaultDistance: 0.5,
-      useLimbLength: false,
-      limbLengthFactor: 1,
+      useArmLength: false,
+      armLengthFactor: 1,
       bodyweightFactor: 0,
     };
 
@@ -32,8 +32,8 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
 
       // Calculate limb-based distance adjustments
       let limbBasedDistance = 0;
-      if (constants.limbLengthFactor && athlete.limbLength) {
-        limbBasedDistance += athlete.limbLength * constants.limbLengthFactor;
+      if (constants.armLengthFactor && athlete.armLength) {
+        limbBasedDistance += athlete.armLength * constants.armLengthFactor;
       }
       if (constants.legLengthFactor && athlete.legLength) {
         limbBasedDistance += athlete.legLength * constants.legLengthFactor;

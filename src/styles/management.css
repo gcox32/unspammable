@@ -1,0 +1,234 @@
+/* Browsing Container */
+.browsing-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.search-bar {
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.pagination-button {
+    padding: 0.5rem 1rem;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background: #e0e0e0;
+}
+
+.page-info {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Exercise Page Layout */
+.exercises-page {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.exercises-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.exercises-content h3 {
+    margin: 0;
+    text-align: center;
+}
+
+.exercises-content .content-description {
+    text-align: center;
+}
+
+/* Left Section - Create Exercise */
+.create-exercise-section {
+    background: #f7f7f7;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+/* Right Section - Exercise Library */
+.list-exercises-section {
+    background: #f7f7f7;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+/* Exercise Grid */
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.item-grid div:first-child {
+    width: 100%;
+}
+
+/* Exercise Cards */
+.item-card {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item-card:hover {
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+.item-card h4 {
+    margin: 0;
+    font-size: 1rem;
+    flex: 1;
+}
+
+.category-pill {
+    background: #F6701B;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    margin-left: 1rem;
+}
+
+.equipment-tags {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.equipment-tag {
+    background: #f0f0f0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+.video-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.video-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .exercises-content {
+        grid-template-columns: 1fr;
+    }
+
+    .exercises-page {
+        padding: 1rem;
+    }
+
+    .item-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.create-item-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field label {
+  font-weight: 500;
+  color: #333;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-field select[multiple] {
+  min-height: 120px;
+}
+
+.submit-button {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #F6701B;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #e05d0e;
+}
+
+.error-message {
+  color: #EC3838;
+  padding: 0.5rem;
+  border: 1px solid #EC3838;
+  border-radius: 4px;
+  background: #fff5f5;
+}

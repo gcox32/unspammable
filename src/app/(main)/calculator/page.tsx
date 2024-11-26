@@ -17,7 +17,7 @@ export default function CalculatorPage() {
   const [athleteMetrics, setAthleteMetrics] = useState<AthleteMetrics>({
     weight: 80,
     height: 180,
-    limbLength: 0,
+    armLength: 0,
     legLength: 0
   });
   const [outputScore, setOutputScore] = useState<any>(null);
@@ -27,7 +27,7 @@ export default function CalculatorPage() {
     height: 'metric',
     externalLoad: 'metric',
     distance: 'metric',
-    limbLength: 'metric',
+    armLength: 'metric',
     legLength: 'metric'
   });
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +66,7 @@ export default function CalculatorPage() {
         ...athleteMetrics,
         weight: unitPreferences.weight === 'imperial' ? convertUnits(athleteMetrics.weight, 'lbs', 'kg') : athleteMetrics.weight,
         height: unitPreferences.height === 'imperial' ? convertUnits(athleteMetrics.height, 'in', 'cm') : athleteMetrics.height,
-        limbLength: unitPreferences.limbLength === 'imperial' ? convertUnits(athleteMetrics.limbLength, 'in', 'cm') : athleteMetrics.limbLength,
+        armLength: unitPreferences.armLength === 'imperial' ? convertUnits(athleteMetrics.armLength, 'in', 'cm') : athleteMetrics.armLength,
         legLength: unitPreferences.legLength === 'imperial' ? convertUnits(athleteMetrics.legLength, 'in', 'cm') : athleteMetrics.legLength
       };
 
@@ -162,11 +162,11 @@ export default function CalculatorPage() {
         ? convertUnits(athleteMetrics.height, 'cm', 'in')
         : convertUnits(athleteMetrics.height, 'in', 'cm');
       setAthleteMetrics(prev => ({ ...prev, height: convertedHeight }));
-    } else if (field === 'limbLength' && athleteMetrics.limbLength !== undefined) {
-      const convertedLimbLength = currentUnit === 'metric'
-        ? convertUnits(athleteMetrics.limbLength, 'cm', 'in')
-        : convertUnits(athleteMetrics.limbLength, 'in', 'cm');
-      setAthleteMetrics(prev => ({ ...prev, limbLength: convertedLimbLength }));
+    } else if (field === 'armLength' && athleteMetrics.armLength !== undefined) {
+      const convertedArmLength = currentUnit === 'metric'
+        ? convertUnits(athleteMetrics.armLength, 'cm', 'in')
+        : convertUnits(athleteMetrics.armLength, 'in', 'cm');
+      setAthleteMetrics(prev => ({ ...prev, armLength: convertedArmLength }));
     } else if (field === 'legLength' && athleteMetrics.legLength !== undefined) {
       const convertedLegLength = currentUnit === 'metric'
         ? convertUnits(athleteMetrics.legLength, 'cm', 'in')
@@ -332,20 +332,20 @@ export default function CalculatorPage() {
           </div>
           
           <div className="input-group">
-            <label>Arm Length ({unitPreferences.limbLength === 'metric' ? 'cm' : 'in'}):</label>
+            <label>Arm Length ({unitPreferences.armLength === 'metric' ? 'cm' : 'in'}):</label>
             <div className="input-with-toggle">
               <input
                 type="number"
                 min="0"
                 step="any"
-                value={athleteMetrics.limbLength || ''}
-                onChange={(e) => handleAthleteMetricChange('limbLength', e.target.value)}
+                value={athleteMetrics.armLength || ''}
+                onChange={(e) => handleAthleteMetricChange('armLength', e.target.value)}
               />
               <button 
                 className="unit-toggle"
-                onClick={() => handleUnitToggle('limbLength')}
+                onClick={() => handleUnitToggle('armLength')}
               >
-                {unitPreferences.limbLength === 'metric' ? 'cm' : 'in'}
+                {unitPreferences.armLength === 'metric' ? 'cm' : 'in'}
               </button>
             </div>
           </div>
