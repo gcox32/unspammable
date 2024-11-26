@@ -53,19 +53,6 @@ const schema = a.schema({
   ]),
 
   // AI generation
-  Interpretation: a.generation({
-    aiModel: a.ai.model("Claude 3.5 Sonnet"),
-    systemPrompt: `You are a medical professional who is tasked with interpreting bloodwork numbers and advising athletes on their training and nutrition.`,
-  })
-  .arguments({
-    content: a.string()
-  })
-  .returns({
-    interpretation: a.string()
-  })
-  .authorization(allow => [
-    allow.groups(["ADMIN", "COACH"])
-  ]),
 
   // Templates: Prescribed workouts with components and exercises
   WorkoutTemplate: a.model({
