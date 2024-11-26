@@ -11,8 +11,8 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
     const constants = constantsArray[index] || {
       useCalories: false,
       defaultDistance: 0.5,
-      useArmLength: false,
       armLengthFactor: 1,
+      legLengthFactor: 1,
       bodyweightFactor: 0,
     };
 

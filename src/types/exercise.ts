@@ -9,7 +9,7 @@ export interface ExerciseMeasures {
 export interface AthleteMetrics {
   weight: number;
   height: number;
-  limbLength?: number;
+  armLength?: number;
   legLength?: number;
 }
 
@@ -18,9 +18,10 @@ export interface UnitPreferences {
   height: 'metric' | 'imperial';
   externalLoad: 'metric' | 'imperial';
   distance: 'metric' | 'imperial';
-  limbLength: 'metric' | 'imperial';
+  armLength: 'metric' | 'imperial';
   legLength: 'metric' | 'imperial';
 }
+
 
 export interface ExerciseDefinition {
   name: string;
