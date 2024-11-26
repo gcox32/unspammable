@@ -7,7 +7,7 @@ import { generateClient } from 'aws-amplify/data';
 import type { ExerciseTemplate } from '@/src/types/schema';
 import '../../../styles/management.css';
 import BrowsingContainer from '@/src/components/BrowsingContainer';
-import CreateItemForm from '@/src/components/CreateItemForm';
+import CreateItemForm from "@/src/components/CreateItemForm";
 
 const client = generateClient<Schema>()
 
@@ -53,6 +53,58 @@ const EXERCISE_FIELDS = [
     label: 'Demo Video URL',
     type: 'url' as const,
     placeholder: 'https://...'
+  },
+  {
+    name: 'outputConstants',
+    label: 'Output Score Constants',
+    type: 'section' as const,
+    fields: [
+      {
+        name: 'bodyweightFactor',
+        label: 'Bodyweight Factor',
+        type: 'number' as const,
+        placeholder: '0.0 to 1.0',
+        min: 0,
+        max: 1,
+        step: 0.1,
+        tooltip: 'Percentage of bodyweight used in force calculation'
+      },
+      {
+        name: 'defaultDistance',
+        label: 'Default Movement Distance (m)',
+        type: 'number' as const,
+        placeholder: 'e.g., 0.5',
+        min: 0,
+        step: 0.1,
+        tooltip: 'Default distance of movement in meters'
+      },
+      {
+        name: 'armLengthFactor',
+        label: 'Arm Length Factor',
+        type: 'number' as const,
+        placeholder: '0.0 to 2.0',
+        min: 0,
+        max: 2,
+        step: 0.1,
+        tooltip: 'Multiplier for arm length in distance calculations'
+      },
+      {
+        name: 'legLengthFactor',
+        label: 'Leg Length Factor',
+        type: 'number' as const,
+        placeholder: '0.0 to 2.0',
+        min: 0,
+        max: 2,
+        step: 0.1,
+        tooltip: 'Multiplier for leg length in distance calculations'
+      },
+      {
+        name: 'useCalories',
+        label: 'Use Calories for Work Calculation',
+        type: 'boolean' as const,
+        tooltip: 'Use machine-reported calories instead of force × distance'
+      }
+    ]
   }
 ];
 
@@ -80,10 +132,21 @@ export default function ExercisesPage() {
 
   const handleCreateExercise = async (formData: Record<string, any>) => {
     try {
-      // @ts-ignore
-      const { data: newExercise } = await client.models.ExerciseTemplate.create({...formData});
+      const { outputConstants, ...exerciseData } = formData;
       
-      // Update the local state with the new exercise
+      // First create the exercise template
+      // @ts-ignore
+      const { data: newExercise } = await client.models.ExerciseTemplate.create({...exerciseData});
+
+      // Then create the associated output constants
+      if (outputConstants) {
+        await client.models.ExerciseOutputConstants.create({
+          // @ts-ignore
+          ...outputConstants, exerciseTemplateId: newExercise.id
+        });
+      }
+
+      // Update local state
       // @ts-ignore
       setExercises(prev => [...prev, newExercise]);
       
@@ -104,6 +167,7 @@ export default function ExercisesPage() {
               <h3>Create Exercise</h3>
               <p className="content-description">Add a new exercise to your library.</p>
               <CreateItemForm
+                // @ts-ignore
                 fields={EXERCISE_FIELDS}
                 // @ts-ignore
                 onSubmit={handleCreateExercise}
@@ -112,8 +176,8 @@ export default function ExercisesPage() {
             </div>
 
             {/* Right Section - Exercise Library */}
-            <div className="exercises-section">
-              <h2>Exercise Library</h2>
+            <div className="list-exercises-section">
+              <h3>Exercise Library</h3>
               <p className="content-description">Browse and manage your exercise collection.</p>
               <BrowsingContainer 
                 items={exercises}
@@ -122,7 +186,7 @@ export default function ExercisesPage() {
                 renderItem={(exercise) => (
                   <div className="item-card">
                     <h4>{exercise.name}</h4>
-                    {exercise.category && <span className="category-pill">{exercise.category}</span>}
+                    {exercise.category && <span className="category-pill" data-category={exercise.category.toLowerCase()}>{exercise.category.toLowerCase()}</span>}
                   </div>
                 )}
                 renderItemDetails={(exercise) => (
@@ -149,6 +213,28 @@ export default function ExercisesPage() {
                            className="video-link">
                           Watch Demo Video
                         </a>
+                      </div>
+                    )}
+                    {exercise.outputConstants && (
+                      <div className="detail-row">
+                        <strong>Output Configuration:</strong>
+                        <div className="output-constants">
+                          {exercise.outputConstants.bodyweightFactor && (
+                            <div>Bodyweight Factor: {exercise.outputConstants.bodyweightFactor}</div>
+                          )}
+                          {exercise.outputConstants.defaultDistance && (
+                            <div>Default Distance: {exercise.outputConstants.defaultDistance}m</div>
+                          )}
+                          {exercise.outputConstants.armLengthFactor && (
+                            <div>Arm Length Factor: {exercise.outputConstants.armLengthFactor}</div>
+                          )}
+                          {exercise.outputConstants.legLengthFactor && (
+                            <div>Leg Length Factor: {exercise.outputConstants.legLengthFactor}</div>
+                          )}
+                          {exercise.outputConstants.useCalories && (
+                            <div>Uses Calories for Work Calculation</div>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>

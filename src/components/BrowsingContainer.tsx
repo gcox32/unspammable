@@ -68,7 +68,7 @@ export default function BrowsingContainer<T extends Item>({
         <>
           <div className="item-grid">
             {currentItems.map((item) => (
-              <div key={item.id} onClick={() => handleItemClick(item)}>
+              <div key={item.id} onClick={() => handleItemClick(item)} className="item-card-container">
                 {renderItem ? renderItem(item) : defaultRenderItem(item)}
               </div>
             ))}
