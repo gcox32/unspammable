@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from './Modal';
 
 interface Item {
@@ -12,7 +12,8 @@ interface BrowsingContainerProps<T extends Item> {
   loading: boolean;
   error: string | null;
   renderItem?: (item: T) => React.ReactNode; // Optional custom render function
-  renderItemDetails?: (item: T) => React.ReactNode; // New prop for modal content
+  renderItemDetails?: (item: T, handleItemUpdate: (updatedItem: T) => void) => React.ReactNode; // New prop for modal content
+  onItemUpdate?: (updatedItem: T) => void;  // New prop
 }
 
 export default function BrowsingContainer<T extends Item>({ 
@@ -20,7 +21,8 @@ export default function BrowsingContainer<T extends Item>({
   loading, 
   error,
   renderItem,
-  renderItemDetails
+  renderItemDetails,
+  onItemUpdate
 }: BrowsingContainerProps<T>) {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,6 +46,24 @@ export default function BrowsingContainer<T extends Item>({
 
   const handleItemClick = (item: T) => {
     setSelectedItem(item);
+  };
+
+  // Add effect to update selectedItem when items change
+  useEffect(() => {
+    if (selectedItem) {
+      const updatedItem = items.find(item => item.id === selectedItem.id);
+      if (updatedItem) {
+        setSelectedItem(updatedItem);
+      }
+    }
+  }, [items]);
+
+  // Add handler for item updates
+  const handleItemUpdate = (updatedItem: T) => {
+    setSelectedItem(updatedItem);
+    if (onItemUpdate) {
+      onItemUpdate(updatedItem);
+    }
   };
 
   return (
@@ -100,7 +120,7 @@ export default function BrowsingContainer<T extends Item>({
               onClose={() => setSelectedItem(null)}
               title={selectedItem.name}
             >
-              {renderItemDetails(selectedItem)}
+              {renderItemDetails(selectedItem, handleItemUpdate)}
             </Modal>
           )}
         </>

@@ -53,6 +53,7 @@ export default function ExercisesPage() {
 
   const handleUpdateExercise = async (updatedExercise: ExerciseTemplate) => {
     await fetchExercises(); // Refresh the entire list after an update
+    return updatedExercise; // Return the updated exercise
   };
 
   const handleCreateExercise = async (formData: Record<string, any>) => {
@@ -117,11 +118,13 @@ export default function ExercisesPage() {
     }
   };
 
-  const renderItemDetails = (exercise: ExerciseTemplate) => (
+  const renderItemDetails = (exercise: ExerciseTemplate, onModalUpdate: (item: ExerciseTemplate) => void) => (
     <ExerciseDetails 
       exercise={exercise}
-      onUpdate={handleUpdateExercise}
-      // @ts-ignore
+      onUpdate={async (updatedExercise) => {
+        await handleUpdateExercise(updatedExercise);
+        onModalUpdate(updatedExercise); // Update the modal's state
+      }}
       onDelete={handleDeleteExercise}
     />
   );
@@ -159,6 +162,9 @@ export default function ExercisesPage() {
                   </div>
                 )}
                 renderItemDetails={renderItemDetails}
+                onItemUpdate={(updatedExercise) => {
+                  // Optional: Add any additional handling here
+                }}
               />
             </div>
           </div>
