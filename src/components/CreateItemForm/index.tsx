@@ -5,12 +5,13 @@ interface Field {
   name: string;
   label: string | React.ReactNode;
   type: 'text' | 'textarea' | 'select' | 'multiselect' | 'url' | 'section' | 'number' | 'boolean';
-  options?: string[];
+  options?: (string | { value: string, label: string })[];
   required?: boolean;
   placeholder?: string;
   min?: number;
   max?: number;
   step?: number;
+  defaultValue?: string;
 }
 
 interface CreateItemFormProps {
@@ -57,12 +58,7 @@ export default function CreateItemForm({ fields, onSubmit, title }: CreateItemFo
               // @ts-ignore
               field={field}
               value={formData[field.name] || {}}
-              onChange={(name, value) => {
-                setFormData(prev => ({
-                  ...prev,
-                  [name]: value
-                }));
-              }}
+              onChange={handleChange}
             />
           ) : (
             <>
@@ -79,13 +75,18 @@ export default function CreateItemForm({ fields, onSubmit, title }: CreateItemFo
               ) : field.type === 'select' ? (
                 <select
                   id={field.name}
-                  value={formData[field.name] || ''}
+                  value={formData[field.name] || field.defaultValue || ''}
                   onChange={(e) => handleChange(field.name, e.target.value)}
                   required={field.required}
                 >
                   <option value="">Select {field.label}</option>
                   {field.options?.map(option => (
-                    <option key={option} value={option}>{option}</option>
+                    <option 
+                      key={typeof option === 'string' ? option : option.value} 
+                      value={typeof option === 'string' ? option : option.value}
+                    >
+                      {typeof option === 'string' ? option : option.label}
+                    </option>
                   ))}
                 </select>
               ) : field.type === 'multiselect' ? (
@@ -100,7 +101,12 @@ export default function CreateItemForm({ fields, onSubmit, title }: CreateItemFo
                   required={field.required}
                 >
                   {field.options?.map(option => (
-                    <option key={option} value={option}>{option}</option>
+                    <option 
+                      key={typeof option === 'string' ? option : option.value} 
+                      value={typeof option === 'string' ? option : option.value}
+                    >
+                      {typeof option === 'string' ? option : option.label}
+                    </option>
                   ))}
                 </select>
               ) : field.type === 'number' ? (

@@ -142,8 +142,9 @@ const schema = a.schema({
   ]),
   ExerciseOutputConstants: a.model({
     id: a.id().required(),
-    bodyweightFactor: a.float(),
     defaultDistance: a.float(),
+    bodyweightFactor: a.float(),
+    heightFactor: a.float(),
     armLengthFactor: a.float(),
     legLengthFactor: a.float(),
     useCalories: a.boolean(),

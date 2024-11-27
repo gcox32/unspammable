@@ -9,6 +9,7 @@ import '../../../styles/management.css';
 import BrowsingContainer from '@/src/components/BrowsingContainer';
 import CreateItemForm from "@/src/components/CreateItemForm";
 import { EXERCISE_FIELDS } from '@/src/types/exercise';
+import ExerciseDetails from '@/src/components/ExerciseDetails';
 
 const client = generateClient<Schema>()
 
@@ -20,9 +21,27 @@ export default function ExercisesPage() {
   useEffect(() => {
     async function fetchExercises() {
       try {
-        const { data } = await client.models.ExerciseTemplate.list();
+        // Fetch exercises
+        const { data: exerciseData } = await client.models.ExerciseTemplate.list();
+        
+        // Fetch output constants for all exercises
+        const exercisesWithConstants = await Promise.all(
+          exerciseData.map(async (exercise) => {
+            const { data: constantsData } = await client.models.ExerciseOutputConstants.list({
+              filter: {
+                exerciseTemplateId: { eq: exercise.id }
+              }
+            });
+            
+            return {
+              ...exercise,
+              outputConstants: constantsData[0] || null // Take first match if exists
+            };
+          })
+        );
+
         // @ts-ignore
-        setExercises(data as ExerciseTemplate[]);
+        setExercises(exercisesWithConstants);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching exercises:', err);
@@ -38,15 +57,19 @@ export default function ExercisesPage() {
     try {
       const { outputConstants, ...exerciseData } = formData;
       
+      // Transform the calculation method selection into boolean
+      if (outputConstants) {
+        outputConstants.useCalories = outputConstants.useCalories === 'calories';
+      }
+
       // First create the exercise template
       // @ts-ignore
       const { data: newExercise } = await client.models.ExerciseTemplate.create({...exerciseData});
 
       // Then create the associated output constants
       if (outputConstants) {
-        await client.models.ExerciseOutputConstants.create({
-          // @ts-ignore
-          ...outputConstants, exerciseTemplateId: newExercise.id
+        // @ts-ignore
+        await client.models.ExerciseOutputConstants.create({...outputConstants, exerciseTemplateId: newExercise.id
         });
       }
 
@@ -60,6 +83,10 @@ export default function ExercisesPage() {
       throw new Error('Failed to create exercise');
     }
   };
+
+  const renderItemDetails = (exercise: ExerciseTemplate) => (
+    <ExerciseDetails exercise={exercise} />
+  );
 
   return (
     <AuthProtected>
@@ -93,61 +120,7 @@ export default function ExercisesPage() {
                     {exercise.category && <span className="category-pill" data-category={exercise.category.toLowerCase()}>{exercise.category.toLowerCase()}</span>}
                   </div>
                 )}
-                renderItemDetails={(exercise) => (
-                  <div className="list-exercise-details">
-                    {exercise.description && <p>{exercise.description}</p>}
-                    {exercise.category && (
-                      <div className="detail-row">
-                        <strong>Category:</strong> {exercise.category}
-                      </div>
-                    )}
-                    {exercise.equipment && exercise.equipment.length > 0 && (
-                      <div className="detail-row">
-                        <strong>Equipment:</strong>
-                        <div className="equipment-tags">
-                          {exercise.equipment.map((item, index) => (
-                            <span key={index} className="equipment-tag">{item}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {exercise.videoUrl && (
-                      <div className="detail-row">
-                        <a href={exercise.videoUrl} target="_blank" rel="noopener noreferrer" 
-                           className="video-link">
-                          Watch Demo Video
-                        </a>
-                      </div>
-                    )}
-                    {exercise.videoEmbed && (
-                      <div className="detail-row video-embed custom-video-class" 
-                           dangerouslySetInnerHTML={{ __html: exercise.videoEmbed }} 
-                      />
-                    )}
-                    {exercise.outputConstants && (
-                      <div className="detail-row">
-                        <strong>Output Configuration:</strong>
-                        <div className="output-constants">
-                          {exercise.outputConstants.bodyweightFactor && (
-                            <div>Bodyweight Factor: {exercise.outputConstants.bodyweightFactor}</div>
-                          )}
-                          {exercise.outputConstants.defaultDistance && (
-                            <div>Default Distance: {exercise.outputConstants.defaultDistance}m</div>
-                          )}
-                          {exercise.outputConstants.armLengthFactor && (
-                            <div>Arm Length Factor: {exercise.outputConstants.armLengthFactor}</div>
-                          )}
-                          {exercise.outputConstants.legLengthFactor && (
-                            <div>Leg Length Factor: {exercise.outputConstants.legLengthFactor}</div>
-                          )}
-                          {exercise.outputConstants.useCalories && (
-                            <div>Uses Calories for Work Calculation</div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
+                renderItemDetails={renderItemDetails}
               />
             </div>
           </div>

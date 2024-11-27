@@ -90,10 +90,20 @@ export const EXERCISE_FIELDS = [
         name: 'defaultDistance',
         label: 'Default Movement Distance (m)',
         type: 'number' as const,
-        placeholder: 'e.g., 0.5',
+        placeholder: 'e.g. 0.5',
         min: 0,
         step: 0.1,
         tooltip: 'Default distance of movement in meters'
+      },
+      {
+        name: 'heightFactor',
+        label: 'Height Factor',
+        type: 'number' as const,
+        placeholder: '0.0 to 2.0',
+        min: 0,
+        max: 2,
+        step: 0.1,
+        tooltip: 'Multiplier for height in distance calculations'
       },
       {
         name: 'armLengthFactor',
@@ -117,9 +127,14 @@ export const EXERCISE_FIELDS = [
       },
       {
         name: 'useCalories',
-        label: 'Use Calories for Calculation',
-        type: 'boolean' as const,
-        tooltip: 'Use machine-reported calories instead of F × d'
+        label: 'Calculation Method',
+        type: 'select' as const,
+        options: [
+          { value: 'force-distance', label: 'Force × Distance' },
+          { value: 'calories', label: 'Calories' }
+        ],
+        defaultValue: 'force-distance',
+        tooltip: 'Calculate work using F × d or reported calories'
       }
     ]
   }

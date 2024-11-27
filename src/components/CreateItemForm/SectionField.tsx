@@ -7,12 +7,14 @@ interface SectionFieldProps {
     fields: Array<{
       name: string;
       label: string;
-      type: string;
+      type: 'text' | 'textarea' | 'select' | 'multiselect' | 'url' | 'number' | 'boolean';
       placeholder?: string;
       min?: number;
       max?: number;
       step?: number;
       tooltip?: string;
+      options?: (string | { value: string, label: string })[];
+      defaultValue?: string;
     }>;
   };
   value: Record<string, any>;
@@ -50,6 +52,27 @@ export default function SectionField({ field, value, onChange }: SectionFieldPro
                   })
                 }
               />
+            ) : subField.type === 'select' ? (
+              <select
+                id={`${field.name}-${subField.name}`}
+                value={value?.[subField.name] || subField.defaultValue || ''}
+                onChange={(e) => 
+                  onChange(field.name, { 
+                    ...value, 
+                    [subField.name]: e.target.value 
+                  })
+                }
+              >
+                <option value="">Select {subField.label}</option>
+                {subField.options?.map(option => (
+                  <option 
+                    key={typeof option === 'string' ? option : option.value} 
+                    value={typeof option === 'string' ? option : option.value}
+                  >
+                    {typeof option === 'string' ? option : option.label}
+                  </option>
+                ))}
+              </select>
             ) : (
               <input
                 type={subField.type}

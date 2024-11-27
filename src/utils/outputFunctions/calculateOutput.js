@@ -11,6 +11,7 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
     const constants = constantsArray[index] || {
       useCalories: false,
       defaultDistance: 0.5,
+      heightFactor: 0,
       armLengthFactor: 1,
       legLengthFactor: 1,
       bodyweightFactor: 0,
@@ -27,24 +28,45 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
       const weight = (athlete.weight * constants.bodyweightFactor) + (measures.externalLoad || 0);
       const force = weight * (acceleration / 9.81); // Normalize to gravity
 
-      // Calculate distance to use
-      let distance = constants.defaultDistance;
+      // Calculate base movement distance
+      let distance = 0;
 
-      // Calculate limb-based distance adjustments
-      let limbBasedDistance = 0;
+      // Distance Calculation Logic:
+      // 1. Total distance is the sum of three possible components:
+      //    - Arm component: (armLength * armLengthFactor)
+      //    - Leg component: (legLength * legLengthFactor)
+      //    - Height component: (height * heightFactor)
+      // 2. Each factor determines what portion of that measurement to use:
+      //    - Factor of 0: measurement not used
+      //    - Factor of 1: full measurement used
+      //    - Factor of 0.5: half of measurement used
+      // 3. Examples:
+      //    - Front Squat: armLengthFactor=0, legLengthFactor=0.6, heightFactor=0
+      //      distance = (0 * armLength) + (0.6 * legLength) + (0 * height)
+      //    - Vertical Jump: armLengthFactor=0, legLengthFactor=0, heightFactor=0.5
+      //      distance = (0 * armLength) + (0 * legLength) + (0.5 * height)
+      
+      // Add arm-based component if specified
       if (constants.armLengthFactor && athlete.armLength) {
-        limbBasedDistance += athlete.armLength * constants.armLengthFactor;
+        distance += athlete.armLength * constants.armLengthFactor / 100;
       }
+
+      // Add leg-based component if specified
       if (constants.legLengthFactor && athlete.legLength) {
-        limbBasedDistance += athlete.legLength * constants.legLengthFactor;
+        distance += athlete.legLength * constants.legLengthFactor / 100;
       }
 
-      // Use the limb-based distance if any limb factors were applied
-      if (limbBasedDistance > 0) {
-        distance = limbBasedDistance;
+      // Add height-based component if specified
+      if (constants.heightFactor > 0 && athlete?.height) {
+        distance += athlete.height * constants.heightFactor / 100; // Convert cm to meters
       }
 
-      // For continuous movement (like running), use distance directly if provided
+      // If no biometric-based distance was calculated, use default
+      if (distance === 0 && constants.defaultDistance) {
+        distance = constants.defaultDistance;
+      }
+
+      // Allow manual distance override
       if (measures.distance) {
         distance = measures.distance;
       }
@@ -60,7 +82,7 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
 
   // Calculate power if time is provided
   if (time) {
-    const power = totalWork / time; // kW
+    const power = totalWork / time;
     return { work: totalWork, power };
   }
   return { work: totalWork };
