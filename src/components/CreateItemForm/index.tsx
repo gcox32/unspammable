@@ -18,10 +18,11 @@ interface CreateItemFormProps {
   fields: Field[];
   onSubmit: (formData: Record<string, any>) => Promise<void>;
   title: string;
+  initialData?: Record<string, any>;
 }
 
-export default function CreateItemForm({ fields, onSubmit, title }: CreateItemFormProps) {
-  const [formData, setFormData] = useState<Record<string, any>>({});
+export default function CreateItemForm({ fields, onSubmit, title, initialData }: CreateItemFormProps) {
+  const [formData, setFormData] = useState<Record<string, any>>(initialData || {});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,9 +40,11 @@ export default function CreateItemForm({ fields, onSubmit, title }: CreateItemFo
 
     try {
       await onSubmit(formData);
-      setFormData({}); // Reset form after successful submission
+      if (!initialData) {
+        setFormData({});
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create item');
+      setError(err instanceof Error ? err.message : 'Failed to submit form');
     } finally {
       setLoading(false);
     }
@@ -123,7 +126,7 @@ export default function CreateItemForm({ fields, onSubmit, title }: CreateItemFo
                 />
               ) : field.type === 'boolean' ? (
                 <input
-                  type={field.type}
+                  type="checkbox"
                   id={field.name}
                   checked={formData[field.name] || false}
                   onChange={(e) => handleChange(field.name, e.target.checked)}
@@ -149,7 +152,7 @@ export default function CreateItemForm({ fields, onSubmit, title }: CreateItemFo
         className="submit-button"
         disabled={loading}
       >
-        {loading ? 'Creating...' : 'Create'}
+        {loading ? 'Submitting...' : initialData ? 'Update' : 'Create'}
       </button>
     </form>
   );

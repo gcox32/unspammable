@@ -1,13 +1,161 @@
+import { useState } from 'react';
 import { ExerciseTemplate } from '@/src/types/schema';
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '@/amplify/data/resource';
+import CreateItemForm from './CreateItemForm';
+import { EXERCISE_FIELDS } from '@/src/types/exercise';
 
 interface ExerciseDetailsProps {
   exercise: ExerciseTemplate;
+  onUpdate?: (updatedExercise: ExerciseTemplate) => void;
+  onDelete?: (exerciseId: string) => void;
 }
 
-export default function ExerciseDetails({ exercise }: ExerciseDetailsProps) {
+const client = generateClient<Schema>();
+
+export default function ExerciseDetails({ exercise, onUpdate, onDelete }: ExerciseDetailsProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const handleUpdate = async (formData: Record<string, any>) => {
+    try {
+      const { outputConstants, ...exerciseData } = formData;
+      
+      // Transform the calculation method selection into boolean
+      if (outputConstants) {
+        outputConstants.useCalories = outputConstants.useCalories === 'calories';
+      }
+
+      // Transform unilateral selection into boolean
+      exerciseData.unilateral = exerciseData.unilateral === 'unilateral';
+
+      // Update the exercise template
+      const { data: updatedExercise } = await client.models.ExerciseTemplate.update({
+        id: exercise.id,
+        ...exerciseData
+      });
+
+      // Update or create the associated output constants
+      if (outputConstants) {
+        if (exercise.outputConstants?.id) {
+          await client.models.ExerciseOutputConstants.update({
+            id: exercise.outputConstants.id,
+            ...outputConstants,
+            exerciseTemplateId: exercise.id
+          });
+        } else {
+          await client.models.ExerciseOutputConstants.create({
+            ...outputConstants,
+            exerciseTemplateId: exercise.id
+          });
+        }
+      }
+
+      // Notify parent component of update
+      if (onUpdate) {
+        // @ts-ignore
+        onUpdate(updatedExercise);
+      }
+
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating exercise:', error);
+      throw new Error('Failed to update exercise');
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      if (onDelete) {
+        await onDelete(exercise.id);
+      }
+    } catch (error) {
+      console.error('Error deleting exercise:', error);
+      // You might want to show an error message to the user here
+    }
+  };
+
+  if (isEditing) {
+    const initialData = {
+      ...exercise,
+      unilateral: exercise.unilateral ? 'unilateral' : 'bilateral',
+      outputConstants: exercise.outputConstants ? {
+        ...exercise.outputConstants,
+        useCalories: exercise.outputConstants.useCalories ? 'calories' : 'force-distance'
+      } : undefined
+    };
+
+    return (
+      <div className="exercise-edit-form">
+        <div className="edit-header">
+          <h3>Edit Exercise</h3>
+          <button 
+            className="cancel-button"
+            onClick={() => setIsEditing(false)}
+          >
+            Cancel
+          </button>
+        </div>
+        <CreateItemForm
+          // @ts-ignore
+          fields={EXERCISE_FIELDS}
+          onSubmit={handleUpdate}
+          title="Update Exercise"
+          // @ts-ignore
+          initialData={initialData}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="list-exercise-details">
-      {/* Video Section */}
+      <div className="details-header">
+        <h4>Summary</h4>
+        <div className="header-buttons">
+          <button 
+            className="edit-button"
+            onClick={() => setIsEditing(true)}
+          >
+            Edit
+          </button>
+          <button 
+            className="delete-button"
+            onClick={() => setShowDeleteConfirm(true)}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+
+      {/* Add delete confirmation modal */}
+      {showDeleteConfirm && (
+        <div className="delete-confirm-modal">
+          <div className="modal-content">
+            <h4>Delete Exercise</h4>
+            <p>Are you sure you want to delete "{exercise.name}"? This action cannot be undone.</p>
+            <div className="modal-buttons">
+              <button 
+                className="cancel-button"
+                onClick={() => setShowDeleteConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="delete-button"
+                onClick={() => {
+                  handleDelete();
+                  setShowDeleteConfirm(false);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Existing display code */}
       {exercise.videoEmbed ? (
         <div className="video-section">
           <div className="video-embed" 
@@ -25,7 +173,6 @@ export default function ExerciseDetails({ exercise }: ExerciseDetailsProps) {
         </div>
       )}
 
-      {/* Description */}
       {exercise.description && (
         <p className="exercise-description">{exercise.description}</p>
       )}
@@ -91,11 +238,35 @@ export default function ExerciseDetails({ exercise }: ExerciseDetailsProps) {
         </div>
 
         <div className="classification-group">
+          <h5 className="subheader">Movement Patterns</h5>
+          <div className="tags-section">
+            {exercise.patternPrimary && (
+              <span className="tag pattern-tag primary">Primary: {exercise.patternPrimary}</span>
+            )}
+            {exercise.patternSecondary && (
+              <span className="tag pattern-tag secondary">Secondary: {exercise.patternSecondary}</span>
+            )}
+          </div>
+        </div>
+
+        <div className="classification-group">
+          <h5 className="subheader">Movement Characteristics</h5>
+          <div className="tags-section">
+            {exercise.unilateral && (
+              <span className="tag characteristic-tag">Unilateral</span>
+            )}
+            {exercise.plane && (
+              <span className="tag plane-tag">{exercise.plane} Plane</span>
+            )}
+          </div>
+        </div>
+
+        <div className="classification-group">
           <h5 className="subheader">Equipment</h5>
           <div className="tags-section">
             {exercise.equipment && exercise.equipment.length > 0 ? (
               exercise.equipment.map((item, index) => (
-                <span key={index} data-equipment={item.toLowerCase().replace(/\s+/g, '-')} className="tag equipment-tag">{item.replace(/\s+/g, '-')}</span>
+                <span key={index} className="tag equipment-tag">{item}</span>
               ))
             ) : (
               <span className="no-data">No equipment required</span>
@@ -103,7 +274,6 @@ export default function ExerciseDetails({ exercise }: ExerciseDetailsProps) {
           </div>
         </div>
       </div>
-
     </div>
   );
 } 

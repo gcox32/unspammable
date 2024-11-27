@@ -129,12 +129,16 @@ const schema = a.schema({
     name: a.string().required(),
     description: a.string(),
     outputConstants: a.hasOne('ExerciseOutputConstants', 'exerciseTemplateId'),
+    workoutComponents: a.hasMany('WorkoutComponentTemplateExercise', 'exerciseTemplateId'),
+    exerciseLogs: a.hasMany('ExerciseLog', 'exerciseTemplateId'),
     videoUrl: a.string(),
     videoEmbed: a.string(),
-    category: a.string(),
+    category: a.enum(['Strength', 'Cardio', 'Gymnastics', 'Weightlifting', 'Other']),
     equipment: a.string().array(),
-    workoutComponents: a.hasMany('WorkoutComponentTemplateExercise', 'exerciseTemplateId'),
-    exerciseLogs: a.hasMany('ExerciseLog', 'exerciseTemplateId')
+    patternPrimary: a.enum(['Horizontal Press', 'Vertical Press', 'Horizontal Pull', 'Vertical Pull', 'Knee Dominant', 'Hip Dominant', 'Hybrid Lower', 'Hybrid Upper', 'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation Upper', 'Isolation Lower', 'Rope', 'Carry', 'Other']),
+    patternSecondary: a.enum(['Horizontal Press', 'Vertical Press', 'Horizontal Pull', 'Vertical Pull', 'Knee Dominant', 'Hip Dominant', 'Hybrid Lower', 'Hybrid Upper', 'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation Upper', 'Isolation Lower', 'Rope', 'Carry', 'Other']),
+    unilateral: a.boolean(),
+    plane: a.enum(['Sagittal', 'Frontal', 'Transverse', 'Multiple', 'Other'])
   }).authorization(allow => [
     allow.group("ADMIN"),
     allow.group("COACH").to(["read"]),

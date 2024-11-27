@@ -41,7 +41,7 @@ export const EXERCISE_FIELDS = [
     label: 'Category',
     type: 'select' as const,
     required: true,
-    options: ['Strength', 'Cardio', 'Gymnastics', 'Olympic Lifting']
+    options: ['Strength', 'Cardio', 'Gymnastics', 'Weightlifting', 'Other']
   },
   {
     name: 'equipment',
@@ -49,6 +49,7 @@ export const EXERCISE_FIELDS = [
     type: 'multiselect' as const,
     options: [
       'Barbell',
+      'Rack',
       'Dumbbell',
       'Kettlebell',
       'Pull-up Bar',
@@ -69,7 +70,7 @@ export const EXERCISE_FIELDS = [
     name: 'videoEmbed',
     label: 'Video Embed Code',
     type: 'textarea' as const,
-    placeholder: '<iframe>...</iframe>'
+    placeholder: '<div>...</div>'
   },
   {
     name: 'outputConstants',
@@ -137,6 +138,45 @@ export const EXERCISE_FIELDS = [
         tooltip: 'Calculate work using F × d or reported calories'
       }
     ]
+  },
+  {
+    name: 'patternPrimary',
+    label: 'Primary Movement Pattern',
+    type: 'select' as const,
+    options: [
+      'Horizontal Press', 'Vertical Press', 'Horizontal Pull', 'Vertical Pull',
+      'Knee Dominant', 'Hip Dominant', 'Hybrid Lower', 'Hybrid Upper',
+      'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core',
+      'Isolation Upper', 'Isolation Lower', 'Rope', 'Carry', 'Other'
+    ]
+  },
+  {
+    name: 'patternSecondary',
+    label: 'Secondary Movement Pattern',
+    type: 'select' as const,
+    options: [
+      'Horizontal Press', 'Vertical Press', 'Horizontal Pull', 'Vertical Pull',
+      'Knee Dominant', 'Hip Dominant', 'Hybrid Lower', 'Hybrid Upper',
+      'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core',
+      'Isolation Upper', 'Isolation Lower', 'Rope', 'Carry', 'Other'
+    ]
+  },
+  {
+    name: 'unilateral',
+    label: 'Movement Type',
+    type: 'select' as const,
+    options: [
+      { value: 'bilateral', label: 'Bilateral' },
+      { value: 'unilateral', label: 'Unilateral' }
+    ],
+    defaultValue: 'bilateral',
+    tooltip: 'Whether the movement is performed on one side at a time'
+  },
+  {
+    name: 'plane',
+    label: 'Movement Plane',
+    type: 'select' as const,
+    options: ['Sagittal', 'Frontal', 'Transverse', 'Multiple', 'Other']
   }
 ];
 

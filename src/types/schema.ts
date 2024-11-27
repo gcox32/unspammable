@@ -94,15 +94,17 @@ export interface ExerciseTemplate {
     outputConstants?: Record<string, any>;
     videoUrl?: string;
     videoEmbed?: string;
-    category?: string;
+    category?: 'Strength' | 'Cardio' | 'Gymnastics' | 'Weightlifting' | 'Other';
     equipment?: string[];
-    workoutComponents?: 
-      | WorkoutComponentTemplateExercise[]
-      | null;
+    patternPrimary?: 'Horizontal Press' | 'Vertical Press' | 'Horizontal Pull' | 'Vertical Pull' | 'Knee Dominant' | 'Hip Dominant' | 'Hybrid Lower' | 'Hybrid Upper' | 'Combo' | 'Olympic' | 'Locomotion' | 'Plyometric' | 'Core' | 'Isolation Upper' | 'Isolation Lower' | 'Rope' | 'Carry' | 'Other';
+    patternSecondary?: 'Horizontal Press' | 'Vertical Press' | 'Horizontal Pull' | 'Vertical Pull' | 'Knee Dominant' | 'Hip Dominant' | 'Hybrid Lower' | 'Hybrid Upper' | 'Combo' | 'Olympic' | 'Locomotion' | 'Plyometric' | 'Core' | 'Isolation Upper' | 'Isolation Lower' | 'Rope' | 'Carry' | 'Other';
+    unilateral?: boolean;
+    plane?: 'Sagittal' | 'Frontal' | 'Transverse' | 'Multiple' | 'Other';
+    workoutComponents?: WorkoutComponentTemplateExercise[] | null;
     exerciseLogs?: ExerciseLog[];
     updatedAt?: string;
     createdAt?: string;
-  }
+}
 
 export interface WorkoutInstance {
     id: string;

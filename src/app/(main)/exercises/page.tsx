@@ -18,40 +18,42 @@ export default function ExercisesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchExercises() {
-      try {
-        // Fetch exercises
-        const { data: exerciseData } = await client.models.ExerciseTemplate.list();
-        
-        // Fetch output constants for all exercises
-        const exercisesWithConstants = await Promise.all(
-          exerciseData.map(async (exercise) => {
-            const { data: constantsData } = await client.models.ExerciseOutputConstants.list({
-              filter: {
-                exerciseTemplateId: { eq: exercise.id }
-              }
-            });
-            
-            return {
-              ...exercise,
-              outputConstants: constantsData[0] || null // Take first match if exists
-            };
-          })
-        );
+  const fetchExercises = async () => {
+    try {
+      const { data: exerciseData } = await client.models.ExerciseTemplate.list();
+      
+      const exercisesWithConstants = await Promise.all(
+        exerciseData.map(async (exercise) => {
+          const { data: constantsData } = await client.models.ExerciseOutputConstants.list({
+            filter: {
+              exerciseTemplateId: { eq: exercise.id }
+            }
+          });
+          
+          return {
+            ...exercise,
+            outputConstants: constantsData[0] || null
+          };
+        })
+      );
 
-        // @ts-ignore
-        setExercises(exercisesWithConstants);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching exercises:', err);
-        setError('Failed to load exercises');
-        setLoading(false);
-      }
+      // @ts-ignore
+      setExercises(exercisesWithConstants);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching exercises:', err);
+      setError('Failed to load exercises');
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchExercises();
   }, []);
+
+  const handleUpdateExercise = async (updatedExercise: ExerciseTemplate) => {
+    await fetchExercises(); // Refresh the entire list after an update
+  };
 
   const handleCreateExercise = async (formData: Record<string, any>) => {
     try {
@@ -61,6 +63,9 @@ export default function ExercisesPage() {
       if (outputConstants) {
         outputConstants.useCalories = outputConstants.useCalories === 'calories';
       }
+
+      // Transform unilateral selection into boolean
+      exerciseData.unilateral = exerciseData.unilateral === 'unilateral';
 
       // First create the exercise template
       // @ts-ignore
@@ -84,8 +89,41 @@ export default function ExercisesPage() {
     }
   };
 
+  const handleDeleteExercise = async (exerciseId: string) => {
+    try {
+      // First delete associated output constants if they exist
+      const { data: constantsData } = await client.models.ExerciseOutputConstants.list({
+        filter: {
+          exerciseTemplateId: { eq: exerciseId }
+        }
+      });
+
+      if (constantsData[0]) {
+        await client.models.ExerciseOutputConstants.delete({
+          id: constantsData[0].id
+        });
+      }
+
+      // Then delete the exercise template
+      await client.models.ExerciseTemplate.delete({
+        id: exerciseId
+      });
+
+      // Update local state
+      setExercises(prev => prev.filter(exercise => exercise.id !== exerciseId));
+    } catch (error) {
+      console.error('Error deleting exercise:', error);
+      throw new Error('Failed to delete exercise');
+    }
+  };
+
   const renderItemDetails = (exercise: ExerciseTemplate) => (
-    <ExerciseDetails exercise={exercise} />
+    <ExerciseDetails 
+      exercise={exercise}
+      onUpdate={handleUpdateExercise}
+      // @ts-ignore
+      onDelete={handleDeleteExercise}
+    />
   );
 
   return (
