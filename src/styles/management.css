@@ -168,7 +168,7 @@
 .category-pill[data-category="cardio"] {
     background: #0066cc;
 }
-.category-pill[data-category="bodyweight"] {
+.category-pill[data-category="gymnastics"] {
     background: #009933;
 }
 
@@ -572,6 +572,10 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+}
+
+.delete-confirm-modal .modal-content {
+  max-width: 400px;
 }
 
 .modal-content {

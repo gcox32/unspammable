@@ -17,7 +17,7 @@ export default function AboutPage() {
           The output score is a measure of the physical work and power exerted by
           an athlete during an exercise. It provides a quantitative way to evaluate
           performance by applying basic physics principles. This framework supports
-          a wide range of exercises, including weightlifting, bodyweight
+          a wide range of exercises, including weightlifting, gymnastics
           movements, cardio activities, and stationary equipment metrics.
         </p>
       </section>
