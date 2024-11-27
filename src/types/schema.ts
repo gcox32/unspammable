@@ -93,6 +93,7 @@ export interface ExerciseTemplate {
     description?: string;
     outputConstants?: Record<string, any>;
     videoUrl?: string;
+    videoEmbed?: string;
     category?: string;
     equipment?: string[];
     workoutComponents?: 

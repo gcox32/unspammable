@@ -22,6 +22,108 @@ export interface UnitPreferences {
   legLength: 'metric' | 'imperial';
 }
 
+export const EXERCISE_FIELDS = [
+  {
+    name: 'name',
+    label: 'Exercise Name',
+    type: 'text' as const,
+    required: true,
+    placeholder: 'e.g., Back Squat'
+  },
+  {
+    name: 'description',
+    label: 'Description',
+    type: 'textarea' as const,
+    placeholder: 'Describe the exercise...'
+  },
+  {
+    name: 'category',
+    label: 'Category',
+    type: 'select' as const,
+    required: true,
+    options: ['Strength', 'Cardio', 'Gymnastics', 'Olympic Lifting']
+  },
+  {
+    name: 'equipment',
+    label: 'Equipment Required',
+    type: 'multiselect' as const,
+    options: [
+      'Barbell',
+      'Dumbbell',
+      'Kettlebell',
+      'Pull-up Bar',
+      'Rings',
+      'Rower',
+      'Bike',
+      'Jump Rope',
+      'None'
+    ]
+  },
+  {
+    name: 'videoUrl',
+    label: 'Demo Video URL',
+    type: 'url' as const,
+    placeholder: 'https://...'
+  },
+  {
+    name: 'videoEmbed',
+    label: 'Video Embed Code',
+    type: 'textarea' as const,
+    placeholder: '<iframe>...</iframe>'
+  },
+  {
+    name: 'outputConstants',
+    label: 'Output Score Constants',
+    type: 'section' as const,
+    fields: [
+      {
+        name: 'bodyweightFactor',
+        label: 'Bodyweight Factor',
+        type: 'number' as const,
+        placeholder: '0.0 to 1.0',
+        min: 0,
+        max: 1,
+        step: 0.1,
+        tooltip: 'Percentage of bodyweight used in force calculation'
+      },
+      {
+        name: 'defaultDistance',
+        label: 'Default Movement Distance (m)',
+        type: 'number' as const,
+        placeholder: 'e.g., 0.5',
+        min: 0,
+        step: 0.1,
+        tooltip: 'Default distance of movement in meters'
+      },
+      {
+        name: 'armLengthFactor',
+        label: 'Arm Length Factor',
+        type: 'number' as const,
+        placeholder: '0.0 to 2.0',
+        min: 0,
+        max: 2,
+        step: 0.1,
+        tooltip: 'Multiplier for arm length in distance calculations'
+      },
+      {
+        name: 'legLengthFactor',
+        label: 'Leg Length Factor',
+        type: 'number' as const,
+        placeholder: '0.0 to 2.0',
+        min: 0,
+        max: 2,
+        step: 0.1,
+        tooltip: 'Multiplier for leg length in distance calculations'
+      },
+      {
+        name: 'useCalories',
+        label: 'Use Calories for Calculation',
+        type: 'boolean' as const,
+        tooltip: 'Use machine-reported calories instead of F × d'
+      }
+    ]
+  }
+];
 
 export interface ExerciseDefinition {
   name: string;

@@ -3,11 +3,14 @@ import SectionField from './SectionField';
 
 interface Field {
   name: string;
-  label: string;
-  type: 'text' | 'textarea' | 'select' | 'multiselect' | 'url' | 'section';
+  label: string | React.ReactNode;
+  type: 'text' | 'textarea' | 'select' | 'multiselect' | 'url' | 'section' | 'number' | 'boolean';
   options?: string[];
   required?: boolean;
   placeholder?: string;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 interface CreateItemFormProps {
@@ -100,6 +103,26 @@ export default function CreateItemForm({ fields, onSubmit, title }: CreateItemFo
                     <option key={option} value={option}>{option}</option>
                   ))}
                 </select>
+              ) : field.type === 'number' ? (
+                <input
+                  type={field.type}
+                  id={field.name}
+                  value={formData[field.name] || ''}
+                  onChange={(e) => handleChange(field.name, e.target.value)}
+                  required={field.required}
+                  placeholder={field.placeholder}
+                  min={field.min}
+                  max={field.max}
+                  step={field.step}
+                />
+              ) : field.type === 'boolean' ? (
+                <input
+                  type={field.type}
+                  id={field.name}
+                  checked={formData[field.name] || false}
+                  onChange={(e) => handleChange(field.name, e.target.checked)}
+                  required={field.required}
+                />
               ) : (
                 <input
                   type={field.type}

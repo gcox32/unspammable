@@ -130,6 +130,7 @@ const schema = a.schema({
     description: a.string(),
     outputConstants: a.hasOne('ExerciseOutputConstants', 'exerciseTemplateId'),
     videoUrl: a.string(),
+    videoEmbed: a.string(),
     category: a.string(),
     equipment: a.string().array(),
     workoutComponents: a.hasMany('WorkoutComponentTemplateExercise', 'exerciseTemplateId'),

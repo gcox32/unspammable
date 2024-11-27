@@ -1,3 +1,5 @@
+import Tooltip from '../Tooltip';
+
 interface SectionFieldProps {
   field: {
     name: string;
@@ -26,10 +28,15 @@ export default function SectionField({ field, value, onChange }: SectionFieldPro
           <div key={subField.name} className="input-group">
             <label 
               htmlFor={`${field.name}-${subField.name}`}
-              title={subField.tooltip}
               className="input-label"
             >
-              {subField.label}
+              {subField.tooltip ? (
+                <Tooltip text={subField.tooltip}>
+                  {subField.label}
+                </Tooltip>
+              ) : (
+                subField.label
+              )}
             </label>
             {subField.type === 'boolean' ? (
               <input
@@ -59,9 +66,6 @@ export default function SectionField({ field, value, onChange }: SectionFieldPro
                   })
                 }
               />
-            )}
-            {subField.tooltip && (
-              <div className="field-tooltip">ⓘ {subField.tooltip}</div>
             )}
           </div>
         ))}
