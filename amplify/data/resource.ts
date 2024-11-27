@@ -135,8 +135,8 @@ const schema = a.schema({
     videoEmbed: a.string(),
     category: a.enum(['Strength', 'Cardio', 'Gymnastics', 'Weightlifting', 'Other']),
     equipment: a.string().array(),
-    patternPrimary: a.enum(['Horizontal Press', 'Vertical Press', 'Horizontal Pull', 'Vertical Pull', 'Knee Dominant', 'Hip Dominant', 'Hybrid Lower', 'Hybrid Upper', 'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation Upper', 'Isolation Lower', 'Rope', 'Carry', 'Other']),
-    patternSecondary: a.enum(['Horizontal Press', 'Vertical Press', 'Horizontal Pull', 'Vertical Pull', 'Knee Dominant', 'Hip Dominant', 'Hybrid Lower', 'Hybrid Upper', 'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation Upper', 'Isolation Lower', 'Rope', 'Carry', 'Other']),
+    patternPrimary: a.enum(['Horizontal_Press', 'Vertical_Press', 'Horizontal_Pull', 'Vertical_Pull', 'Knee_Dominant', 'Hip_Dominant', 'Hybrid_Lower', 'Hybrid_Upper', 'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation_Upper', 'Isolation_Lower', 'Rope', 'Carry', 'Other']),
+    patternSecondary: a.enum(['Horizontal_Press', 'Vertical_Press', 'Horizontal_Pull', 'Vertical_Pull', 'Knee_Dominant', 'Hip_Dominant', 'Hybrid_Lower', 'Hybrid_Upper', 'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation_Upper', 'Isolation_Lower', 'Rope', 'Carry', 'Other']),
     unilateral: a.boolean(),
     plane: a.enum(['Sagittal', 'Frontal', 'Transverse', 'Multiple', 'Other'])
   }).authorization(allow => [

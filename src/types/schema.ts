@@ -96,8 +96,8 @@ export interface ExerciseTemplate {
     videoEmbed?: string;
     category?: 'Strength' | 'Cardio' | 'Gymnastics' | 'Weightlifting' | 'Other';
     equipment?: string[];
-    patternPrimary?: 'Horizontal Press' | 'Vertical Press' | 'Horizontal Pull' | 'Vertical Pull' | 'Knee Dominant' | 'Hip Dominant' | 'Hybrid Lower' | 'Hybrid Upper' | 'Combo' | 'Olympic' | 'Locomotion' | 'Plyometric' | 'Core' | 'Isolation Upper' | 'Isolation Lower' | 'Rope' | 'Carry' | 'Other';
-    patternSecondary?: 'Horizontal Press' | 'Vertical Press' | 'Horizontal Pull' | 'Vertical Pull' | 'Knee Dominant' | 'Hip Dominant' | 'Hybrid Lower' | 'Hybrid Upper' | 'Combo' | 'Olympic' | 'Locomotion' | 'Plyometric' | 'Core' | 'Isolation Upper' | 'Isolation Lower' | 'Rope' | 'Carry' | 'Other';
+    patternPrimary?: 'Horizontal_Press' | 'Vertical_Press' | 'Horizontal_Pull' | 'Vertical_Pull' | 'Knee_Dominant' | 'Hip_Dominant' | 'Hybrid_Lower' | 'Hybrid_Upper' | 'Combo' | 'Olympic' | 'Locomotion' | 'Plyometric' | 'Core' | 'Isolation_Upper' | 'Isolation_Lower' | 'Rope' | 'Carry' | 'Other';
+    patternSecondary?: 'Horizontal_Press' | 'Vertical_Press' | 'Horizontal_Pull' | 'Vertical_Pull' | 'Knee_Dominant' | 'Hip_Dominant' | 'Hybrid_Lower' | 'Hybrid_Upper' | 'Combo' | 'Olympic' | 'Locomotion' | 'Plyometric' | 'Core' | 'Isolation_Upper' | 'Isolation_Lower' | 'Rope' | 'Carry' | 'Other';
     unilateral?: boolean;
     plane?: 'Sagittal' | 'Frontal' | 'Transverse' | 'Multiple' | 'Other';
     workoutComponents?: WorkoutComponentTemplateExercise[] | null;
