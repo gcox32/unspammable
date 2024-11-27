@@ -10,6 +10,7 @@ import BrowsingContainer from '@/src/components/BrowsingContainer';
 import CreateItemForm from "@/src/components/CreateItemForm";
 import { EXERCISE_FIELDS } from '@/src/types/exercise';
 import ExerciseDetails from '@/src/components/ExerciseDetails';
+import Snackbar from '@/src/components/Snackbar';
 
 const client = generateClient<Schema>()
 
@@ -17,6 +18,7 @@ export default function ExercisesPage() {
   const [exercises, setExercises] = useState<ExerciseTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
 
   const fetchExercises = async () => {
     try {
@@ -83,6 +85,12 @@ export default function ExercisesPage() {
       // @ts-ignore
       setExercises(prev => [...prev, newExercise]);
       
+      // Show success message
+      setShowSuccessSnackbar(true);
+      setTimeout(() => {
+        setShowSuccessSnackbar(false);
+      }, 3000);
+      
       return newExercise;
     } catch (error) {
       console.error('Error creating exercise:', error);
@@ -112,6 +120,13 @@ export default function ExercisesPage() {
 
       // Update local state
       setExercises(prev => prev.filter(exercise => exercise.id !== exerciseId));
+      
+      // Show success message
+      setShowSuccessSnackbar(true);
+      setTimeout(() => {
+        setShowSuccessSnackbar(false);
+      }, 3000);
+
     } catch (error) {
       console.error('Error deleting exercise:', error);
       throw new Error('Failed to delete exercise');
@@ -145,6 +160,13 @@ export default function ExercisesPage() {
                 onSubmit={handleCreateExercise}
                 title="Create Exercise"
               />
+              {showSuccessSnackbar && (
+                <Snackbar 
+                  message="Exercise created successfully"
+                  type="success"
+                  visible={showSuccessSnackbar}
+                />
+              )}
             </div>
 
             {/* Right Section - Exercise Library */}
@@ -162,9 +184,7 @@ export default function ExercisesPage() {
                   </div>
                 )}
                 renderItemDetails={renderItemDetails}
-                onItemUpdate={(updatedExercise) => {
-                  // Optional: Add any additional handling here
-                }}
+                onItemUpdate={(updatedExercise) => {}}
               />
             </div>
           </div>
