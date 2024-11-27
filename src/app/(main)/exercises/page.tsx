@@ -14,11 +14,19 @@ import Snackbar from '@/src/components/Snackbar';
 
 const client = generateClient<Schema>()
 
+interface SnackbarState {
+  show: boolean;
+  message: string;
+}
+
 export default function ExercisesPage() {
   const [exercises, setExercises] = useState<ExerciseTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    show: false,
+    message: ''
+  });
 
   const fetchExercises = async () => {
     try {
@@ -86,9 +94,9 @@ export default function ExercisesPage() {
       setExercises(prev => [...prev, newExercise]);
       
       // Show success message
-      setShowSuccessSnackbar(true);
+      setSnackbar({ show: true, message: 'Exercise created successfully' });
       setTimeout(() => {
-        setShowSuccessSnackbar(false);
+        setSnackbar({ show: false, message: '' });
       }, 3000);
       
       return newExercise;
@@ -122,11 +130,13 @@ export default function ExercisesPage() {
       setExercises(prev => prev.filter(exercise => exercise.id !== exerciseId));
       
       // Show success message
-      setShowSuccessSnackbar(true);
+      setSnackbar({ show: true, message: 'Exercise deleted successfully' });
       setTimeout(() => {
-        setShowSuccessSnackbar(false);
+        setSnackbar({ show: false, message: '' });
       }, 3000);
 
+      // Close the modal by returning true
+      return true;
     } catch (error) {
       console.error('Error deleting exercise:', error);
       throw new Error('Failed to delete exercise');
@@ -160,11 +170,11 @@ export default function ExercisesPage() {
                 onSubmit={handleCreateExercise}
                 title="Create Exercise"
               />
-              {showSuccessSnackbar && (
+              {snackbar.show && (
                 <Snackbar 
-                  message="Exercise created successfully"
+                  message={snackbar.message}
                   type="success"
-                  visible={showSuccessSnackbar}
+                  visible={snackbar.show}
                 />
               )}
             </div>
