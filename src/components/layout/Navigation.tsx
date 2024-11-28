@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 import PageSettingsSidebar from "./PageSettingsSidebar";
 import UserSidebar from "./UserSidebar";
 import { useRouter } from "next/navigation";
-import "../styles/components/Navigation.css";
+import "@/src/styles/components/Navigation.css";
 import PersistentSidebar from './PersistentSidebar';
 import { useSidebar } from "@/src/contexts/SidebarContext";
 

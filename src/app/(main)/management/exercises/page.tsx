@@ -158,8 +158,8 @@ export default function ExercisesPage() {
   return (
     <AuthProtected>
       {(user) => (
-        <div className="exercises-page content">
-          <div className="exercises-content">
+        <div className="management-page content">
+          <div className="management-content">
             {/* Left Section - Create Exercise */}
             <div className="create-section">
               <h3>Create Exercise</h3>
@@ -183,7 +183,7 @@ export default function ExercisesPage() {
             {/* Right Section - Exercise Library */}
             <div className="list-section">
               <h3>Exercise Library</h3>
-              <p className="content-description">Browse and manage your exercise collection.</p>
+              <p className="content-description">Browse and manage the exercise library.</p>
               <BrowsingContainer 
                 items={exercises}
                 loading={loading}

@@ -133,10 +133,10 @@ const schema = a.schema({
     exerciseLogs: a.hasMany('ExerciseLog', 'exerciseTemplateId'),
     videoUrl: a.string(),
     videoEmbed: a.string(),
-    category: a.enum(['Strength', 'Cardio', 'Gymnastics', 'Weightlifting', 'Other']),
+    category: a.enum(['Strength', 'Cardio', 'Gymnastics', 'Weightlifting', 'Plyometric', 'Other']),
     equipment: a.string().array(),
-    patternPrimary: a.enum(['Horizontal_Press', 'Vertical_Press', 'Horizontal_Pull', 'Vertical_Pull', 'Knee_Dominant', 'Hip_Dominant', 'Hybrid_Lower', 'Hybrid_Upper', 'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation_Upper', 'Isolation_Lower', 'Rope', 'Carry', 'Other']),
-    patternSecondary: a.enum(['Horizontal_Press', 'Vertical_Press', 'Horizontal_Pull', 'Vertical_Pull', 'Knee_Dominant', 'Hip_Dominant', 'Hybrid_Lower', 'Hybrid_Upper', 'Combo', 'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation_Upper', 'Isolation_Lower', 'Rope', 'Carry', 'Other']),
+    patternPrimary: a.string(),
+    patternSecondary: a.string(),
     unilateral: a.boolean(),
     plane: a.enum(['Sagittal', 'Frontal', 'Transverse', 'Multiple', 'Other'])
   }).authorization(allow => [

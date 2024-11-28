@@ -49,20 +49,20 @@
 }
 
 /* Exercise Page Layout */
-.exercises-page {
+.management-page {
     padding: 2rem;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-.exercises-content {
+.management-content {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
 @media (max-width: 1024px) {
-    .exercises-content {
+    .management-content {
         justify-content: center;
     }
     .create-section, .list-section {
@@ -71,12 +71,12 @@
     }
 }
 
-.exercises-content h3 {
+.management-content h3 {
     margin: 0;
     text-align: center;
 }
 
-.exercises-content .content-description {
+.management-content .content-description {
     text-align: center;
     margin-bottom: 1rem;
 }
@@ -101,7 +101,7 @@
 
 
 @media (max-width: 1200px) {
-    .exercises-content {
+    .management-content {
         justify-content: center;
     }
     .create-section, .list-section {

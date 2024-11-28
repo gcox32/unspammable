@@ -38,15 +38,15 @@ const navGroups: NavGroup[] = [
     {
         title: 'Management',
         items: [
-            { icon: <FaDumbbell />, label: 'Workouts', href: '/workouts' },
-            { icon: <FaPuzzlePiece />, label: 'Components', href: '/workout-components' },
-            { icon: <FaListUl />, label: 'Exercises', href: '/exercises' },
+            { icon: <FaDumbbell />, label: 'Workouts', href: '/management/workouts' },
+            { icon: <FaPuzzlePiece />, label: 'Components', href: '/management/workout-components' },
+            { icon: <FaListUl />, label: 'Exercises', href: '/management/exercises' },
         ]
     },
     {
         title: 'Tools',
         items: [
-            { icon: <FaCalculator />, label: 'Calculator', href: '/calculator' },
+            { icon: <FaCalculator />, label: 'Calculator', href: '/tools/calculator' },
         ]
     }
 ];

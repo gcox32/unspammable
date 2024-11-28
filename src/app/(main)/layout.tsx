@@ -1,6 +1,6 @@
 "use client"
 
-import Navigation from "@/src/components/Navigation";
+import Navigation from "@/src/components/layout/Navigation";
 import Footer from "@/src/components/layout/Footer";
 import { SidebarProvider, useSidebar } from "@/src/contexts/SidebarContext";
 import { useAuthenticator } from "@aws-amplify/ui-react";

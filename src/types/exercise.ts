@@ -41,7 +41,7 @@ export const EXERCISE_FIELDS = [
     label: 'Category',
     type: 'select' as const,
     required: true,
-    options: ['Strength', 'Cardio', 'Gymnastics', 'Weightlifting', 'Other']
+    options: ['Strength', 'Cardio', 'Gymnastics', 'Weightlifting', 'Plyometric', 'Other']
   },
   {
     name: 'equipment',
@@ -57,6 +57,19 @@ export const EXERCISE_FIELDS = [
       'Rower',
       'Bike',
       'Jump Rope',
+      'Bench',
+      'Box',
+      'Bands',
+      'Medicine Ball',
+      'Sandbag',
+      'Plates',
+      'Pulley',
+      'Wheel',
+      'Suspension',
+      'Mats',
+      'Wall',
+      'Battle Rope',
+      'Other',
       'None'
     ]
   },
@@ -144,9 +157,9 @@ export const EXERCISE_FIELDS = [
     label: 'Primary Movement Pattern',
     type: 'select' as const,
     options: [
-      'Horizontal_Press', 'Vertical_Press', 'Horizontal_Pull', 'Vertical_Pull', 
-      'Knee_Dominant', 'Hip_Dominant', 'Hybrid_Lower', 'Hybrid_Upper', 'Combo', 
-      'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation_Upper', 'Isolation_Lower', 
+      'Horizontal Press', 'Vertical Press', 'Horizontal Pull', 'Vertical Pull', 
+      'Knee Dominant', 'Hip Dominant', 'Hybrid Lower', 'Hybrid Upper', 'Combo', 
+      'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation Upper', 'Isolation Lower', 
       'Rope', 'Carry', 'Other'
     ]
   },
@@ -155,9 +168,9 @@ export const EXERCISE_FIELDS = [
     label: 'Secondary Movement Pattern',
     type: 'select' as const,
     options: [
-      'Horizontal_Press', 'Vertical_Press', 'Horizontal_Pull', 'Vertical_Pull', 
-      'Knee_Dominant', 'Hip_Dominant', 'Hybrid_Lower', 'Hybrid_Upper', 'Combo', 
-      'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation_Upper', 'Isolation_Lower', 
+      'Horizontal Press', 'Vertical Press', 'Horizontal Pull', 'Vertical Pull', 
+      'Knee Dominant', 'Hip Dominant', 'Hybrid Lower', 'Hybrid Upper', 'Combo', 
+      'Olympic', 'Locomotion', 'Plyometric', 'Core', 'Isolation Upper', 'Isolation Lower', 
       'Rope', 'Carry', 'Other'
     ]
   },
