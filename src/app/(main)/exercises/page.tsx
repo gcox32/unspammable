@@ -143,14 +143,19 @@ export default function ExercisesPage() {
     }
   };
 
-  const renderItemDetails = (exercise: ExerciseTemplate, onModalUpdate: (item: ExerciseTemplate) => void) => (
+  const renderItemDetails = (exercise: ExerciseTemplate, onModalUpdate: (item: ExerciseTemplate | null) => void) => (
     <ExerciseDetails 
       exercise={exercise}
       onUpdate={async (updatedExercise) => {
         await handleUpdateExercise(updatedExercise);
-        onModalUpdate(updatedExercise); // Update the modal's state
+        onModalUpdate(updatedExercise);
       }}
-      onDelete={handleDeleteExercise}
+      onDelete={async (exerciseId) => {
+        const success = await handleDeleteExercise(exerciseId);
+        if (success) {
+          onModalUpdate(null); // This will trigger the modal to close
+        }
+      }}
     />
   );
 

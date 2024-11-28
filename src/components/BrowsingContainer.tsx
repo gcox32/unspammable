@@ -12,7 +12,7 @@ interface BrowsingContainerProps<T extends Item> {
   loading: boolean;
   error: string | null;
   renderItem?: (item: T) => React.ReactNode; // Optional custom render function
-  renderItemDetails?: (item: T, handleItemUpdate: (updatedItem: T) => void) => React.ReactNode; // New prop for modal content
+  renderItemDetails?: (item: T, handleItemUpdate: (updatedItem: T | null) => void) => React.ReactNode; // New prop for modal content
   onItemUpdate?: (updatedItem: T) => void;  // New prop
 }
 
@@ -59,9 +59,9 @@ export default function BrowsingContainer<T extends Item>({
   }, [items]);
 
   // Add handler for item updates
-  const handleItemUpdate = (updatedItem: T) => {
+  const handleItemUpdate = (updatedItem: T | null) => { 
     setSelectedItem(updatedItem);
-    if (onItemUpdate) {
+    if (onItemUpdate && updatedItem) {
       onItemUpdate(updatedItem);
     }
   };

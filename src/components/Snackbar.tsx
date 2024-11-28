@@ -11,7 +11,7 @@ interface SnackbarProps {
 
 export default function Snackbar({ message, type, visible }: SnackbarProps) {
   return (
-    <div className={`snackbar ${type} ${visible ? "show" : ""}`}>
+    <div className={`snackbar ${type} ${visible ? "show" : "hide"}`}>
       {message}
     </div>
   );
