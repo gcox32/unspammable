@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '@/src/contexts/ThemeContext';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
 export default function PageSettingsSidebar() {

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { FaCog } from "react-icons/fa";
 import Sidebar from "./Sidebar";
-import PageSettingsSidebar from "../PageSettingsSidebar";
+import PageSettingsSidebar from "./PageSettingsSidebar";
 import UserSidebar from "./UserSidebar";
 import { useRouter } from "next/navigation";
 import "../styles/components/Navigation.css";

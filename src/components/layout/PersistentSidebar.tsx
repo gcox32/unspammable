@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa';
 import Link from 'next/link';
 import Logo from './Logo';
-import { useSidebar } from '../contexts/SidebarContext';
+import { useSidebar } from '@/src/contexts/SidebarContext';
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface NavItem {
