@@ -1,20 +1,6 @@
 import { useState, useEffect } from 'react';
-import Modal from '../Modal';
-
-interface Item {
-  id: string;
-  name: string;
-  [key: string]: any; // Allow for additional properties
-}
-
-interface BrowsingContainerProps<T extends Item> {
-  items: T[];
-  loading: boolean;
-  error: string | null;
-  renderItem?: (item: T) => React.ReactNode; // Optional custom render function
-  renderItemDetails?: (item: T, handleItemUpdate: (updatedItem: T | null) => void) => React.ReactNode; // New prop for modal content
-  onItemUpdate?: (updatedItem: T) => void;  // New prop
-}
+import Modal from '@/src/components/Modal';
+import type { Item, BrowsingContainerProps } from './types';
 
 export default function BrowsingContainer<T extends Item>({ 
   items, 

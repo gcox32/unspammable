@@ -1,15 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import type { TooltipProps, Position } from '@/src/types/app';
 import './styles.css';
-
-interface TooltipProps {
-    text: string;
-    children: React.ReactNode;
-  }
-  
-  interface Position {
-    x: number;
-    y: number;
-  }
 
 export default function Tooltip({ text, children }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);

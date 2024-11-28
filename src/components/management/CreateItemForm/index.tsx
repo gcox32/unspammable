@@ -1,25 +1,6 @@
 import { useState } from 'react';
 import SectionField from './SectionField';
-
-interface Field {
-  name: string;
-  label: string | React.ReactNode;
-  type: 'text' | 'textarea' | 'select' | 'multiselect' | 'url' | 'section' | 'number' | 'boolean';
-  options?: (string | { value: string, label: string })[];
-  required?: boolean;
-  placeholder?: string;
-  min?: number;
-  max?: number;
-  step?: number;
-  defaultValue?: string;
-}
-
-interface CreateItemFormProps {
-  fields: Field[];
-  onSubmit: (formData: Record<string, any>) => Promise<void>;
-  title: string;
-  initialData?: Record<string, any>;
-}
+import type { CreateItemFormProps } from './types';
 
 export default function CreateItemForm({ fields, onSubmit, title, initialData }: CreateItemFormProps) {
   const [formData, setFormData] = useState<Record<string, any>>(initialData || {});
