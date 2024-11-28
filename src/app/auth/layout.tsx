@@ -3,7 +3,7 @@
 import '@/src/styles/auth.css';
 import { usePathname } from 'next/navigation';
 import { Suspense } from 'react';
-import AuthLoadingState from '@/src/components/AuthLoadingState';
+import AuthLoadingState from '@/src/components/auth/AuthLoadingState';
 
 const BANNER_CONTENT = {
   '/auth/sign-in': {

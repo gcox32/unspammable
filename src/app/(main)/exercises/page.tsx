@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AuthProtected from "@/src/components/AuthProtected";
+import AuthProtected from "@/src/components/auth/AuthProtected";
 import type { Schema } from '@/amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 import type { ExerciseTemplate } from '@/src/types/schema';
 import '../../../styles/management.css';
-import BrowsingContainer from '@/src/components/BrowsingContainer';
-import CreateItemForm from "@/src/components/CreateItemForm";
+import BrowsingContainer from '@/src/components/management/BrowsingContainer';
+import CreateItemForm from "@/src/components/management/CreateItemForm";
 import { EXERCISE_FIELDS } from '@/src/types/exercise';
-import ExerciseDetails from '@/src/components/ExerciseDetails';
+import ExerciseDetails from '@/src/components/management/exercises/ExerciseDetails';
 import Snackbar from '@/src/components/Snackbar';
 
 const client = generateClient<Schema>()

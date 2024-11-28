@@ -1,6 +1,6 @@
 "use client";
 
-import AuthProtected from "@/src/components/AuthProtected";
+import AuthProtected from "@/src/components/auth/AuthProtected";
 
 export default function DashboardPage() {
   return (

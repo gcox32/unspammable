@@ -5,7 +5,7 @@ import "@/src/styles/app.css";
 import "@aws-amplify/ui-react/styles.css";
 import { convertUnits } from "@/src/utils/convertUnits";
 import { EXERCISE_CONSTANTS } from "@/src/utils/outputFunctions/exerciseConstants";
-import ExerciseDetailsCard from '@/src/components/ExerciseDetailsCard';
+import ExerciseDetailsCard from '@/src/components/management/exercises/ExerciseDetailsCard';
 import { 
   ExerciseMeasures, 
   AthleteMetrics, 

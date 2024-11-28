@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { ExerciseTemplate } from '@/src/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
-import CreateItemForm from './CreateItemForm';
+import CreateItemForm from '../CreateItemForm';
 import { EXERCISE_FIELDS } from '@/src/types/exercise';
-import Snackbar from './Snackbar';
+import Snackbar from '../../Snackbar';
 
 interface ExerciseDetailsProps {
   exercise: ExerciseTemplate;
