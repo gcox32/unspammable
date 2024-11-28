@@ -117,6 +117,12 @@ const schema = a.schema({
     id: a.id().required(),
     workoutComponentTemplateId: a.id().required(),
     exerciseTemplateId: a.id().required(),
+    externalLoadPrimary: a.float(),
+    externalLoadSecondary: a.float(),
+    reps: a.integer(),
+    distance: a.float(),
+    time: a.float(),
+    calories: a.float(),
     exercise: a.belongsTo('ExerciseTemplate', 'exerciseTemplateId'),
     workoutComponentTemplate: a.belongsTo('WorkoutComponentTemplate', 'workoutComponentTemplateId')
   }).authorization(allow => [

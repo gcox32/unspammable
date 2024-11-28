@@ -622,3 +622,17 @@
 .cancel-button:hover {
   background-color: #5a6268;
 }
+
+/* Component Cards */
+.component-exercises {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.exercise-count {
+  background: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}

@@ -83,6 +83,12 @@ export interface WorkoutComponentTemplateExercise {
     id: string;
     workoutComponentTemplateId: string;
     exerciseTemplateId: string;
+    externalLoadPrimary?: number | null;
+    externalLoadSecondary?: number | null;
+    reps?: number | null;
+    distance?: number | null;
+    time?: number | null;
+    calories?: number | null;
     exercise?: ExerciseTemplate | null;
     workoutComponentTemplate?: WorkoutComponentTemplate | null;
 }
