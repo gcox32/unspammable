@@ -48,6 +48,7 @@ export interface WorkoutComponentTemplate {
     id: string;
     workoutTemplateId: string;
     name: string | null;
+    description?: string | null;
     sequenceOrder: number | null;
     workoutTemplate?: WorkoutTemplate | null;
     workoutComponentLogs?: WorkoutComponentLog[] | null;

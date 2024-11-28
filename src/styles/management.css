@@ -636,3 +636,96 @@
   border-radius: 12px;
   font-size: 0.8rem;
 }
+
+.exercise-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
+}
+
+.exercise-list li {
+  padding: 0.25rem 0;
+  color: #666;
+}
+
+.measure {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.no-exercises {
+  color: #999;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Component Details */
+.list-component-details {
+  padding: 1.5rem;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.component-description {
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* Exercises Section */
+.exercises-section {
+  margin-top: 2rem;
+}
+
+.exercises-section h4 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.exercises-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.exercise-item {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.exercise-item h5 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.exercise-measures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.measure {
+  background: #eee;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Edit Form */
+.component-edit-form {
+  padding: 1.5rem;
+}

@@ -1,3 +1,5 @@
+import ComponentExerciseForm from "../components/management/components/ComponentExerciseForm";
+
 export const COMPONENT_FIELDS = [
   {
     name: 'name',
@@ -19,5 +21,11 @@ export const COMPONENT_FIELDS = [
     required: true,
     min: 1,
     placeholder: 'Order in workout'
+  },
+  {
+    name: 'exercises',
+    label: 'Exercises',
+    type: 'custom' as const,
+    component: ComponentExerciseForm
   }
 ]; 

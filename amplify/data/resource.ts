@@ -70,6 +70,7 @@ const schema = a.schema({
     id: a.id().required(),
     workoutTemplateId: a.id().required(),
     name: a.string().required(),
+    description: a.string(),
     sequenceOrder: a.integer().required(),
     workoutTemplate: a.belongsTo('WorkoutTemplate', 'workoutTemplateId'),
     workoutComponentLogs: a.hasMany('WorkoutComponentLog', 'workoutComponentTemplateId'),
