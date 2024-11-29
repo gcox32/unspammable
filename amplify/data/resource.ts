@@ -8,6 +8,7 @@ const schema = a.schema({
     sub: a.string().required(),
     name: a.string().required(),
     email: a.string().required(),
+    accessTelehealth: a.boolean(),
     profile: a.hasOne('Profile', 'athleteId'),
     trackingMetrics: a.hasMany('TrackingMetric', 'athleteId'),
     workoutLogs: a.hasMany('WorkoutLog', 'athleteId')
@@ -19,8 +20,9 @@ const schema = a.schema({
   Profile: a.model({
     id: a.id().required(),
     athleteId: a.id().required(),
-    age: a.integer(),
-    gender: a.string(),
+    avatarUrl: a.string(),
+    birthdate: a.date(),
+    gender: a.enum(['Male', 'Female']),
     height: a.float(),
     weight: a.float(),
     homeGym: a.string(),
