@@ -1,39 +1,42 @@
 export interface Athlete {
     id: string;
-    sub: string | null;
-    name: string | null;
-    email: string | null;
-    profile?: Profile | null;
-    trackingMetrics?: TrackingMetric[] | null;
-    workoutLogs?: WorkoutLog[] | null;
+    sub: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    accessTelehealth?: boolean;
+    profile?: Profile;
+    trackingMetrics?: TrackingMetric[];
+    workoutLogs?: WorkoutLog[];
 }
 
 export interface Profile {
     id: string;
     athleteId: string;
-    age?: number | null;
-    gender?: string | null;
-    height?: number | null;
-    weight?: number | null;
-    homeGym?: string | null;
-    athlete?: Athlete | null;
+    avatarUrl?: string;
+    birthdate?: Date;
+    gender?: 'Male' | 'Female';
+    height?: number;
+    weight?: number;
+    homeGym?: string;
+    athlete?: Athlete;
 }
 
 export interface TrackingMetric {
     id: string;
-    type: string | null;
-    unit: string | null;
+    type: string;
+    unit: string;
     athleteId: string;
-    athlete?: Athlete | null;
-    entries?: TrackingMetricEntry[] | null;
+    athlete?: Athlete;
+    entries?: TrackingMetricEntry[];
 }
 
 export interface TrackingMetricEntry {
     id: string;
-    date: Date | null;
-    value: number | null;
+    date: Date;
+    value: number;
     trackingMetricId: string;
-    trackingMetric?: TrackingMetric | null;
+    trackingMetric?: TrackingMetric;
 }
 
 export interface WorkoutTemplate {

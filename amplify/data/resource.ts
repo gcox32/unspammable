@@ -6,27 +6,30 @@ const schema = a.schema({
   Athlete: a.model({
     id: a.id().required(),
     sub: a.string().required(),
-    name: a.string().required(),
+    firstName: a.string().required(),
+    lastName: a.string().required(),
     email: a.string().required(),
-    accessTelehealth: a.boolean(),
-    profile: a.hasOne('Profile', 'athleteId'),
-    trackingMetrics: a.hasMany('TrackingMetric', 'athleteId'),
-    workoutLogs: a.hasMany('WorkoutLog', 'athleteId')
-  }).authorization(allow => [
-    allow.group("ADMIN"),
-    allow.group("COACH"),
-    allow.group("ATHLETE").to(["read"])
-  ]),
-  Profile: a.model({
-    id: a.id().required(),
-    athleteId: a.id().required(),
-    avatarUrl: a.string(),
     birthdate: a.date(),
     gender: a.enum(['Male', 'Female']),
-    height: a.float(),
-    weight: a.float(),
-    homeGym: a.string(),
-    athlete: a.belongsTo('Athlete', 'athleteId')
+    accessTelehealth: a.boolean(),
+    avatarUrl: a.string()
+      .authorization(allow => [
+        allow.groups(["ADMIN", "COACH", "ATHLETE"])
+      ]),
+    height: a.float()
+      .authorization(allow => [
+        allow.groups(["ADMIN", "COACH", "ATHLETE"])
+      ]),
+    weight: a.float()
+      .authorization(allow => [
+        allow.groups(["ADMIN", "COACH", "ATHLETE"])
+      ]),
+    homeGym: a.string()
+      .authorization(allow => [
+        allow.groups(["ADMIN", "COACH", "ATHLETE"])
+      ]),
+    trackingMetrics: a.hasMany('TrackingMetric', 'athleteId'),
+    workoutLogs: a.hasMany('WorkoutLog', 'athleteId')
   }).authorization(allow => [
     allow.group("ADMIN"),
     allow.group("COACH"),
