@@ -74,7 +74,7 @@ export default function ComponentExerciseForm({ onChange }: ComponentExerciseFor
   };
 
   return (
-    <div className="component-exercise-form">
+    <div className="section-fields">
       <div className="exercise-list">
         {selectedExercises.map((exercise, index) => (
           <div key={index} className="exercise-item">

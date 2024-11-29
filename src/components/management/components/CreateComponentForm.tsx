@@ -44,7 +44,6 @@ export default function CreateComponentForm({ onSubmit }: CreateComponentFormPro
 
   return (
     <form onSubmit={handleSubmit} className="create-form">
-      <h3>Create Component</h3>
       
       <div className="form-field">
         <label>Component Name</label>
@@ -78,11 +77,13 @@ export default function CreateComponentForm({ onSubmit }: CreateComponentFormPro
       </div>
 
       <div className="form-field">
-        <label>Exercises</label>
+        <fieldset className="form-section">
+        <legend>Exercises</legend>
         <ComponentExerciseForm
           // @ts-ignore
           onChange={(exercises) => setFormData(prev => ({ ...prev, exercises }))}
         />
+        </fieldset>
       </div>
 
       <button type="submit" className="submit-button">Create Component</button>

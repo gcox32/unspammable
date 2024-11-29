@@ -60,19 +60,29 @@ const schema = a.schema({
     name: a.string().required(),
     description: a.string(),
     workoutInstances: a.hasMany('WorkoutInstance', 'workoutTemplateId'),
-    workoutComponentTemplates: a.hasMany('WorkoutComponentTemplate', 'workoutTemplateId')
+    workoutComponentTemplates: a.hasMany('WorkoutTemplateComponent', 'workoutTemplateId')
   }).authorization(allow => [
     allow.group("ADMIN"),
     allow.group("COACH").to(["read"]),
     allow.group("ATHLETE").to(["read"])
   ]),
-  WorkoutComponentTemplate: a.model({
+  WorkoutTemplateComponent: a.model({
     id: a.id().required(),
     workoutTemplateId: a.id().required(),
+    workoutComponentTemplateId: a.id().required(),
+    workoutTemplate: a.belongsTo('WorkoutTemplate', 'workoutTemplateId'),
+    workoutComponentTemplate: a.belongsTo('WorkoutComponentTemplate', 'workoutComponentTemplateId')
+  }).authorization(allow => [
+    allow.group("ADMIN"),
+    allow.group("COACH").to(["read"]),
+  ]),
+  WorkoutComponentTemplate: a.model({
+    id: a.id().required(),
     name: a.string().required(),
     description: a.string(),
+    style: a.string(),
     sequenceOrder: a.integer().required(),
-    workoutTemplate: a.belongsTo('WorkoutTemplate', 'workoutTemplateId'),
+    workoutTemplateComponent: a.hasMany('WorkoutTemplateComponent', 'workoutComponentTemplateId'),
     workoutComponentLogs: a.hasMany('WorkoutComponentLog', 'workoutComponentTemplateId'),
     exercises: a.hasMany('WorkoutComponentTemplateExercise', 'workoutComponentTemplateId'),
     scores: a.hasMany('WorkoutComponentTemplateScore', 'workoutComponentTemplateId'),

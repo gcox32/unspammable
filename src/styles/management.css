@@ -289,6 +289,18 @@
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
+  width: 100%;
+}
+
+.add-button {
+  border: 1px solid #ddd;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+.add-button:hover {
+  background: lightgray;
 }
 
 .submit-button:disabled {
