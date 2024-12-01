@@ -2,12 +2,12 @@ import React from 'react';
 import { 
     FaChevronLeft, 
     FaChevronRight, 
-    FaChartLine, 
-    FaTachometerAlt, 
-    FaRunning,
-    FaDumbbell,
-    FaPuzzlePiece,
-    FaListUl,
+    FaHeartbeat, 
+    FaBolt, 
+    FaChartBar, 
+    FaDumbbell, 
+    FaPuzzlePiece, 
+    FaClipboardList, 
     FaCalculator
 } from 'react-icons/fa';
 import Link from 'next/link';
@@ -28,11 +28,11 @@ interface NavGroup {
 
 const navGroups: NavGroup[] = [
     {
-        title: 'Overview',
+        title: 'Dashboard',
         items: [
-            { icon: <FaChartLine />, label: 'Biometrics', href: '/biometrics' },
-            { icon: <FaTachometerAlt />, label: 'Performance', href: '/performance' },
-            { icon: <FaRunning />, label: 'Output Tracking', href: '/tracking' },
+            { icon: <FaHeartbeat />, label: 'Biometrics', href: '/dashboard/biometrics' },
+            { icon: <FaBolt />, label: 'Performance', href: '/dashboard/performance' },
+            { icon: <FaChartBar />, label: 'Output Tracking', href: '/dashboard/tracking' },
         ]
     },
     {
@@ -40,7 +40,7 @@ const navGroups: NavGroup[] = [
         items: [
             { icon: <FaDumbbell />, label: 'Workouts', href: '/management/workouts' },
             { icon: <FaPuzzlePiece />, label: 'Components', href: '/management/workout-components' },
-            { icon: <FaListUl />, label: 'Exercises', href: '/management/exercises' },
+            { icon: <FaClipboardList />, label: 'Exercises', href: '/management/exercises' },
         ]
     },
     {
