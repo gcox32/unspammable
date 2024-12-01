@@ -30,8 +30,8 @@ const navGroups: NavGroup[] = [
     {
         title: 'Overview',
         items: [
-            { icon: <FaChartLine />, label: 'Metrics', href: '/metrics' },
-            { icon: <FaTachometerAlt />, label: 'Dashboard', href: '/dashboard' },
+            { icon: <FaChartLine />, label: 'Biometrics', href: '/biometrics' },
+            { icon: <FaTachometerAlt />, label: 'Performance', href: '/performance' },
             { icon: <FaRunning />, label: 'Tracking', href: '/tracking' },
         ]
     },
@@ -46,7 +46,7 @@ const navGroups: NavGroup[] = [
     {
         title: 'Tools',
         items: [
-            { icon: <FaCalculator />, label: 'Calculator', href: '/tools/calculator' },
+            { icon: <FaCalculator />, label: 'Output Calculator', href: '/tools/calculator' },
         ]
     }
 ];

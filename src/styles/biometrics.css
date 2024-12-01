@@ -1,0 +1,59 @@
+.biometrics-page {
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.biometrics-content {
+  margin-top: 2rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.metric-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card h3 {
+  color: #111827;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.chart-container {
+  height: 300px;
+  margin-top: 1rem;
+}
+
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.error-state {
+  color: #EF4444;
+}
+
+.metric-card .recharts-tooltip-wrapper {
+  background: white;
+  border-radius: 4px;
+  padding: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+} 
