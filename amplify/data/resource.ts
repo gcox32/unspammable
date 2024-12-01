@@ -108,6 +108,7 @@ const schema = a.schema({
   ]),
   Measure: a.model({
     id: a.id().required(),
+    label: a.string().required(),
     workoutComponentTemplateScoreId: a.id().required(),
     type: a.string().required(),
     unit: a.string().required(),

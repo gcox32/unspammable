@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ComponentExerciseForm from './ComponentExerciseForm';
-import type { WorkoutComponentTemplate } from '@/src/types/schema';
+import ScoreConfiguration from './ScoreConfiguration';
 
 interface CreateComponentFormProps {
   onSubmit: (formData: {
@@ -16,6 +16,11 @@ interface CreateComponentFormProps {
       time?: number;
       calories?: number;
     }>;
+    scores: Array<{
+      type: string;
+      unit: string;
+      label: string;
+    }>;
   }) => Promise<void>;
 }
 
@@ -24,51 +29,42 @@ export default function CreateComponentForm({ onSubmit }: CreateComponentFormPro
     name: '',
     description: '',
     sequenceOrder: 1,
-    exercises: []
+    exercises: [],
+    scores: []
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await onSubmit(formData);
-      setFormData({
-        name: '',
-        description: '',
-        sequenceOrder: 1,
-        exercises: []
-      });
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+    await onSubmit(formData);
   };
 
   return (
     <form onSubmit={handleSubmit} className="create-form">
-      
       <div className="form-field">
-        <label>Component Name</label>
+        <label htmlFor="name">Name</label>
         <input
           type="text"
+          id="name"
           value={formData.name}
           onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-          placeholder="e.g., Strength Complex A"
           required
         />
       </div>
 
       <div className="form-field">
-        <label>Description</label>
+        <label htmlFor="description">Description</label>
         <textarea
+          id="description"
           value={formData.description}
           onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-          placeholder="Describe the workout component"
         />
       </div>
 
       <div className="form-field">
-        <label>Sequence Order</label>
+        <label htmlFor="sequenceOrder">Sequence Order</label>
         <input
           type="number"
+          id="sequenceOrder"
           value={formData.sequenceOrder}
           onChange={(e) => setFormData(prev => ({ ...prev, sequenceOrder: parseInt(e.target.value) }))}
           min={1}
@@ -78,11 +74,21 @@ export default function CreateComponentForm({ onSubmit }: CreateComponentFormPro
 
       <div className="form-field">
         <fieldset className="form-section">
-        <legend>Exercises</legend>
-        <ComponentExerciseForm
-          // @ts-ignore
-          onChange={(exercises) => setFormData(prev => ({ ...prev, exercises }))}
-        />
+          <legend>Exercises</legend>
+          <ComponentExerciseForm
+            // @ts-ignore
+            onChange={(exercises) => setFormData(prev => ({ ...prev, exercises }))}
+          />
+        </fieldset>
+      </div>
+
+      <div className="form-field">
+        <fieldset className="form-section">
+          <legend>Scoring</legend>
+          <ScoreConfiguration
+            // @ts-ignore
+            onScoreChange={(scores) => setFormData(prev => ({ ...prev, scores }))}
+          />
         </fieldset>
       </div>
 

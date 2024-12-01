@@ -30,8 +30,8 @@ export default function WorkoutComponentsPage() {
     try {
       const { data: componentData } = await client.models.WorkoutComponentTemplate.list();
       
-      // Fetch associated exercises for each component
-      const componentsWithExercises = await Promise.all(
+      // Fetch associated exercises and scores for each component
+      const componentsWithDetails = await Promise.all(
         componentData.map(async (component) => {
           // Get the WorkoutComponentTemplateExercise records
           const { data: exerciseLinks } = await client.models.WorkoutComponentTemplateExercise.list({
@@ -40,27 +40,52 @@ export default function WorkoutComponentsPage() {
             }
           });
 
-          // For each link, fetch the full ExerciseTemplate
+          // Get the WorkoutComponentTemplateScore records
+          const { data: scoreData } = await client.models.WorkoutComponentTemplateScore.list({
+            filter: {
+              workoutComponentTemplateId: { eq: component.id }
+            }
+          });
+
+          // For each exercise link, fetch the full ExerciseTemplate
           const exercisesWithDetails = await Promise.all(
             exerciseLinks.map(async (link) => {
-              const { data: exerciseData } = await client.models.ExerciseTemplate.get({ id: link.exerciseTemplateId });
+              const { data: exerciseData } = await client.models.ExerciseTemplate.get({ 
+                id: link.exerciseTemplateId 
+              });
               return {
                 ...link,
                 exercise: exerciseData
               };
             })
           );
+
+          // For each score, fetch its measures
+          const scoresWithMeasures = await Promise.all(
+            scoreData.map(async (score) => {
+              const { data: measures } = await client.models.Measure.list({
+                filter: { 
+                  workoutComponentTemplateScoreId: { eq: score.id } 
+                }
+              });
+              return {
+                ...score,
+                measures
+              };
+            })
+          );
           
           return {
             ...component,
-            exercises: exercisesWithDetails
+            exercises: exercisesWithDetails,
+            scores: scoresWithMeasures
           };
         })
       );
 
       // Update local state
       // @ts-ignore
-      setComponents(componentsWithExercises);
+      setComponents(componentsWithDetails);
       setLoading(false);
     } catch (err) {
       console.error('Error fetching workout components:', err);
@@ -71,65 +96,161 @@ export default function WorkoutComponentsPage() {
 
   const handleCreateComponent = async (formData: Record<string, any>) => {
     try {
-      const { exercises, ...componentData } = formData;
+      console.log('Starting component creation with formData:', formData);
+      const { exercises, scores, ...componentData } = formData;
 
-      // Create the workout component template
-      // @ts-ignore
-      const { data: newComponent } = await client.models.WorkoutComponentTemplate.create({...componentData, workoutTemplateId: 'temp', sequenceOrder: parseInt(componentData.sequenceOrder)
+      // Generate a UUID for the component
+      const componentId = crypto.randomUUID();
+
+      // Create the workout component template with only the allowed fields
+      console.log('Creating WorkoutComponentTemplate with data:', {
+        id: componentId,
+        name: componentData.name,
+        description: componentData.description,
+        sequenceOrder: parseInt(componentData.sequenceOrder)
       });
-
-      // Create the exercise associations
-      if (exercises && exercises.length > 0) {
-        await Promise.all(
-          exercises.map(async (exercise: any) => {
-            if (exercise.exerciseTemplateId) {
-              await client.models.WorkoutComponentTemplateExercise.create({
-                // @ts-ignore
-                workoutComponentTemplateId: newComponent.id,
-                exerciseTemplateId: exercise.exerciseTemplateId,
-                externalLoadPrimary: exercise.externalLoadPrimary,
-                externalLoadSecondary: exercise.externalLoadSecondary,
-                reps: exercise.reps,
-                distance: exercise.distance,
-                time: exercise.time,
-                calories: exercise.calories
-              });
-            }
-          })
-        );
+      
+      if (!componentData.name || !componentData.sequenceOrder) {
+        throw new Error('Missing required fields: name and sequenceOrder');
       }
 
-      // Fetch the complete component with exercises for the local state
-      const { data: exerciseLinks } = await client.models.WorkoutComponentTemplateExercise.list({
+      let newComponent;
+      try {
+        const response = await client.models.WorkoutComponentTemplate.create({
+          id: componentId,
+          name: componentData.name,
+          description: componentData.description || null,
+          sequenceOrder: parseInt(componentData.sequenceOrder)
+        });
+        console.log('Raw response from create:', response);
+        newComponent = response.data;
+      } catch (error) {
+        console.error('Error creating component:', error);
+        throw error;
+      }
+
+      if (!newComponent || !newComponent.id) {
+        throw new Error('Failed to create component: No ID returned');
+      }
+
+      console.log('Created WorkoutComponentTemplate:', newComponent);
+
+      try {
+        // Create the exercise associations
+        console.log('Starting exercise associations creation with:', exercises);
+        const exercisePromises = exercises?.length > 0
+          ? exercises.map(async (exercise: any) => {
+              if (!exercise.exerciseTemplateId) {
+                console.log('Skipping exercise without exerciseTemplateId:', exercise);
+                return null;
+              }
+              console.log('Creating exercise association for:', exercise);
+              return client.models.WorkoutComponentTemplateExercise.create({
+                workoutComponentTemplateId: newComponent.id,
+                exerciseTemplateId: exercise.exerciseTemplateId,
+                externalLoadPrimary: exercise.externalLoadPrimary || null,
+                externalLoadSecondary: exercise.externalLoadSecondary || null,
+                reps: exercise.reps || null,
+                distance: exercise.distance || null,
+                time: exercise.time || null,
+                calories: exercise.calories || null
+              });
+            }).filter(Boolean)
+          : [];
+
+        // Create the scoring configuration
+        console.log('Starting score configuration creation with:', scores);
+        const scorePromises = scores?.length > 0
+          ? (async () => {
+              // @ts-ignore
+              console.log('Creating score template for component:', newComponent.id);
+              const { data: scoreTemplate } = await client.models.WorkoutComponentTemplateScore.create({
+                // @ts-ignore
+                workoutComponentTemplateId: newComponent.id
+              });
+
+              console.log('Created score template:', scoreTemplate);
+
+              // Then create each measure
+              return Promise.all(
+                scores.map(async (score: { type: string; unit: string; label: string }) => {
+                  console.log('Creating measure for score template:', score);
+                  return client.models.Measure.create({
+                    // @ts-ignore
+                    workoutComponentTemplateScoreId: scoreTemplate.id,
+                    type: score.type,
+                    unit: score.unit,
+                    label: score.label
+                  });
+                })
+              );
+            })()
+          : Promise.resolve([]);
+
+        // Wait for all creations to complete
+        console.log('Waiting for all promises to complete...');
+        await Promise.all([...exercisePromises, scorePromises]);
+        console.log('All creation promises completed');
+
+        // Fetch the complete component with all relations
+        const [exerciseLinks, scoreData] = await Promise.all([
+          client.models.WorkoutComponentTemplateExercise.list({
+            // @ts-ignore
+            filter: { workoutComponentTemplateId: { eq: newComponent.id } }
+          }),
+          client.models.WorkoutComponentTemplateScore.list({
+            // @ts-ignore
+            filter: { workoutComponentTemplateId: { eq: newComponent.id } }
+          })
+        ]);
+
+        // Fetch exercise details
+        const exercisesWithDetails = await Promise.all(
+          exerciseLinks.data.map(async (link) => {
+            const { data: exerciseData } = await client.models.ExerciseTemplate.get({ 
+              id: link.exerciseTemplateId 
+            });
+            return {
+              ...link,
+              exercise: exerciseData
+            };
+          })
+        );
+
+        // Fetch measure details for each score
+        const scoresWithMeasures = await Promise.all(
+          scoreData.data.map(async (score) => {
+            const { data: measures } = await client.models.Measure.list({
+              filter: { workoutComponentTemplateScoreId: { eq: score.id } }
+            });
+            return {
+              ...score,
+              measures
+            };
+          })
+        );
+
+        // Update local state with the complete component
         // @ts-ignore
-        filter: { workoutComponentTemplateId: { eq: newComponent.id } }
-      });
+        setComponents(prev => [...prev, { ...newComponent, exercises: exercisesWithDetails, scores: scoresWithMeasures }]);
 
-      const exercisesWithDetails = await Promise.all(
-        exerciseLinks.map(async (link) => {
-          const { data: exerciseData } = await client.models.ExerciseTemplate.get({ 
-            id: link.exerciseTemplateId 
-          });
-          return {
-            ...link,
-            exercise: exerciseData
-          };
-        })
-      );
+        setSnackbar({ show: true, message: 'Component created successfully', type: 'success' });
+        setTimeout(() => {
+          setSnackbar({ show: false, message: '', type: 'error' });
+        }, 3000);
 
-      // Update local state with the complete component
-      // @ts-ignore
-      setComponents(prev => [...prev, { ...newComponent, exercises: exercisesWithDetails }]);
-      
-      // Show success message
-      setSnackbar({ show: true, message: 'Component created successfully' , type: 'success' });
-      setTimeout(() => {
-        setSnackbar({ show: false, message: '', type: 'error' });
-      }, 3000);
-      
-      return newComponent;
+        return newComponent;
+
+      } catch (error) {
+        console.error('Inner try-catch error:', error);
+        // @ts-ignore
+        console.log('Attempting to clean up component:', newComponent.id);
+        // @ts-ignore
+        await client.models.WorkoutComponentTemplate.delete({ id: newComponent.id });
+        throw error;
+      }
     } catch (error) {
-      console.error('Error creating component:', error);
+      console.error('Outer try-catch error:', error);
       throw new Error('Failed to create component');
     }
   };

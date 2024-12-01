@@ -21,17 +21,103 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
 
   const handleUpdate = async (formData: Record<string, any>) => {
     try {
+      const { exercises, scores, ...componentData } = formData;
+
       // Update the component template
       const { data: updatedComponent } = await client.models.WorkoutComponentTemplate.update({
         id: component.id,
-        ...formData,
-        sequenceOrder: parseInt(formData.sequenceOrder)
+        ...componentData,
+        sequenceOrder: parseInt(componentData.sequenceOrder)
       });
 
-      // Notify parent component of update
+      // Handle score updates
+      if (scores && scores.length > 0) {
+        // If there's an existing score template, update it and its measures
+        if (component.scores && component.scores[0]) {
+          const existingScore = component.scores[0];
+          
+          // Delete existing measures
+          if (existingScore.measures) {
+            await Promise.all(
+              existingScore.measures.map(measure =>
+                client.models.Measure.delete({ id: measure.id })
+              )
+            );
+          }
+
+          // Create new measures
+          await Promise.all(
+            scores.map(async (score: { type: string; unit: string; label: string }) => {
+              await client.models.Measure.create({
+                workoutComponentTemplateScoreId: existingScore.id,
+                type: score.type,
+                unit: score.unit,
+                label: score.label
+              });
+            })
+          );
+        } else {
+          // Create new score template and measures
+          const { data: scoreTemplate } = await client.models.WorkoutComponentTemplateScore.create({
+            workoutComponentTemplateId: component.id
+          });
+
+          await Promise.all(
+            scores.map(async (score: { type: string; unit: string; label: string }) => {
+              await client.models.Measure.create({
+                // @ts-ignore
+                workoutComponentTemplateScoreId: scoreTemplate.id,
+                type: score.type,
+                unit: score.unit,
+                label: score.label
+              });
+            })
+          );
+        }
+      }
+
+      // Fetch updated component with all relations
+      const [exerciseLinks, scoreData] = await Promise.all([
+        client.models.WorkoutComponentTemplateExercise.list({
+          filter: { workoutComponentTemplateId: { eq: component.id } }
+        }),
+        client.models.WorkoutComponentTemplateScore.list({
+          filter: { workoutComponentTemplateId: { eq: component.id } }
+        })
+      ]);
+
+      // Fetch exercise details
+      const exercisesWithDetails = await Promise.all(
+        exerciseLinks.data.map(async (link) => {
+          const { data: exerciseData } = await client.models.ExerciseTemplate.get({ 
+            id: link.exerciseTemplateId 
+          });
+          return {
+            ...link,
+            exercise: exerciseData
+          };
+        })
+      );
+
+      // Fetch measure details for each score
+      const scoresWithMeasures = await Promise.all(
+        scoreData.data.map(async (score) => {
+          const { data: measures } = await client.models.Measure.list({
+            filter: { workoutComponentTemplateScoreId: { eq: score.id } }
+          });
+          return {
+            ...score,
+            measures
+          };
+        })
+      );
+
+      // Notify parent component of update with complete data
       if (onUpdate) {
-        // @ts-ignore
-        await onUpdate(updatedComponent);
+        await onUpdate({
+          // @ts-ignore
+          ...updatedComponent, exercises: exercisesWithDetails, scores: scoresWithMeasures
+        });
       }
 
       setIsEditing(false);
@@ -61,7 +147,7 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
     return (
       <div className="component-edit-form">
         <div className="edit-header">
-          <h3>Edit Component</h3>
+          <h4>Edit Component</h4>
           <button 
             className="cancel-button"
             onClick={() => setIsEditing(false)}
@@ -81,50 +167,21 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
   }
 
   return (
-    <div className="list-component-details">
+    <div className="component-details">
       <div className="details-header">
         <h4>Summary</h4>
         <div className="header-buttons">
-          <button 
-            className="edit-button"
-            onClick={() => setIsEditing(true)}
-          >
+          <button onClick={() => setIsEditing(true)} className="edit-button">
             Edit
           </button>
-          <button 
-            className="delete-button"
-            onClick={() => setShowDeleteConfirm(true)}
-          >
+          <button onClick={() => setShowDeleteConfirm(true)} className="delete-button">
             Delete
           </button>
         </div>
       </div>
 
-      {showDeleteConfirm && (
-        <div className="delete-confirm-modal">
-          <div className="modal-content">
-            <h4>Delete Component</h4>
-            <p>Are you sure you want to delete "{component.name}"? This action cannot be undone.</p>
-            <div className="modal-buttons">
-              <button 
-                className="cancel-button"
-                onClick={() => setShowDeleteConfirm(false)}
-              >
-                Cancel
-              </button>
-              <button 
-                className="delete-button"
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {component.name && (
-        <p className="component-description">{component.name}</p>
+      {component.description && (
+        <p className="component-description">{component.description}</p>
       )}
 
       <div className="exercises-section">
@@ -152,6 +209,39 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
           <p className="no-exercises">No exercises added to this component</p>
         )}
       </div>
+
+      <div className="scoring-section">
+        <h4>Scoring Configuration</h4>
+        {component.scores && component.scores.length > 0 ? (
+          <div className="scores-list">
+            {component.scores.map((score) => (
+              <div key={score.id} className="score-item">
+                <h5>Scoring Measures</h5>
+                <div className="measures-grid">
+                  {score.measures?.map((measure) => (
+                    <div key={measure.id} className="measure-item">
+                      <span className="measure-type">{measure.type}</span>
+                      <span className="measure-unit">({measure.unit})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="no-scores">No scoring configuration added</p>
+        )}
+      </div>
+
+      {showDeleteConfirm && (
+        <div className="modal">
+          <p>Are you sure you want to delete this component?</p>
+          <div className="modal-actions">
+            <button onClick={handleDelete}>Yes, Delete</button>
+            <button onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
 
       {showSuccessSnackbar && (
         <Snackbar 
