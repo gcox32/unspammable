@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { WorkoutComponentTemplate } from '@/src/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
-import CreateItemForm from '../CreateItemForm';
-import { COMPONENT_FIELDS } from '@/src/types/workout';
-import Snackbar from '../../Snackbar';
+import CreateComponentForm from '@/src/components/management/components/CreateComponentForm';
+import Snackbar from '@/src/components/Snackbar';
 
 interface ComponentDetailsProps {
   component: WorkoutComponentTemplate;
@@ -155,11 +154,8 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
             Cancel
           </button>
         </div>
-        <CreateItemForm
-          // @ts-ignore
-          fields={COMPONENT_FIELDS}
+        <CreateComponentForm
           onSubmit={handleUpdate}
-          title="Update Component"
           initialData={component}
         />
       </div>

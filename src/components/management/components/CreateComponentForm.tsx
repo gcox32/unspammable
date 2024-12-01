@@ -22,15 +22,20 @@ interface CreateComponentFormProps {
       label: string;
     }>;
   }) => Promise<void>;
+  initialData?: any;
 }
 
-export default function CreateComponentForm({ onSubmit }: CreateComponentFormProps) {
+export default function CreateComponentForm({ onSubmit, initialData }: CreateComponentFormProps) {
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    sequenceOrder: 1,
-    exercises: [],
-    scores: []
+    name: initialData?.name || '',
+    description: initialData?.description || '',
+    sequenceOrder: initialData?.sequenceOrder || 1,
+    exercises: initialData?.exercises || [],
+    scores: initialData?.scores?.map((score: any) => ({
+      type: score.measures?.[0]?.type || '',
+      unit: score.measures?.[0]?.unit || '',
+      label: score.measures?.[0]?.label || ''
+    })) || []
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,6 +83,7 @@ export default function CreateComponentForm({ onSubmit }: CreateComponentFormPro
           <ComponentExerciseForm
             // @ts-ignore
             onChange={(exercises) => setFormData(prev => ({ ...prev, exercises }))}
+            initialExercises={initialData?.exercises}
           />
         </fieldset>
       </div>

@@ -13,11 +13,12 @@ interface ComponentExerciseFormProps {
     time?: number;
     calories?: number;
   }>) => void;
+  initialExercises?: Array<any>;
 }
 
 const client = generateClient<Schema>();
 
-export default function ComponentExerciseForm({ onChange }: ComponentExerciseFormProps) {
+export default function ComponentExerciseForm({ onChange, initialExercises }: ComponentExerciseFormProps) {
   const [exercises, setExercises] = useState<ExerciseTemplate[]>([]);
   const [selectedExercises, setSelectedExercises] = useState<Array<{
     exerciseTemplateId: string;
@@ -27,7 +28,15 @@ export default function ComponentExerciseForm({ onChange }: ComponentExerciseFor
     distance?: number;
     time?: number;
     calories?: number;
-  }>>([]);
+  }>>(initialExercises?.map(ex => ({
+    exerciseTemplateId: ex.exerciseTemplateId || ex.exercise?.id,
+    externalLoadPrimary: ex.externalLoadPrimary,
+    externalLoadSecondary: ex.externalLoadSecondary,
+    reps: ex.reps,
+    distance: ex.distance,
+    time: ex.time,
+    calories: ex.calories
+  })) || []);
 
   useEffect(() => {
     const fetchExercises = async () => {
