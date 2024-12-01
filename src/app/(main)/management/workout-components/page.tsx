@@ -22,7 +22,8 @@ export default function WorkoutComponentsPage() {
   const [error, setError] = useState<string | null>(null);
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     show: false,
-    message: ''
+    message: '',
+    type: 'error'
   });
 
   const fetchComponents = async () => {
@@ -121,9 +122,9 @@ export default function WorkoutComponentsPage() {
       setComponents(prev => [...prev, { ...newComponent, exercises: exercisesWithDetails }]);
       
       // Show success message
-      setSnackbar({ show: true, message: 'Component created successfully' });
+      setSnackbar({ show: true, message: 'Component created successfully' , type: 'success' });
       setTimeout(() => {
-        setSnackbar({ show: false, message: '' });
+        setSnackbar({ show: false, message: '', type: 'error' });
       }, 3000);
       
       return newComponent;
@@ -189,9 +190,9 @@ export default function WorkoutComponentsPage() {
                       try {
                         await client.models.WorkoutComponentTemplate.delete({ id: componentId });
                         setComponents(prev => prev.filter(c => c.id !== componentId));
-                        setSnackbar({ show: true, message: 'Component deleted successfully' });
+                        setSnackbar({ show: true, message: 'Component deleted successfully', type: 'success' });
                         setTimeout(() => {
-                          setSnackbar({ show: false, message: '' });
+                          setSnackbar({ show: false, message: '', type: 'error' });
                         }, 3000);
                       } catch (error) {
                         console.error('Error deleting component:', error);

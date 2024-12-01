@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import "@/src/styles/components/Navigation.css";
 import PersistentSidebar from './PersistentSidebar';
 import { useSidebar } from "@/src/contexts/SidebarContext";
+import { useAthlete } from "@/src/hooks/useAthlete";
 
 export default function Navigation() {
   const { user } = useAuthenticator((context) => [context.user]);
@@ -17,6 +18,7 @@ export default function Navigation() {
   const [pageSettingsSidebarOpen, setPageSettingsSidebarOpen] = useState(false);
   const [userSidebarOpen, setUserSidebarOpen] = useState(false);
   const { isExpanded } = useSidebar();
+  const { athlete } = useAthlete(user?.username);
 
   return (
     <>
@@ -37,7 +39,7 @@ export default function Navigation() {
                 aria-label="User menu"
                 onClick={() => setUserSidebarOpen(true)}
                 style={{
-                  backgroundImage: `url('https://ui-avatars.com/api/?name=${user.username}&background=random')`
+                  backgroundImage: `url('${athlete?.avatarUrl || `https://ui-avatars.com/api/?name=${athlete?.firstName} ${athlete?.lastName}&background=random`}')`
                 }}
               />
             </>

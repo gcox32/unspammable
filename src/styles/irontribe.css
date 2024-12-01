@@ -14,6 +14,19 @@ Description:  Iron Tribe custom coded theme.
 
 /* MARK BG */
 
+:root {
+    --background-primary: #FFFFFF;
+    --background-secondary: #f8f9fa;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --primary-color: #35AAE0;
+    --primary-color-light: rgba(53, 170, 224, 0.1);
+    --danger-color: #F6701B;
+    --border-color: #e9ecef;
+    --border-color-light: rgba(233, 236, 239, 0.5);
+    --hover-color: #e9ecef;
+}
+
 ::-moz-selection {
     /* Code for Firefox */
     color: #fff;

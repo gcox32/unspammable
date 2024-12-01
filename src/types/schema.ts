@@ -4,22 +4,15 @@ export interface Athlete {
     firstName: string;
     lastName: string;
     email: string;
-    accessTelehealth?: boolean;
-    profile?: Profile;
-    trackingMetrics?: TrackingMetric[];
-    workoutLogs?: WorkoutLog[];
-}
-
-export interface Profile {
-    id: string;
-    athleteId: string;
-    avatarUrl?: string;
     birthdate?: Date;
     gender?: 'Male' | 'Female';
+    accessTelehealth?: boolean;
+    avatarUrl?: string;
     height?: number;
     weight?: number;
     homeGym?: string;
-    athlete?: Athlete;
+    trackingMetrics?: TrackingMetric[];
+    workoutLogs?: WorkoutLog[];
 }
 
 export interface TrackingMetric {
@@ -41,10 +34,10 @@ export interface TrackingMetricEntry {
 
 export interface WorkoutTemplate {
     id: string;
-    name: string | null;
-    description?: string | null;
-    workoutInstances?: WorkoutInstance[] | null;
-    workoutComponentTemplates?: WorkoutComponentTemplate[] | null;
+    name: string;
+    description?: string;
+    workoutInstances?: WorkoutInstance[];
+    workoutComponentTemplates?: WorkoutTemplateComponent[];
 }
 
 export interface WorkoutComponentTemplate {
@@ -101,19 +94,17 @@ export interface ExerciseTemplate {
     id: string;
     name: string;
     description?: string;
-    outputConstants?: Record<string, any>;
+    outputConstants?: ExerciseOutputConstants;
+    workoutComponents?: WorkoutComponentTemplateExercise[];
+    exerciseLogs?: ExerciseLog[];
     videoUrl?: string;
     videoEmbed?: string;
-    category?: 'Strength' | 'Cardio' | 'Gymnastics' | 'Weightlifting' | 'Other';
+    category?: 'Strength' | 'Cardio' | 'Gymnastics' | 'Weightlifting' | 'Plyometric' | 'Other';
     equipment?: string[];
-    patternPrimary?: 'Horizontal_Press' | 'Vertical_Press' | 'Horizontal_Pull' | 'Vertical_Pull' | 'Knee_Dominant' | 'Hip_Dominant' | 'Hybrid_Lower' | 'Hybrid_Upper' | 'Combo' | 'Olympic' | 'Locomotion' | 'Plyometric' | 'Core' | 'Isolation_Upper' | 'Isolation_Lower' | 'Rope' | 'Carry' | 'Other';
-    patternSecondary?: 'Horizontal_Press' | 'Vertical_Press' | 'Horizontal_Pull' | 'Vertical_Pull' | 'Knee_Dominant' | 'Hip_Dominant' | 'Hybrid_Lower' | 'Hybrid_Upper' | 'Combo' | 'Olympic' | 'Locomotion' | 'Plyometric' | 'Core' | 'Isolation_Upper' | 'Isolation_Lower' | 'Rope' | 'Carry' | 'Other';
+    patternPrimary?: string;
+    patternSecondary?: string;
     unilateral?: boolean;
     plane?: 'Sagittal' | 'Frontal' | 'Transverse' | 'Multiple' | 'Other';
-    workoutComponents?: WorkoutComponentTemplateExercise[] | null;
-    exerciseLogs?: ExerciseLog[];
-    updatedAt?: string;
-    createdAt?: string;
 }
 
 export interface WorkoutInstance {
@@ -172,4 +163,24 @@ export interface InterpretationInput {
 
 export interface InterpretationOutput {
     interpretation: string | null;
+}
+
+export interface ExerciseOutputConstants {
+    id: string;
+    defaultDistance?: number;
+    bodyweightFactor?: number;
+    heightFactor?: number;
+    armLengthFactor?: number;
+    legLengthFactor?: number;
+    useCalories?: boolean;
+    exerciseTemplateId: string;
+    exerciseTemplate?: ExerciseTemplate;
+}
+
+export interface WorkoutTemplateComponent {
+    id: string;
+    workoutTemplateId: string;
+    workoutComponentTemplateId: string;
+    workoutTemplate?: WorkoutTemplate;
+    workoutComponentTemplate?: WorkoutComponentTemplate;
 }

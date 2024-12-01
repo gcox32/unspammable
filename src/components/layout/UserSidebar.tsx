@@ -4,47 +4,26 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useRouter } from "next/navigation";
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
-import type { Athlete } from '@/src/types/schema';
+import { useAthlete } from '@/src/hooks/useAthlete';
 
 const client = generateClient<Schema>();
 
 export default function UserSidebar({ user }: { user: any }) {
   const { signOut } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
-  const [athlete, setAthlete] = useState<Athlete | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchAthlete = async () => {
-      if (user?.username) {
-        try {
-          const { data: athletes } = await client.models.Athlete.list({
-            filter: { sub: { eq: user.username } }
-          });
-          
-          if (athletes && athletes.length > 0) {
-            const athleteWithProfile = await client.models.Athlete.get({
-              id: athletes[0].id,
-              // @ts-ignore
-              include: ['profile']
-            });
-            // @ts-ignore
-            setAthlete(athleteWithProfile.data);
-          }
-        } catch (error) {
-          console.error('Error fetching athlete:', error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchAthlete();
-  }, [user?.username]);
+  const { athlete, loading } = useAthlete(user?.username);
 
   const handleSignOut = async () => {
     await signOut();
     router.push("/");
+  };
+
+  const formatDate = (date: Date | undefined) => {
+    if (!date) return '';
+    // Add timezone offset to handle date correctly
+    const localDate = new Date(date);
+    localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
+    return localDate.toLocaleDateString();
   };
 
   return (
@@ -52,22 +31,44 @@ export default function UserSidebar({ user }: { user: any }) {
       <div className="user-info">
         <div className="user-avatar" 
           style={{
-            backgroundImage: `url('https://ui-avatars.com/api/?name=${athlete?.firstName} ${athlete?.lastName}&background=random')`
+            backgroundImage: `url('${athlete?.avatarUrl || `https://ui-avatars.com/api/?name=${athlete?.firstName} ${athlete?.lastName}&background=random`}')`
           }}
         />
         <h2>{athlete?.firstName} {athlete?.lastName}</h2>
-        {athlete?.profile && (
+        {athlete && (
           <div className="user-profile-info">
-            {athlete.profile.homeGym && (
-              <p className="home-gym">{athlete.profile.homeGym}</p>
+            {athlete.homeGym && (
+              <p className="home-gym">{athlete.homeGym}</p>
+            )}
+            {athlete.gender && (
+              <p className="profile-detail">
+                <span className="label">Gender:</span> {athlete.gender}
+              </p>
+            )}
+            {athlete.birthdate && (
+              <p className="profile-detail">
+                <span className="label">Birthdate:</span> {formatDate(athlete.birthdate)}
+              </p>
+            )}
+            {athlete.height && (
+              <p className="profile-detail">
+                <span className="label">Height:</span> {athlete.height} in
+              </p>
+            )}
+            {athlete.weight && (
+              <p className="profile-detail">
+                <span className="label">Weight:</span> {athlete.weight} lbs
+              </p>
             )}
           </div>
         )}
       </div>
       <nav className="sidebar-nav">
         <ul>
-          <li><Link href="/profile">Profile</Link></li>
+          <li><Link href="/profile">Edit Profile</Link></li>
           <li><Link href="/dashboard">Dashboard</Link></li>
+          <li><Link href="/tracking">Track Metrics</Link></li>
+          <li><Link href="/workouts">My Workouts</Link></li>
         </ul>
       </nav>
       <div className="logout-container">
