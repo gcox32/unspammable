@@ -5,16 +5,12 @@ import AuthProtected from "@/src/components/auth/AuthProtected";
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
 import { useAthlete } from '@/src/hooks/useAthlete';
-import type { TrackingMetric, TrackingMetricEntry } from '@/src/types/schema';
+import type { MetricData } from '@/src/types/biometrics';
 import MetricCard from '@/src/components/biometrics/MetricCard';
 import '@/src/styles/biometrics.css';
+import TelehealthMetrics from '@/src/components/biometrics/TelehealthMetrics';
 
 const client = generateClient<Schema>();
-
-interface MetricData {
-  metric: TrackingMetric;
-  entries: TrackingMetricEntry[];
-}
 
 const BiometricsContent = ({ user }: { user: any }) => {
   const { athlete, loading: athleteLoading } = useAthlete(user?.username);
@@ -106,6 +102,11 @@ const BiometricsContent = ({ user }: { user: any }) => {
             color="#10B981"
           />
         </div>
+
+        <TelehealthMetrics 
+          metrics={metrics}
+          isLocked={!athlete?.accessTelehealth}
+        />
       </div>
     </div>
   );

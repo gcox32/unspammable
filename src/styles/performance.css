@@ -1,0 +1,150 @@
+.performance-page {
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.performance-content {
+  margin-top: 2rem;
+}
+
+/* Section Styling */
+.max-lifts-section,
+.benchmarks-section {
+  margin-bottom: 3rem;
+}
+
+.max-lifts-section h2,
+.benchmarks-section h2 {
+  color: #111827;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* Grid Layout */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+/* Card Styling */
+.benchmark-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.benchmark-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.benchmark-header {
+  margin-bottom: 1rem;
+}
+
+.benchmark-header h3 {
+  color: #111827;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.benchmark-description {
+  color: #6B7280;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.chart-container {
+  height: 200px;
+  margin-top: 1rem;
+}
+
+/* Loading and Error States */
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.error-state {
+  color: #DC2626;
+}
+
+/* Chart Tooltip Styling */
+.benchmark-card .recharts-tooltip-wrapper {
+  background: white;
+  border-radius: 4px;
+  padding: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.benchmark-card .recharts-tooltip-label {
+  color: #374151;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.benchmark-card .recharts-tooltip-item {
+  color: #6B7280;
+  font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .performance-page {
+    padding: 1rem;
+  }
+
+  .benchmark-card {
+    padding: 1rem;
+  }
+
+  .chart-container {
+    height: 180px;
+  }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  background: #F9FAFB;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.empty-state p {
+  color: #6B7280;
+  margin-bottom: 1rem;
+}
+
+/* Chart Dots */
+.benchmark-card .recharts-line-dots circle {
+  fill: white;
+  stroke-width: 2;
+}
+
+/* Chart Grid */
+.benchmark-card .recharts-cartesian-grid-horizontal line,
+.benchmark-card .recharts-cartesian-grid-vertical line {
+  stroke: #E5E7EB;
+}
+
+/* Axis Labels */
+.benchmark-card .recharts-xaxis .recharts-label,
+.benchmark-card .recharts-yaxis .recharts-label {
+  fill: #6B7280;
+  font-size: 0.75rem;
+} 

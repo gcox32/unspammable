@@ -32,7 +32,7 @@ const navGroups: NavGroup[] = [
         items: [
             { icon: <FaChartLine />, label: 'Biometrics', href: '/biometrics' },
             { icon: <FaTachometerAlt />, label: 'Performance', href: '/performance' },
-            { icon: <FaRunning />, label: 'Tracking', href: '/tracking' },
+            { icon: <FaRunning />, label: 'Output Tracking', href: '/tracking' },
         ]
     },
     {

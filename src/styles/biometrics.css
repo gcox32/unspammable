@@ -56,4 +56,41 @@
   .metrics-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.telehealth-metrics,
+.telehealth-locked {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.telehealth-metrics h2 {
+  color: #111827;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.telehealth-locked {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.lock-message {
+  text-align: center;
+  color: #6b7280;
+}
+
+.lock-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 1rem;
+  color: #9ca3af;
+}
+
+.lock-message h3 {
+  font-size: 1.25rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
 } 
