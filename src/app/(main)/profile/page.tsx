@@ -70,7 +70,7 @@ const ProfileContent = ({ user }: { user: any }) => {
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     show: false,
     message: '',
-    type: 'success'
+    type: 'error'
   });
 
   const handleUpdate = async (formData: Record<string, any>) => {

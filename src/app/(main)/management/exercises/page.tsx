@@ -21,7 +21,8 @@ export default function ExercisesPage() {
   const [error, setError] = useState<string | null>(null);
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     show: false,
-    message: ''
+    message: '',
+    type: 'error'
   });
 
   const fetchExercises = async () => {
@@ -90,9 +91,9 @@ export default function ExercisesPage() {
       setExercises(prev => [...prev, newExercise]);
       
       // Show success message
-      setSnackbar({ show: true, message: 'Exercise created successfully' });
+      setSnackbar({ show: true, message: 'Exercise created successfully', type: 'success' });
       setTimeout(() => {
-        setSnackbar({ show: false, message: '' });
+        setSnackbar({ show: false, message: '', type: 'error' });
       }, 3000);
       
       return newExercise;
@@ -126,9 +127,9 @@ export default function ExercisesPage() {
       setExercises(prev => prev.filter(exercise => exercise.id !== exerciseId));
       
       // Show success message
-      setSnackbar({ show: true, message: 'Exercise deleted successfully' });
+      setSnackbar({ show: true, message: 'Exercise deleted successfully', type: 'success' });
       setTimeout(() => {
-        setSnackbar({ show: false, message: '' });
+        setSnackbar({ show: false, message: '', type: 'error' });
       }, 3000);
 
       // Close the modal by returning true
