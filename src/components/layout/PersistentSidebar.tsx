@@ -1,3 +1,4 @@
+import { usePathname } from 'next/navigation';
 import React from 'react';
 import { 
     FaChevronLeft, 
@@ -54,6 +55,7 @@ const navGroups: NavGroup[] = [
 export default function PersistentSidebar() {
     const { isExpanded, setIsExpanded } = useSidebar();
     const { user } = useAuthenticator((context) => [context.user]);
+    const pathname = usePathname();
 
     if (!user) {
         return null;
@@ -82,7 +84,10 @@ export default function PersistentSidebar() {
                         <ul>
                             {group.items.map((item, itemIndex) => (
                                 <li key={itemIndex}>
-                                    <Link href={item.href}>
+                                    <Link 
+                                        href={item.href}
+                                        className={pathname === item.href ? 'active' : ''}
+                                    >
                                         <span className="icon">{item.icon}</span>
                                         {isExpanded && <span className="label">{item.label}</span>}
                                     </Link>

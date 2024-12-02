@@ -9,6 +9,7 @@ import type { MetricData } from '@/src/types/biometrics';
 import MaxLiftsSection from '@/src/components/performance/MaxLiftsSection';
 import BenchmarksSection from '@/src/components/performance/BenchmarksSection';
 import '@/src/styles/performance.css';
+import { getTrackingMetrics } from '@/src/services/dataService';
 
 const client = generateClient<Schema>();
 
@@ -26,28 +27,8 @@ const PerformanceContent = ({ user }: { user: any }) => {
         setLoading(true);
         setError(null);
 
-        const { data: trackingMetrics } = await client.models.TrackingMetric.list({
-          filter: { athleteId: { eq: athlete.id } }
-        });
-
-        const metricsWithEntries = await Promise.all(
-          trackingMetrics.map(async (metric) => {
-            const { data: entries } = await client.models.TrackingMetricEntry.list({
-              filter: { trackingMetricId: { eq: metric.id } },
-              // @ts-ignore
-              sort: { field: 'date', order: 'desc' }
-            });
-
-            return {
-              metric,
-              entries: entries.sort((a, b) => 
-                new Date(a.date).getTime() - new Date(b.date).getTime()
-              )
-            };
-          })
-        );
-        // @ts-ignore
-        setMetrics(metricsWithEntries);
+        const metricsData = await getTrackingMetrics(athlete.id);
+        setMetrics(metricsData as MetricData[]);
       } catch (error) {
         console.error('Error fetching metrics:', error);
         setError('Failed to load metrics data');

@@ -14,9 +14,15 @@ interface OutputScoreChartProps {
 }
 
 export default function OutputScoreChart({ workoutLogs }: OutputScoreChartProps) {
-  // @ts-ignore
-  const chartData = workoutLogs.map(log => ({date: log.date,score: log.outputScore,workoutName: log.workout.name
-  }));
+  const chartData = workoutLogs
+    .slice()
+    .filter(log => log.completionDate !== null)
+    .sort((a, b) => new Date(a.completionDate!).getTime() - new Date(b.completionDate!).getTime())
+    .map(log => ({
+      date: log.completionDate,
+      score: log.outputScore?.totalWork || 0,
+      workoutName: log.workoutInstance?.workoutTemplate?.name || 'Unknown'
+    }));
 
   return (
     <div className="output-score-chart">
@@ -33,7 +39,7 @@ export default function OutputScoreChart({ workoutLogs }: OutputScoreChartProps)
             <Tooltip 
               labelFormatter={(date) => new Date(date).toLocaleDateString()}
               formatter={(value, name, props) => [
-                `Score: ${value}`,
+                `Total Work: ${value} joules`,
                 `Workout: ${props.payload.workoutName}`
               ]}
             />

@@ -121,6 +121,7 @@ export interface WorkoutLog {
     athleteId: string;
     completionDate: Date | null;
     asPrescribed?: boolean | null;
+    outputScore?: WorkoutLogOutputScore | null;
     workoutInstance?: WorkoutInstance | null;
     athlete?: Athlete | null;
     workoutComponentLogs?: WorkoutComponentLog[] | null;
@@ -183,4 +184,13 @@ export interface WorkoutTemplateComponent {
     workoutComponentTemplateId: string;
     workoutTemplate?: WorkoutTemplate;
     workoutComponentTemplate?: WorkoutComponentTemplate;
+}
+
+export interface WorkoutLogOutputScore {
+    id: string;
+    workoutLogId: string;
+    totalWork?: number | null;
+    averagePower?: number | null;
+    totalTime?: number | null;
+    workoutLog?: WorkoutLog | null;
 }

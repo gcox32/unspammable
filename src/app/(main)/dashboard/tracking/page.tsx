@@ -9,6 +9,7 @@ import type { WorkoutLog } from '@/src/types/schema';
 import OutputScoreChart from '@/src/components/tracking/OutputScoreChart';
 import WorkoutBreakdown from '@/src/components/tracking/WorkoutBreakdown';
 import '@/src/styles/tracking.css';
+import { getWorkoutLogs } from '@/src/services/dataService';
 
 const client = generateClient<Schema>();
 
@@ -26,14 +27,8 @@ const TrackingContent = ({ user }: { user: any }) => {
         setLoading(true);
         setError(null);
 
-        const { data: logs } = await client.models.WorkoutLog.list({
-          filter: { athleteId: { eq: athlete.id } },
-          // @ts-ignore
-          sort: { field: 'date', order: 'desc' }
-        });
-
-        // @ts-ignore
-        setWorkoutLogs(logs);
+        const logs = await getWorkoutLogs(athlete.id);
+        setWorkoutLogs(logs as WorkoutLog[]);
       } catch (error) {
         console.error('Error fetching workout logs:', error);
         setError('Failed to load workout data');
@@ -85,8 +80,10 @@ const TrackingContent = ({ user }: { user: any }) => {
               <h3>Average Output Score</h3>
               <p className="insight-value">
                 {workoutLogs.length > 0
-                  // @ts-ignore
-                  ? (workoutLogs.reduce((acc, log) => acc + log.outputScore, 0) / workoutLogs.length).toFixed(2)
+                  ? (workoutLogs.reduce((acc, log) => {
+                      const work = log.outputScore?.totalWork;
+                      return acc + (typeof work === 'number' ? work : 0);
+                    }, 0) / workoutLogs.length).toFixed(2)
                   : 'N/A'}
               </p>
             </div>
@@ -94,8 +91,10 @@ const TrackingContent = ({ user }: { user: any }) => {
               <h3>Highest Output Score</h3>
               <p className="insight-value">
                 {workoutLogs.length > 0
-                  // @ts-ignore
-                  ? Math.max(...workoutLogs.map(log => log.outputScore))
+                  ? Math.max(...workoutLogs.map(log => {
+                      const work = log.outputScore?.totalWork;
+                      return typeof work === 'number' ? work : 0;
+                    }))
                   : 'N/A'}
               </p>
             </div>

@@ -202,13 +202,23 @@ const schema = a.schema({
     athleteId: a.id().required(),
     completionDate: a.datetime().required(),
     asPrescribed: a.boolean(),
+    outputScore: a.hasOne('WorkoutLogOutputScore', 'workoutLogId'),
     workoutInstance: a.belongsTo('WorkoutInstance', 'workoutInstanceId'),
     athlete: a.belongsTo('Athlete', 'athleteId'),
     workoutComponentLogs: a.hasMany('WorkoutComponentLog', 'workoutLogId')
   }).authorization(allow => [
     allow.groups(["ADMIN", "COACH", "ATHLETE"])
   ]),
-
+  WorkoutLogOutputScore: a.model({
+    id: a.id().required(),
+    workoutLogId: a.id().required(),
+    totalWork: a.float(),
+    averagePower: a.float(),
+    totalTime: a.float(),
+    workoutLog: a.belongsTo('WorkoutLog', 'workoutLogId')
+  }).authorization(allow => [
+    allow.groups(["ADMIN", "COACH", "ATHLETE"])
+  ]),
   WorkoutComponentLog: a.model({
     id: a.id().required(),
     workoutLogId: a.id().required(),
