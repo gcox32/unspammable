@@ -120,7 +120,8 @@ export default function WorkoutComponentsPage() {
           id: componentId,
           name: componentData.name,
           description: componentData.description || null,
-          sequenceOrder: parseInt(componentData.sequenceOrder)
+          sequenceOrder: parseInt(componentData.sequenceOrder),
+          style: componentData.style
         });
         console.log('Raw response from create:', response);
         newComponent = response.data;

@@ -87,6 +87,7 @@ const schema = a.schema({
     description: a.string(),
     style: a.string(),
     sequenceOrder: a.integer().required(),
+    tags: a.string().array(),
     workoutTemplateComponent: a.hasMany('WorkoutTemplateComponent', 'workoutComponentTemplateId'),
     workoutComponentLogs: a.hasMany('WorkoutComponentLog', 'workoutComponentTemplateId'),
     exercises: a.hasMany('WorkoutComponentTemplateExercise', 'workoutComponentTemplateId'),

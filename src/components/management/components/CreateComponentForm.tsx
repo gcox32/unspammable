@@ -2,11 +2,23 @@ import { useState } from 'react';
 import ComponentExerciseForm from './ComponentExerciseForm';
 import ScoreConfiguration from './ScoreConfiguration';
 
+export type ComponentStyle = 
+  | 'AMRAP' 
+  | 'FOR_TIME' 
+  | 'EMOM' 
+  | 'FIXED_ROUNDS' 
+  | 'WORK_REST' 
+  | 'SINGLE_SET' 
+  | 'FACTORIAL'
+  | 'REST' 
+  | 'OTHER';
+
 interface CreateComponentFormProps {
   onSubmit: (formData: {
     name: string;
     description?: string;
     sequenceOrder: number;
+    style: ComponentStyle;
     exercises: Array<{
       exerciseTemplateId: string;
       externalLoadPrimary?: number;
@@ -30,6 +42,7 @@ export default function CreateComponentForm({ onSubmit, initialData }: CreateCom
     name: initialData?.name || '',
     description: initialData?.description || '',
     sequenceOrder: initialData?.sequenceOrder || 1,
+    style: initialData?.style || 'SINGLE_SET',
     exercises: initialData?.exercises || [],
     scores: initialData?.scores?.map((score: any) => ({
       type: score.measures?.[0]?.type || '',
@@ -78,6 +91,26 @@ export default function CreateComponentForm({ onSubmit, initialData }: CreateCom
       </div>
 
       <div className="form-field">
+        <label htmlFor="style">Style</label>
+        <select
+          id="style"
+          value={formData.style}
+          onChange={(e) => setFormData(prev => ({ ...prev, style: e.target.value as ComponentStyle }))}
+          required
+        >
+          <option value="SINGLE_SET">Single Set</option>
+          <option value="AMRAP">AMRAP</option>
+          <option value="FOR_TIME">For Time</option>
+          <option value="EMOM">EMOM</option>
+          <option value="FIXED_ROUNDS">Fixed Rounds</option>
+          <option value="WORK_REST">Work/Rest</option>
+          <option value="FACTORIAL">Factorial</option>
+          <option value="REST">Rest</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </div>
+
+      <div className="form-field">
         <fieldset className="form-section">
           <legend>Exercises</legend>
           <ComponentExerciseForm
@@ -98,7 +131,9 @@ export default function CreateComponentForm({ onSubmit, initialData }: CreateCom
         </fieldset>
       </div>
 
-      <button type="submit" className="submit-button">Create Component</button>
+      <button type="submit" className="submit-button">
+        {initialData ? 'Update Component' : 'Create Component'}
+      </button>
     </form>
   );
 } 
