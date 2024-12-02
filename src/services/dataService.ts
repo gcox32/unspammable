@@ -74,61 +74,55 @@ export const getPerformance = async (athleteId: string) => {
   }
 
   try {
+    console.log('athleteId', athleteId);
     const logs = await getWorkoutLogs(athleteId);
-    
+    console.log('logs', logs);
     // Process logs to create trend data
-    const trends = logs.reduce((acc, log) => {
-      if (!log.completionDate || !log.outputScore) return acc;
-
+    const processedLogs = await Promise.all(logs.map(async (log) => {
+      if (!log.completionDate) return null;
+      
+      const outputScoreResult = await log.outputScore();
+      const outputScore = outputScoreResult.data;
       const date = new Date(log.completionDate);
       
       return {
-        totalWorkTrend: [
-          ...acc.totalWorkTrend,
-          { date, value: log.outputScore.totalWork || 0 }
-        ],
-        powerOutputTrend: [
-          ...acc.powerOutputTrend,
-          { date, value: log.outputScore.averagePower || 0 }
-        ],
-        workoutDurationTrend: [
-          ...acc.workoutDurationTrend,
-          { date, value: log.outputScore.totalTime || 0 }
-        ],
-        workoutScoreTrend: [
-          ...acc.workoutScoreTrend,
-          { date, value: calculateWorkoutScore(log) || 0 }
-        ]
+        date,
+        totalWork: outputScore?.totalWork || 0,
+        averagePower: outputScore?.averagePower || 0,
+        totalTime: outputScore?.totalTime || 0
       };
-    }, {
-      totalWorkTrend: [],
-      powerOutputTrend: [],
-      workoutDurationTrend: [],
-      workoutScoreTrend: []
-    } as {
-      totalWorkTrend: { date: Date; value: number }[];
-      powerOutputTrend: { date: Date; value: number }[];
-      workoutDurationTrend: { date: Date; value: number }[];
-      workoutScoreTrend: { date: Date; value: number }[];
-    });
+    }));
+
+    const validLogs = processedLogs.filter((log): log is NonNullable<typeof log> => log !== null);
+
+    const trends = {
+      totalWorkTrend: validLogs.map(log => ({ date: log.date, value: log.totalWork })),
+      powerOutputTrend: validLogs.map(log => ({ date: log.date, value: log.averagePower })),
+      workoutDurationTrend: validLogs.map(log => ({ date: log.date, value: log.totalTime })),
+    };
 
     // Sort trends by date
-    Object.keys(trends).forEach(key => {
+    (Object.keys(trends) as Array<keyof typeof trends>).forEach(key => {
       trends[key].sort((a, b) => a.date.getTime() - b.date.getTime());
     });
 
     // Fetch performance metrics
-    const { data: metrics } = await client.models.TrackingMetric.list({
-      filter: { 
-        athleteId: { eq: athleteId },
-        type: { 
-          in: [
-            'back_squat_1rm', 'deadlift_1rm', 'clean_and_jerk', 'snatch',
-            'mile_time', '2k_row', 'max_pullups'
-          ]
+    const metricTypes = [
+      'back_squat_1rm', 'deadlift_1rm', 'clean_and_jerk', 'snatch',
+      'mile_time', '2k_row', 'max_pullups'
+    ];
+
+    const metricsPromises = metricTypes.map(type => 
+      client.models.TrackingMetric.list({
+        filter: { 
+          athleteId: { eq: athleteId },
+          type: { eq: type }
         }
-      }
-    });
+      })
+    );
+
+    const metricsResponses = await Promise.all(metricsPromises);
+    const metrics = metricsResponses.flatMap(response => response.data);
 
     // Fetch entries for each metric
     const metricsWithEntries = await Promise.all(

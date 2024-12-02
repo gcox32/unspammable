@@ -76,7 +76,6 @@ const BiometricsContent = ({ user }: { user: any }) => {
 
   return (
     <div className="biometrics-page content">
-      <h1>Biometrics</h1>
       <div className="biometrics-content">
         <div className="metrics-grid">
           <MetricCard

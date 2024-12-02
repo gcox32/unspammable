@@ -9,6 +9,7 @@ import MaxLiftsSection from '@/src/components/performance/MaxLiftsSection';
 import BenchmarksSection from '@/src/components/performance/BenchmarksSection';
 import '@/src/styles/performance.css';
 import { getPerformance } from '@/src/services/dataService';
+import type { MetricData } from '@/src/types/biometrics';
 import {
   LineChart,
   Line,
@@ -25,7 +26,6 @@ interface PerformanceData {
   totalWorkTrend: { date: Date; value: number }[];
   powerOutputTrend: { date: Date; value: number }[];
   workoutDurationTrend: { date: Date; value: number }[];
-  workoutScoreTrend: { date: Date; value: number }[];
   metrics: MetricData[];
 }
 
@@ -76,7 +76,6 @@ const PerformanceContent = ({ user }: { user: any }) => {
 
   return (
     <div className="performance-page content">
-      <h1>Performance Tracking</h1>
       <div className="performance-content">
         <section className="trends-section">
           <h2>Performance Trends</h2>
@@ -134,25 +133,6 @@ const PerformanceContent = ({ user }: { user: any }) => {
                     formatter={(value) => [`${Math.round(Number(value) / 60)} min`, 'Duration']}
                   />
                   <Line type="monotone" dataKey="value" stroke="#10B981" dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className="trend-card">
-              <h3>Workout Score</h3>
-              <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={performanceData.workoutScoreTrend}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="date" 
-                    tickFormatter={(date) => new Date(date).toLocaleDateString()}
-                  />
-                  <YAxis />
-                  <Tooltip 
-                    labelFormatter={(date) => new Date(date).toLocaleDateString()}
-                    formatter={(value) => [`${value}`, 'Score']}
-                  />
-                  <Line type="monotone" dataKey="value" stroke="#8B5CF6" dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

@@ -157,10 +157,6 @@ export const getMockPerformanceTrends = () => {
     workoutDurationTrend: dates.map(date => ({
       date,
       value: randomValue(30, 60) // Duration in minutes
-    })),
-    workoutScoreTrend: dates.map(date => ({
-      date,
-      value: randomValue(80, 100) // Score out of 100
     }))
   };
 };
@@ -195,7 +191,8 @@ export const getMockPerformanceMetrics = () => {
       entries: Array.from({ length: 10 }, (_, i) => ({
         id: `back-squat-${i}`,
         date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
-        value: randomValue(100, 140)
+        value: randomValue(100, 140),
+        trackingMetricId: 'back-squat'
       }))
     },
     {
@@ -205,7 +202,8 @@ export const getMockPerformanceMetrics = () => {
       entries: Array.from({ length: 10 }, (_, i) => ({
         id: `deadlift-${i}`,
         date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
-        value: randomValue(120, 160)
+        value: randomValue(120, 160),
+        trackingMetricId: 'deadlift'
       }))
     },
     {
@@ -215,7 +213,8 @@ export const getMockPerformanceMetrics = () => {
       entries: Array.from({ length: 10 }, (_, i) => ({
         id: `clean-jerk-${i}`,
         date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
-        value: randomValue(70, 90)
+        value: randomValue(70, 90),
+        trackingMetricId: 'clean-and-jerk'
       }))
     },
     {
@@ -225,7 +224,8 @@ export const getMockPerformanceMetrics = () => {
       entries: Array.from({ length: 10 }, (_, i) => ({
         id: `snatch-${i}`,
         date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
-        value: randomValue(50, 70)
+        value: randomValue(50, 70),
+        trackingMetricId: 'snatch'
       }))
     }
   ];
@@ -238,7 +238,8 @@ export const getMockPerformanceMetrics = () => {
       entries: Array.from({ length: 10 }, (_, i) => ({
         id: `mile-${i}`,
         date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
-        value: randomValue(6, 8)
+        value: randomValue(6, 8),
+        trackingMetricId: 'mile-time'
       }))
     },
     {
@@ -248,7 +249,8 @@ export const getMockPerformanceMetrics = () => {
       entries: Array.from({ length: 10 }, (_, i) => ({
         id: `row-${i}`,
         date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
-        value: randomValue(7, 9)
+        value: randomValue(7, 9),
+        trackingMetricId: '2k-row'
       }))
     },
     {
@@ -258,7 +260,8 @@ export const getMockPerformanceMetrics = () => {
       entries: Array.from({ length: 10 }, (_, i) => ({
         id: `pullups-${i}`,
         date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
-        value: randomValue(15, 25)
+        value: randomValue(15, 25),
+        trackingMetricId: 'max-pullups'
       }))
     }
   ];

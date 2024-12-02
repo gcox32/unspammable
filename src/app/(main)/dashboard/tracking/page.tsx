@@ -69,7 +69,6 @@ const TrackingContent = ({ user }: { user: any }) => {
 
   return (
     <div className="tracking-page content">
-      <h1>Output Tracking</h1>
       <div className="tracking-content">
         <section className="score-overview">
           <OutputScoreChart workoutLogs={trackingData.workoutLogs} />
