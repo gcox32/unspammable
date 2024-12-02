@@ -62,6 +62,12 @@ const ATHLETE_FIELDS = [
     name: 'avatarUrl',
     label: 'Avatar URL',
     type: 'text' as const,
+  },
+  {
+    name: 'accessTelehealth',
+    label: 'Enable Inception Telehealth',
+    type: 'toggle' as const,
+    description: 'Allow tracking of telehealth metrics like blood pressure'
   }
 ];
 

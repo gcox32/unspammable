@@ -101,7 +101,6 @@ const BiometricsContent = ({ user }: { user: any }) => {
         </div>
 
         <TelehealthMetrics 
-          metrics={metrics}
           isLocked={!athlete?.accessTelehealth}
         />
       </div>

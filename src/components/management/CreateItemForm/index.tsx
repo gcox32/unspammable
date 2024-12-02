@@ -44,6 +44,22 @@ export default function CreateItemForm({ fields, onSubmit, title, initialData }:
               value={formData[field.name] || {}}
               onChange={handleChange}
             />
+          ) : field.type === 'toggle' ? (
+            <div className="toggle-field">
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  id={field.name}
+                  checked={formData[field.name] || false}
+                  onChange={(e) => handleChange(field.name, e.target.checked)}
+                  required={field.required}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+              {field.description && (
+                <p className="field-description">{field.label}</p>
+              )}
+            </div>
           ) : (
             <>
               <label htmlFor={field.name}>{field.label}</label>
