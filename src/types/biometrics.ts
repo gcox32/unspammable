@@ -1,6 +1,8 @@
 import type { TrackingMetric, TrackingMetricEntry } from './schema';
 
 export interface MetricData {
-  metric: TrackingMetric;
+  id: string;
+  type: string;
+  unit: string;
   entries: TrackingMetricEntry[];
 } 

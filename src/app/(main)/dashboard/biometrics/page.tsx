@@ -9,7 +9,7 @@ import type { MetricData } from '@/src/types/biometrics';
 import MetricCard from '@/src/components/biometrics/MetricCard';
 import '@/src/styles/biometrics.css';
 import TelehealthMetrics from '@/src/components/biometrics/TelehealthMetrics';
-import { getTrackingMetrics } from '@/src/services/dataService';
+import { getBiometrics } from '@/src/services/dataService';
 
 const client = generateClient<Schema>();
 
@@ -27,7 +27,9 @@ const BiometricsContent = ({ user }: { user: any }) => {
         setLoading(true);
         setError(null);
 
-        const metricsData = await getTrackingMetrics(athlete.id);
+        const metricsData = await getBiometrics(athlete.id);
+        console.log('Raw metrics data:', metricsData);
+        
         setMetrics(metricsData as MetricData[]);
       } catch (error) {
         console.error('Error fetching metrics:', error);
@@ -39,6 +41,22 @@ const BiometricsContent = ({ user }: { user: any }) => {
 
     fetchMetrics();
   }, [athlete?.id]);
+
+  useEffect(() => {
+    console.log('Current metrics state:', metrics);
+    metrics.forEach(m => {
+      console.log(`Metric ${m.type}:`, {
+        id: m.id,
+        type: m.type,
+        unit: m.unit,
+        entriesCount: m.entries?.length || 0,
+        // @ts-ignore 
+        firstEntry: m.entries?.[0],
+        // @ts-ignore
+        lastEntry: m.entries?.[m.entries.length - 1]
+      });
+    });
+  }, [metrics]);
 
   if (athleteLoading || loading) {
     return (
@@ -63,21 +81,21 @@ const BiometricsContent = ({ user }: { user: any }) => {
         <div className="metrics-grid">
           <MetricCard
             title="Body Weight"
-            entries={metrics.find(m => m.metric.type === 'weight')?.entries || []}
+            entries={metrics.find(m => m.type.toLowerCase() === 'weight')?.entries || []}
             valueLabel="kg"
             color="#4F46E5"
           />
 
           <MetricCard
             title="Body Fat Percentage"
-            entries={metrics.find(m => m.metric.type === 'body_fat_percentage')?.entries || []}
+            entries={metrics.find(m => m.type.toLowerCase() === 'body fat')?.entries || []}
             valueLabel="%"
             color="#EF4444"
           />
 
           <MetricCard
             title="Resting Heart Rate"
-            entries={metrics.find(m => m.metric.type === 'resting_heart_rate')?.entries || []}
+            entries={metrics.find(m => m.type.toLowerCase() === 'resting heart rate')?.entries || []}
             valueLabel="bpm"
             color="#10B981"
           />

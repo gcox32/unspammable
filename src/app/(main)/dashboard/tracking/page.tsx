@@ -9,35 +9,44 @@ import type { WorkoutLog } from '@/src/types/schema';
 import OutputScoreChart from '@/src/components/tracking/OutputScoreChart';
 import WorkoutBreakdown from '@/src/components/tracking/WorkoutBreakdown';
 import '@/src/styles/tracking.css';
-import { getWorkoutLogs } from '@/src/services/dataService';
+import { getTracking } from '@/src/services/dataService';
 
 const client = generateClient<Schema>();
 
+interface TrackingData {
+  workoutLogs: WorkoutLog[];
+  workoutVolume: {
+    daily: { date: Date; count: number }[];
+    weekly: { date: Date; count: number }[];
+    monthly: { date: Date; count: number }[];
+  };
+}
+
 const TrackingContent = ({ user }: { user: any }) => {
   const { athlete, loading: athleteLoading } = useAthlete(user?.username);
-  const [workoutLogs, setWorkoutLogs] = useState<WorkoutLog[]>([]);
+  const [trackingData, setTrackingData] = useState<TrackingData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchWorkoutLogs = async () => {
+    const fetchData = async () => {
       if (!athlete?.id) return;
       
       try {
         setLoading(true);
         setError(null);
 
-        const logs = await getWorkoutLogs(athlete.id);
-        setWorkoutLogs(logs as WorkoutLog[]);
+        const data = await getTracking(athlete.id);
+        setTrackingData(data as TrackingData);
       } catch (error) {
-        console.error('Error fetching workout logs:', error);
-        setError('Failed to load workout data');
+        console.error('Error fetching tracking data:', error);
+        setError('Failed to load tracking data');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchWorkoutLogs();
+    fetchData();
   }, [athlete?.id]);
 
   if (athleteLoading || loading) {
@@ -56,18 +65,20 @@ const TrackingContent = ({ user }: { user: any }) => {
     );
   }
 
+  if (!trackingData) return null;
+
   return (
     <div className="tracking-page content">
       <h1>Output Tracking</h1>
       <div className="tracking-content">
         <section className="score-overview">
-          <OutputScoreChart workoutLogs={workoutLogs} />
+          <OutputScoreChart workoutLogs={trackingData.workoutLogs} />
         </section>
 
         <section className="recent-workouts">
           <h2>Recent Workouts</h2>
           <div className="workouts-grid">
-            {workoutLogs.slice(0, 6).map((log) => (
+            {trackingData.workoutLogs.slice(0, 6).map((log) => (
               <WorkoutBreakdown key={log.id} workoutLog={log} />
             ))}
           </div>
@@ -79,19 +90,19 @@ const TrackingContent = ({ user }: { user: any }) => {
             <div className="insight-card">
               <h3>Average Output Score</h3>
               <p className="insight-value">
-                {workoutLogs.length > 0
-                  ? (workoutLogs.reduce((acc, log) => {
+                {trackingData.workoutLogs.length > 0
+                  ? (trackingData.workoutLogs.reduce((acc, log) => {
                       const work = log.outputScore?.totalWork;
                       return acc + (typeof work === 'number' ? work : 0);
-                    }, 0) / workoutLogs.length).toFixed(2)
+                    }, 0) / trackingData.workoutLogs.length).toFixed(2)
                   : 'N/A'}
               </p>
             </div>
             <div className="insight-card">
               <h3>Highest Output Score</h3>
               <p className="insight-value">
-                {workoutLogs.length > 0
-                  ? Math.max(...workoutLogs.map(log => {
+                {trackingData.workoutLogs.length > 0
+                  ? Math.max(...trackingData.workoutLogs.map(log => {
                       const work = log.outputScore?.totalWork;
                       return typeof work === 'number' ? work : 0;
                     }))
@@ -100,7 +111,7 @@ const TrackingContent = ({ user }: { user: any }) => {
             </div>
             <div className="insight-card">
               <h3>Total Workouts</h3>
-              <p className="insight-value">{workoutLogs.length}</p>
+              <p className="insight-value">{trackingData.workoutLogs.length}</p>
             </div>
           </div>
         </section>

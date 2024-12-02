@@ -12,28 +12,28 @@ export default function MaxLiftsSection({ metrics }: MaxLiftsSectionProps) {
       <div className="metrics-grid">
         <BenchmarkCard
           title="Back Squat 1RM"
-          entries={metrics.find(m => m.metric.type === 'back_squat_1rm')?.entries || []}
+          entries={metrics.find(m => m.type === 'back_squat_1rm')?.entries || []}
           valueLabel="kg"
           color="#4F46E5"
           description="One rep max back squat"
         />
         <BenchmarkCard
           title="Deadlift 1RM"
-          entries={metrics.find(m => m.metric.type === 'deadlift_1rm')?.entries || []}
+          entries={metrics.find(m => m.type === 'deadlift_1rm')?.entries || []}
           valueLabel="kg"
           color="#DC2626"
           description="One rep max deadlift"
         />
         <BenchmarkCard
           title="Clean & Jerk"
-          entries={metrics.find(m => m.metric.type === 'clean_and_jerk')?.entries || []}
+          entries={metrics.find(m => m.type === 'clean_and_jerk')?.entries || []}
           valueLabel="kg"
           color="#059669"
           description="One rep max clean and jerk"
         />
         <BenchmarkCard
           title="Snatch"
-          entries={metrics.find(m => m.metric.type === 'snatch')?.entries || []}
+          entries={metrics.find(m => m.type === 'snatch')?.entries || []}
           valueLabel="kg"
           color="#7C3AED"
           description="One rep max snatch"

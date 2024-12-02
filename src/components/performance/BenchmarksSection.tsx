@@ -12,21 +12,21 @@ export default function BenchmarksSection({ metrics }: BenchmarksSectionProps) {
       <div className="metrics-grid">
         <BenchmarkCard
           title="Mile Time"
-          entries={metrics.find(m => m.metric.type === 'mile_time')?.entries || []}
+          entries={metrics.find(m => m.type === 'mile_time')?.entries || []}
           valueLabel="min"
           color="#2563EB"
           description="Time to complete one mile run"
         />
         <BenchmarkCard
           title="2000m Row"
-          entries={metrics.find(m => m.metric.type === '2k_row')?.entries || []}
+          entries={metrics.find(m => m.type === '2k_row')?.entries || []}
           valueLabel="min"
           color="#9333EA"
           description="Time to complete 2000m row"
         />
         <BenchmarkCard
           title="Max Pull-ups"
-          entries={metrics.find(m => m.metric.type === 'max_pullups')?.entries || []}
+          entries={metrics.find(m => m.type === 'max_pullups')?.entries || []}
           valueLabel="reps"
           color="#EA580C"
           description="Maximum consecutive strict pull-ups"

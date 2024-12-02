@@ -99,21 +99,169 @@ export const getMockWorkoutLogs = (): WorkoutLog[] => {
   );
 };
 
-// Mock performance trends
+// Mock biometrics data
+export const getMockBiometrics = () => {
+  const metrics = [
+    {
+      id: 'weight-metric',
+      type: 'Weight',
+      unit: 'lbs',
+      entries: Array.from({ length: 30 }, (_, i) => ({
+        id: `weight-entry-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i)),
+        value: randomValue(170, 180)
+      }))
+    },
+    {
+      id: 'bodyfat-metric',
+      type: 'Body Fat',
+      unit: '%',
+      entries: Array.from({ length: 30 }, (_, i) => ({
+        id: `bodyfat-entry-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i)),
+        value: randomValue(12, 15)
+      }))
+    },
+    {
+      id: 'heartrate-metric',
+      type: 'Resting Heart Rate',
+      unit: 'bpm',
+      entries: Array.from({ length: 30 }, (_, i) => ({
+        id: `heartrate-entry-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i)),
+        value: randomValue(58, 65)
+      }))
+    }
+  ];
+  return metrics;
+};
+
+// Mock performance data
 export const getMockPerformanceTrends = () => {
+  const today = new Date();
+  const dates = Array.from({ length: 30 }, (_, i) => {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    return date;
+  });
+
   return {
-    totalWorkTrend: Array.from({ length: 10 }, () => randomValue(5000, 15000)),
-    powerOutputTrend: Array.from({ length: 10 }, () => randomValue(100, 300)),
-    workoutDurationTrend: Array.from({ length: 10 }, () => randomValue(20, 60)),
-    workoutScoreTrend: Array.from({ length: 10 }, () => randomValue(80, 100))
+    totalWorkTrend: dates.map(date => ({
+      date,
+      value: randomValue(8000, 12000) // Total work in joules
+    })),
+    powerOutputTrend: dates.map(date => ({
+      date,
+      value: randomValue(200, 300) // Power in watts
+    })),
+    workoutDurationTrend: dates.map(date => ({
+      date,
+      value: randomValue(30, 60) // Duration in minutes
+    })),
+    workoutScoreTrend: dates.map(date => ({
+      date,
+      value: randomValue(80, 100) // Score out of 100
+    }))
   };
 };
 
 // Mock workout volume data
 export const getMockWorkoutVolume = () => {
+  const today = new Date();
+  
   return {
-    daily: Array.from({ length: 7 }, () => randomValue(0, 100)),
-    weekly: Array.from({ length: 4 }, () => randomValue(200, 500)),
-    monthly: Array.from({ length: 12 }, () => randomValue(800, 2000))
+    daily: Array.from({ length: 7 }, (_, i) => ({
+      date: new Date(today.setDate(today.getDate() - 1)),
+      count: randomValue(1, 3)
+    })),
+    weekly: Array.from({ length: 4 }, (_, i) => ({
+      date: new Date(today.setDate(today.getDate() - 7)),
+      count: randomValue(5, 10)
+    })),
+    monthly: Array.from({ length: 6 }, (_, i) => ({
+      date: new Date(today.setMonth(today.getMonth() - 1)),
+      count: randomValue(20, 30)
+    }))
   };
+};
+
+// Mock max lifts and benchmarks data
+export const getMockPerformanceMetrics = () => {
+  const maxLifts = [
+    {
+      id: 'back-squat',
+      type: 'back_squat_1rm',
+      unit: 'kg',
+      entries: Array.from({ length: 10 }, (_, i) => ({
+        id: `back-squat-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
+        value: randomValue(100, 140)
+      }))
+    },
+    {
+      id: 'deadlift',
+      type: 'deadlift_1rm',
+      unit: 'kg',
+      entries: Array.from({ length: 10 }, (_, i) => ({
+        id: `deadlift-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
+        value: randomValue(120, 160)
+      }))
+    },
+    {
+      id: 'clean-and-jerk',
+      type: 'clean_and_jerk',
+      unit: 'kg',
+      entries: Array.from({ length: 10 }, (_, i) => ({
+        id: `clean-jerk-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
+        value: randomValue(70, 90)
+      }))
+    },
+    {
+      id: 'snatch',
+      type: 'snatch',
+      unit: 'kg',
+      entries: Array.from({ length: 10 }, (_, i) => ({
+        id: `snatch-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
+        value: randomValue(50, 70)
+      }))
+    }
+  ];
+
+  const benchmarks = [
+    {
+      id: 'mile-time',
+      type: 'mile_time',
+      unit: 'min',
+      entries: Array.from({ length: 10 }, (_, i) => ({
+        id: `mile-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
+        value: randomValue(6, 8)
+      }))
+    },
+    {
+      id: '2k-row',
+      type: '2k_row',
+      unit: 'min',
+      entries: Array.from({ length: 10 }, (_, i) => ({
+        id: `row-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
+        value: randomValue(7, 9)
+      }))
+    },
+    {
+      id: 'max-pullups',
+      type: 'max_pullups',
+      unit: 'reps',
+      entries: Array.from({ length: 10 }, (_, i) => ({
+        id: `pullups-${i}`,
+        date: new Date(new Date().setDate(new Date().getDate() - i * 14)),
+        value: randomValue(15, 25)
+      }))
+    }
+  ];
+
+  return [...maxLifts, ...benchmarks];
 }; 

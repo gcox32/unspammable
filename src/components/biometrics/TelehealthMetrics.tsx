@@ -26,13 +26,13 @@ export default function TelehealthMetrics({ metrics, isLocked }: TelehealthMetri
       <div className="metrics-grid">
         <MetricCard
           title="Blood Pressure (Systolic)"
-          entries={metrics.find(m => m.metric.type === 'blood_pressure_systolic')?.entries || []}
+          entries={metrics.find(m => m.type === 'blood_pressure_systolic')?.entries || []}
           valueLabel="mmHg"
           color="#8B5CF6"
         />
         <MetricCard
           title="Blood Pressure (Diastolic)"
-          entries={metrics.find(m => m.metric.type === 'blood_pressure_diastolic')?.entries || []}
+          entries={metrics.find(m => m.type === 'blood_pressure_diastolic')?.entries || []}
           valueLabel="mmHg"
           color="#6366F1"
         />
