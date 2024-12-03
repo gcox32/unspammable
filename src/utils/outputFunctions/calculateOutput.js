@@ -66,6 +66,11 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
         distance = constants.defaultDistance;
       }
 
+      if (distance === 0) {
+        console.log('distance is 0; setting to default (0.5m)');
+        distance = 0.5;
+      }
+
       // Allow manual distance override
       if (measures.distance) {
         distance = measures.distance;
@@ -73,7 +78,7 @@ export const calculateOutput = (athlete, measuresArray, time = null, constantsAr
 
       // Ensure we have reps (default to 1 for continuous movements)
       const reps = measures.reps || 1;
-
+      
       // Calculate work for this measure
       const work = force * distance * reps;
       totalWork += work;

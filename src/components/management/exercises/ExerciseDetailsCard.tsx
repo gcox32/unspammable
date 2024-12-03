@@ -13,7 +13,11 @@ interface ExerciseDetailsCardProps {
   onRemove: () => void;
   EXERCISE_CATEGORIES: Record<string, ExerciseDefinition[]>;
   onCategoryChange: (value: string) => void;
+  exerciseOptions?: ExerciseDefinition[];
+  isAuthenticated?: boolean;
 }
+
+const allAvailableMeasures = ['externalLoad', 'reps', 'distance', 'time', 'calories'];
 
 export default function ExerciseDetailsCard({
   exerciseIndex,
@@ -27,11 +31,18 @@ export default function ExerciseDetailsCard({
   onRemove,
   EXERCISE_CATEGORIES,
   onCategoryChange,
+  exerciseOptions,
+  isAuthenticated,
 }: ExerciseDetailsCardProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const selectedExerciseDefinition = selectedCategory && selectedExercise
-    ? EXERCISE_CATEGORIES[selectedCategory].find(ex => ex.name === selectedExercise)
+    ? isAuthenticated
+      ? {
+          name: selectedExercise,
+          availableMeasures: allAvailableMeasures
+        }
+      : EXERCISE_CATEGORIES[selectedCategory].find(ex => ex.name === selectedExercise)
     : null;
 
   return (
@@ -95,7 +106,6 @@ export default function ExerciseDetailsCard({
           <select
             value={selectedExercise}
             onChange={(e) => {
-              // Reset all measures to null when exercise changes
               const measureKeys: (keyof ExerciseMeasures)[] = ['reps', 'distance', 'externalLoad', 'calories', 'time'];
               measureKeys.forEach(measure => {
                 onMeasureChange(measure, '');
@@ -105,14 +115,19 @@ export default function ExerciseDetailsCard({
             disabled={!selectedCategory}
           >
             <option value="">Select Exercise</option>
-            {selectedCategory && EXERCISE_CATEGORIES[selectedCategory]?.map(exercise => (
-              <option key={exercise.name} value={exercise.name}>{exercise.name}</option>
-            ))}
+            {selectedCategory && (isAuthenticated && exerciseOptions ? 
+              exerciseOptions.map(exercise => (
+                <option key={exercise.name} value={exercise.name}>{exercise.name}</option>
+              )) :
+              EXERCISE_CATEGORIES[selectedCategory]?.map(exercise => (
+                <option key={exercise.name} value={exercise.name}>{exercise.name}</option>
+              ))
+            )}
           </select>
         </div>
 
         <div className="measures-inputs">
-          {selectedExerciseDefinition?.availableMeasures.map((measureName: keyof ExerciseMeasures) => {
+          {selectedExerciseDefinition?.availableMeasures.map((measureName: any) => {
             switch (measureName) {
               case 'externalLoad':
                 return (

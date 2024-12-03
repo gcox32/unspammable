@@ -1,19 +1,30 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "@/src/styles/app.css";
 import "@aws-amplify/ui-react/styles.css";
 import { convertUnits } from "@/src/utils/convertUnits";
 import { EXERCISE_CONSTANTS } from "@/src/utils/outputFunctions/exerciseConstants";
 import ExerciseDetailsCard from '@/src/components/management/exercises/ExerciseDetailsCard';
-import { 
-  ExerciseMeasures, 
-  AthleteMetrics, 
+import {
+  ExerciseMeasures,
+  AthleteMetrics,
   UnitPreferences,
-  EXERCISE_CATEGORIES 
+  EXERCISE_CATEGORIES,
+  ExerciseDefinition
 } from '@/src/types/exercise';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Athlete } from '@/src/types/schema';
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '@/amplify/data/resource';
+
+const client = generateClient<Schema>();
 
 export default function CalculatorPage() {
+  const { authStatus, user } = useAuthenticator((context) => [context.authStatus]);
+  const isAuthenticated = authStatus === 'authenticated';
+  const athleteId: string | undefined = user?.username;
+
   const [athleteMetrics, setAthleteMetrics] = useState<AthleteMetrics>({
     weight: 80,
     height: 180,
@@ -41,101 +52,155 @@ export default function CalculatorPage() {
     measures: {}
   }]);
   const [totalTime, setTotalTime] = useState<number | undefined>(undefined);
+  const [athlete, setAthlete] = useState<Athlete | null>(null);
+  const [exerciseOptions, setExerciseOptions] = useState<ExerciseDefinition[]>([]);
+
+  const fetchAthlete = async (athleteId: string) => {
+    const { data: athlete } = await client.models.Athlete.get({ id: athleteId });
+    // @ts-ignore
+    setAthlete(athlete);
+  };
+
+  const getMetricMeasures = (exercises: any[], unitPreferences: UnitPreferences) => {
+    return exercises.map(exercise => ({
+      ...exercise.measures,
+      externalLoad: exercise.measures.externalLoad && unitPreferences.externalLoad === 'imperial'
+        ? convertUnits(exercise.measures.externalLoad, 'lbs', 'kg')
+        : exercise.measures.externalLoad,
+      distance: exercise.measures.distance && unitPreferences.distance === 'imperial'
+        ? convertUnits(exercise.measures.distance, 'ft', 'm')
+        : exercise.measures.distance
+    }));
+  };
+
+  const getMetricAthleteData = (metrics: AthleteMetrics, preferences: UnitPreferences) => {
+    return {
+      ...metrics,
+      weight: preferences.weight === 'imperial'
+        ? convertUnits(metrics.weight, 'lbs', 'kg')
+        : metrics.weight,
+      height: preferences.height === 'imperial'
+        ? convertUnits(metrics.height, 'in', 'cm')
+        : metrics.height,
+      armLength: preferences.armLength === 'imperial'
+        ? convertUnits(metrics.armLength, 'in', 'cm')
+        : metrics.armLength,
+      legLength: preferences.legLength === 'imperial'
+        ? convertUnits(metrics.legLength, 'in', 'cm')
+        : metrics.legLength
+    };
+  };
+
+  const getExerciseConstants = async (exercises: any[]) => {
+    if (isAuthenticated) {
+      return await Promise.all(exercises.map(async (exercise) => {
+        // Get the exercise template first
+        const { data: exerciseTemplate } = await client.models.ExerciseTemplate.list({
+          filter: {
+            name: { eq: exercise.exercise }
+          }
+        });
+
+        if (!exerciseTemplate?.[0]?.id) {
+          return { defaultDistance: 0.5 };
+        }
+
+        // Get the associated output constants
+        const { data: constantsData } = await client.models.ExerciseOutputConstants.list({
+          filter: {
+            exerciseTemplateId: { eq: exerciseTemplate[0].id }
+          }
+        });
+
+        return constantsData?.[0] || { defaultDistance: 0.5 };
+      }));
+    }
+
+    // Fall back to hardcoded constants for non-authenticated users
+    return exercises.map(exercise =>
+      EXERCISE_CONSTANTS[exercise.exercise as keyof typeof EXERCISE_CONSTANTS] || {
+        defaultDistance: 0.5
+      }
+    );
+  };
 
   const handleCalculate = async () => {
     try {
       setError(null);
-      
-      // Validate required inputs
+
       if (!athleteMetrics.weight) {
         throw new Error('Athlete weight is required');
       }
 
-      // Convert measurements to metric
-      const metricMeasures = exercises.map(exercise => ({
-        ...exercise.measures,
-        externalLoad: exercise.measures.externalLoad && unitPreferences.externalLoad === 'imperial' 
-          ? convertUnits(exercise.measures.externalLoad, 'lbs', 'kg')
-          : exercise.measures.externalLoad,
-        distance: exercise.measures.distance && unitPreferences.distance === 'imperial'
-          ? convertUnits(exercise.measures.distance, 'ft', 'm')
-          : exercise.measures.distance
-      }));
-
-      const metricsInMeters = {
-        ...athleteMetrics,
-        weight: unitPreferences.weight === 'imperial' ? convertUnits(athleteMetrics.weight, 'lbs', 'kg') : athleteMetrics.weight,
-        height: unitPreferences.height === 'imperial' ? convertUnits(athleteMetrics.height, 'in', 'cm') : athleteMetrics.height,
-        armLength: unitPreferences.armLength === 'imperial' ? convertUnits(athleteMetrics.armLength, 'in', 'cm') : athleteMetrics.armLength,
-        legLength: unitPreferences.legLength === 'imperial' ? convertUnits(athleteMetrics.legLength, 'in', 'cm') : athleteMetrics.legLength
+      const payload = {
+        measuresArray: getMetricMeasures(exercises, unitPreferences),
+        athleteMetrics: getMetricAthleteData(athleteMetrics, unitPreferences),
+        time: totalTime,
+        constantsArray: await getExerciseConstants(exercises)
       };
-
+      console.log(payload);
       const response = await fetch('/api/calculate-output', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          measuresArray: metricMeasures,
-          athleteMetrics: metricsInMeters,
-          time: totalTime,
-          constantsArray: exercises.map(exercise => 
-            EXERCISE_CONSTANTS[exercise.exercise as keyof typeof EXERCISE_CONSTANTS] || {
-              defaultDistance: 0.5
-            }
-          )
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to calculate output');
       }
-      
+
       const result = await response.json();
-      const newOutputScore = {
-        work: result.work,
-        power: totalTime ? result.power : undefined
-      };
+      handleOutputAnimation(result);
 
-      setOutputScore(newOutputScore);
-
-      // Move animation code here, after setting the new value
-      setTimeout(() => {
-        outputRef.current?.scrollIntoView({ behavior: 'smooth' });
-        
-        setTimeout(() => {
-          let startWork = 0;
-          let startPower = 0;
-          const duration = 1000;
-          const steps = 60;
-          const stepDuration = duration / steps;
-          const workIncrement = newOutputScore.work / steps;
-          const powerIncrement = newOutputScore.power ? newOutputScore.power / steps : 0;
-          
-          const counter = setInterval(() => {
-            startWork += workIncrement;
-            startPower += powerIncrement;
-            
-            setOutputScore({
-              work: Math.min(startWork, newOutputScore.work),
-              power: newOutputScore.power ? Math.min(startPower, newOutputScore.power) : undefined
-            });
-            
-            if (startWork >= newOutputScore.work) {
-              clearInterval(counter);
-              setOutputScore(newOutputScore);
-            }
-          }, stepDuration);
-        }, 500);
-      }, 100);
-      
     } catch (error) {
       console.error('Error calculating output:', error);
       setError(error instanceof Error ? error.message : 'An unexpected error occurred');
       setOutputScore(null);
     }
-  }
+  };
+
+  const handleOutputAnimation = (result: any) => {
+    const newOutputScore = {
+      work: result.work,
+      power: totalTime ? result.power : undefined
+    };
+
+    setOutputScore(newOutputScore);
+
+    setTimeout(() => {
+      outputRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+      setTimeout(() => {
+        animateOutput(newOutputScore);
+      }, 500);
+    }, 100);
+  };
+
+  const animateOutput = (targetScore: any) => {
+    let startWork = 0;
+    let startPower = 0;
+    const duration = 1000;
+    const steps = 60;
+    const stepDuration = duration / steps;
+    const workIncrement = targetScore.work / steps;
+    const powerIncrement = targetScore.power ? targetScore.power / steps : 0;
+
+    const counter = setInterval(() => {
+      startWork += workIncrement;
+      startPower += powerIncrement;
+
+      setOutputScore({
+        work: Math.min(startWork, targetScore.work),
+        power: targetScore.power ? Math.min(startPower, targetScore.power) : undefined
+      });
+
+      if (startWork >= targetScore.work) {
+        clearInterval(counter);
+        setOutputScore(targetScore);
+      }
+    }, stepDuration);
+  };
 
   const handleAthleteMetricChange = (field: keyof AthleteMetrics, value: string) => {
     const numValue = parseFloat(value);
@@ -150,10 +215,10 @@ export default function CalculatorPage() {
   const handleUnitToggle = (field: keyof UnitPreferences) => {
     const currentUnit = unitPreferences[field];
     const newUnit = currentUnit === 'metric' ? 'imperial' : 'metric';
-    
+
     // Handle athlete metrics conversions
     if (field === 'weight' && athleteMetrics.weight !== undefined) {
-      const convertedWeight = currentUnit === 'metric' 
+      const convertedWeight = currentUnit === 'metric'
         ? convertUnits(athleteMetrics.weight, 'kg', 'lbs')
         : convertUnits(athleteMetrics.weight, 'lbs', 'kg');
       setAthleteMetrics(prev => ({ ...prev, weight: convertedWeight }));
@@ -173,31 +238,31 @@ export default function CalculatorPage() {
         : convertUnits(athleteMetrics.legLength, 'in', 'cm');
       setAthleteMetrics(prev => ({ ...prev, legLength: convertedLegLength }));
     }
-    
+
     // Handle exercise-specific conversions
     if (field === 'externalLoad' || field === 'distance') {
       setExercises(prevExercises => prevExercises.map(exercise => {
         const measures = { ...exercise.measures };
-        
+
         if (field === 'externalLoad' && measures.externalLoad !== undefined) {
           measures.externalLoad = currentUnit === 'metric'
             ? convertUnits(measures.externalLoad, 'kg', 'lbs')
             : convertUnits(measures.externalLoad, 'lbs', 'kg');
         }
-        
+
         if (field === 'distance' && measures.distance !== undefined) {
           measures.distance = currentUnit === 'metric'
             ? convertUnits(measures.distance, 'm', 'ft')
             : convertUnits(measures.distance, 'ft', 'm');
         }
-        
+
         return {
           ...exercise,
           measures
         };
       }));
     }
-    
+
     // Update the unit preference
     setUnitPreferences(prev => ({ ...prev, [field]: newUnit }));
   };
@@ -214,15 +279,31 @@ export default function CalculatorPage() {
     setExercises(exercises.filter((_, i) => i !== index));
   };
 
-  const handleCategoryChange = (index: number, value: string) => {
+  const handleCategoryChange = async(index: number, value: string) => {
+    if (isAuthenticated) {
+      const { data: fetchedExercises } = await client.models.ExerciseTemplate.list({
+        filter: {
+          category: { eq: value }
+        }
+      });
+
+      const formattedExercises: ExerciseDefinition[] = fetchedExercises.map((exercise: any) => ({
+        name: exercise.name,
+        availableMeasures: ['reps', 'externalLoad', 'distance', 'calories'].filter(measure => 
+          exercise[measure] !== undefined
+        ) as (keyof ExerciseMeasures)[]
+      }));
+
+      setExerciseOptions(formattedExercises);
+    }
+    
     setExercises(exercises.map((exercise, i) => {
       if (i === index) {
-        // Reset exercise and measures when category changes
         return {
           ...exercise,
           category: value,
-          exercise: '', // Reset exercise selection
-          measures: {} // Reset all measures
+          exercise: '',
+          measures: {}
         };
       }
       return exercise;
@@ -257,14 +338,20 @@ export default function CalculatorPage() {
     }));
   };
 
+  useEffect(() => {
+    if (athleteId) {
+      fetchAthlete(athleteId);
+    }
+  }, [athleteId]);
+
   return (
     <div className="calculator-page content">
       <h1>Output Score Calculator</h1>
-      
+
       <div className="calculator-container">
         <div className="exercise-section">
           <h2>Exercise Details</h2>
-          
+
           {exercises.map((exercise, index) => (
             <ExerciseDetailsCard
               key={index}
@@ -279,10 +366,12 @@ export default function CalculatorPage() {
               onUnitToggle={handleUnitToggle}
               onRemove={() => removeExercise(index)}
               EXERCISE_CATEGORIES={EXERCISE_CATEGORIES}
+              exerciseOptions={exerciseOptions}
+              isAuthenticated={isAuthenticated}
             />
           ))}
 
-          <button 
+          <button
             className="add-exercise-button"
             onClick={addExercise}
           >
@@ -292,7 +381,7 @@ export default function CalculatorPage() {
 
         <div className="athlete-section">
           <h2>Athlete Metrics</h2>
-          
+
           <div className="input-group">
             <label>Body Weight* ({unitPreferences.weight === 'metric' ? 'kg' : 'lbs'}):</label>
             <div className="input-with-toggle">
@@ -303,7 +392,7 @@ export default function CalculatorPage() {
                 value={athleteMetrics.weight || ''}
                 onChange={(e) => handleAthleteMetricChange('weight', e.target.value)}
               />
-              <button 
+              <button
                 className="unit-toggle"
                 onClick={() => handleUnitToggle('weight')}
               >
@@ -311,7 +400,7 @@ export default function CalculatorPage() {
               </button>
             </div>
           </div>
-          
+
           <div className="input-group">
             <label>Height* ({unitPreferences.height === 'metric' ? 'cm' : 'in'}):</label>
             <div className="input-with-toggle">
@@ -322,7 +411,7 @@ export default function CalculatorPage() {
                 value={athleteMetrics.height || ''}
                 onChange={(e) => handleAthleteMetricChange('height', e.target.value)}
               />
-              <button 
+              <button
                 className="unit-toggle"
                 onClick={() => handleUnitToggle('height')}
               >
@@ -330,7 +419,7 @@ export default function CalculatorPage() {
               </button>
             </div>
           </div>
-          
+
           <div className="input-group">
             <label>Arm Length ({unitPreferences.armLength === 'metric' ? 'cm' : 'in'}):</label>
             <div className="input-with-toggle">
@@ -341,7 +430,7 @@ export default function CalculatorPage() {
                 value={athleteMetrics.armLength || ''}
                 onChange={(e) => handleAthleteMetricChange('armLength', e.target.value)}
               />
-              <button 
+              <button
                 className="unit-toggle"
                 onClick={() => handleUnitToggle('armLength')}
               >
@@ -349,7 +438,7 @@ export default function CalculatorPage() {
               </button>
             </div>
           </div>
-          
+
           <div className="input-group">
             <label>Leg Length ({unitPreferences.legLength === 'metric' ? 'cm' : 'in'}):</label>
             <div className="input-with-toggle">
@@ -360,7 +449,7 @@ export default function CalculatorPage() {
                 value={athleteMetrics.legLength || ''}
                 onChange={(e) => handleAthleteMetricChange('legLength', e.target.value)}
               />
-              <button 
+              <button
                 className="unit-toggle"
                 onClick={() => handleUnitToggle('legLength')}
               >
@@ -384,13 +473,13 @@ export default function CalculatorPage() {
         </div>
       </div>
 
-      <button 
-        className="calculate-button" 
+      <button
+        className="calculate-button"
         onClick={handleCalculate}
         disabled={!athleteMetrics.weight || !athleteMetrics.height}
       >
-        {!athleteMetrics.weight || !athleteMetrics.height 
-          ? 'Please enter required fields' 
+        {!athleteMetrics.weight || !athleteMetrics.height
+          ? 'Please enter required fields'
           : 'Calculate Output Score'}
       </button>
 

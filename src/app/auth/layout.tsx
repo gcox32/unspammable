@@ -8,7 +8,7 @@ import AuthLoadingState from '@/src/components/auth/AuthLoadingState';
 const BANNER_CONTENT = {
   '/auth/sign-in': {
     title: 'Welcome Back',
-    description: 'Sign in to continue tracking your athletic performance metrics'
+    description: 'Sign in to see the demo'
   },
   '/auth/sign-up': {
     title: 'Get Started',
@@ -16,7 +16,7 @@ const BANNER_CONTENT = {
   },
   '/auth/forgot-password': {
     title: 'Reset Password',
-    description: 'We&apos;ll help you get back to tracking your performance'
+    description: 'We&apos;ll help you get back to the demo'
   },
   '/auth/confirm': {
     title: 'Confirm Account',

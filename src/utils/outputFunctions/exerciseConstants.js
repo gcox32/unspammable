@@ -39,5 +39,20 @@ export const EXERCISE_CONSTANTS = {
   "Run": {
     bodyweightFactor: 1.0,
     defaultDistance: 1
+  },
+  "Clean & Jerk": {
+    bodyweightFactor: 0.5,
+    defaultDistance: 0.5,
+    armLengthFactor: 1.0,
+  },
+  "Box Jump": {
+    bodyweightFactor: 0.5,
+    defaultDistance: 0.5,
+    armLengthFactor: 1.0,
+  },
+  "Other": {
+    bodyweightFactor: 0,
+    defaultDistance: 0,
+    armLengthFactor: 0,
   }
 }; 

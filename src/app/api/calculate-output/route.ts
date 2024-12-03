@@ -5,6 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { measuresArray, athleteMetrics, time, constantsArray } = body;
+    console.log(measuresArray, athleteMetrics, time, constantsArray);
     const result = calculateOutput(athleteMetrics, measuresArray, time, constantsArray);
     return NextResponse.json(result);
   } catch (error) {

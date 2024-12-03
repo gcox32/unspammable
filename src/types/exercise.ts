@@ -198,8 +198,10 @@ export interface ExerciseDefinition {
   availableMeasures: (keyof ExerciseMeasures)[];
 }
 
+export const AVAILABLE_MEASURES = ['reps', 'externalLoad', 'distance', 'calories'];
+
 export const EXERCISE_CATEGORIES = {
-  bodyweight: [
+  Gymnastics: [
     {
       name: "Push-Up",
       availableMeasures: ['reps', 'externalLoad']
@@ -209,7 +211,7 @@ export const EXERCISE_CATEGORIES = {
       availableMeasures: ['reps', 'externalLoad']
     }
   ],
-  strength: [
+  Strength: [
     {
       name: "Back Squat",
       availableMeasures: ['reps', 'externalLoad']
@@ -223,7 +225,7 @@ export const EXERCISE_CATEGORIES = {
       availableMeasures: ['reps', 'externalLoad']
     }
   ],
-  cardio: [
+  Cardio: [
     {
       name: "Run",
       availableMeasures: ['distance', 'externalLoad']
@@ -235,6 +237,24 @@ export const EXERCISE_CATEGORIES = {
     {
       name: "Row",
       availableMeasures: ['calories', 'distance']
+    }
+  ],
+  Weightlifting: [
+    {
+      name: "Clean & Jerk",
+      availableMeasures: ['reps', 'externalLoad']
+    }
+  ],
+  Plyometric: [
+    {
+      name: "Box Jump",
+      availableMeasures: ['reps', 'externalLoad']
+    }
+  ],
+  Other: [
+    {
+      name: "Other",
+      availableMeasures: ['reps', 'externalLoad']
     }
   ]
 } as Record<string, ExerciseDefinition[]>; 

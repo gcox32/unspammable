@@ -4,13 +4,13 @@ export interface Athlete {
     firstName: string;
     lastName: string;
     email: string;
-    birthdate?: Date;
-    gender?: 'Male' | 'Female';
-    accessTelehealth?: boolean;
-    avatarUrl?: string;
-    height?: number;
-    weight?: number;
-    homeGym?: string;
+    birthdate?: Date | null | string;
+    gender?: 'Male' | 'Female' | null | undefined;
+    accessTelehealth?: boolean | null | undefined;
+    avatarUrl?: string | null | undefined;
+    height?: number | null | undefined;
+    weight?: number | null | undefined;
+    homeGym?: string | null | undefined;
     trackingMetrics?: TrackingMetric[];
     workoutLogs?: WorkoutLog[];
 }
