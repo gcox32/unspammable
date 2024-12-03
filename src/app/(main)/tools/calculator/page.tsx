@@ -347,7 +347,7 @@ export default function CalculatorPage() {
   return (
     <div className="calculator-page content">
       <h2>Output Score Calculator</h2>
-      <p>Enter the details of the exercise you performed and your athlete metrics to calculate your output score. To choose new exercises, you must have an account. Once you have an account, you can add exercises to the workout library. Any exercises you add to the workout library will be available to choose from here.</p>
+      <p>Enter the details of the exercise you performed and your athlete metrics to calculate your output score. To choose new exercises, you must have an account. Once you have an account, you can <a href="/management/exercises">add exercises to the workout library</a>. Any exercises you add to the workout library will be available to choose from here.</p>
       <div className="calculator-container">
         <div className="exercise-section">
           <h2>Exercise Details</h2>
