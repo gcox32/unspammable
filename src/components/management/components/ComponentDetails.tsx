@@ -215,10 +215,12 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
                 <h5>Scoring Measures</h5>
                 <div className="measures-grid">
                   {score.measures?.map((measure) => (
-                    <div key={measure.id} className="measure-item">
-                      <span className="measure-type">{measure.type}</span>
-                      <span className="measure-unit">({measure.unit})</span>
-                    </div>
+                    measure && (
+                      <div key={measure.id} className="measure-item">
+                        <span className="measure-type">{measure.type}</span>
+                        <span className="measure-unit">({measure.unit})</span>
+                      </div>
+                    )
                   ))}
                 </div>
               </div>

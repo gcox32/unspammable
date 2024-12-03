@@ -38,13 +38,41 @@ export default function WorkoutsPage() {
             }
           });
 
-          // For each component link, fetch the full WorkoutComponentTemplate
+          // For each component link, fetch the full WorkoutComponentTemplate with exercises
           const componentsWithDetails = await Promise.all(
             componentLinks.map(async (link) => {
               const { data: componentData } = await client.models.WorkoutComponentTemplate.get({ 
                 id: link.workoutComponentTemplateId 
               });
-              return componentData;
+
+              // Fetch exercises for this component
+              const { data: exerciseLinks } = await client.models.WorkoutComponentTemplateExercise.list({
+                filter: { workoutComponentTemplateId: { eq: componentData?.id } }
+              });
+
+              // Fetch full exercise details
+              const exercisesWithDetails = await Promise.all(
+                exerciseLinks.map(async (exerciseLink) => {
+                  const { data: exerciseData } = await client.models.ExerciseTemplate.get({
+                    id: exerciseLink.exerciseTemplateId
+                  });
+                  return {
+                    ...exerciseLink,
+                    exercise: exerciseData
+                  };
+                })
+              );
+
+              // Return both formats
+              return {
+                id: link.id,
+                ...componentData,  // For edit form
+                exercises: exercisesWithDetails,  // For edit form
+                workoutComponentTemplate: {  // For preview
+                  ...componentData,
+                  exercises: exercisesWithDetails
+                }
+              };
             })
           );
           
@@ -55,13 +83,12 @@ export default function WorkoutsPage() {
         })
       );
 
-      // Update local state
       // @ts-ignore
       setWorkouts(workoutsWithDetails);
       setLoading(false);
-    } catch (err) {
-      console.error('Error fetching workouts:', err);
-      setError('Failed to load workouts');
+    } catch (error) {
+      console.error('Error fetching workouts:', error);
+      setError('Failed to fetch workouts');
       setLoading(false);
     }
   };
@@ -138,7 +165,32 @@ export default function WorkoutsPage() {
             const { data: componentData } = await client.models.WorkoutComponentTemplate.get({ 
               id: link.workoutComponentTemplateId 
             });
-            return componentData;
+
+            // Fetch exercises for this component
+            const { data: exerciseLinks } = await client.models.WorkoutComponentTemplateExercise.list({
+              filter: { workoutComponentTemplateId: { eq: componentData?.id } }
+            });
+
+            // Fetch full exercise details
+            const exercisesWithDetails = await Promise.all(
+              exerciseLinks.map(async (exerciseLink) => {
+                const { data: exerciseData } = await client.models.ExerciseTemplate.get({
+                  id: exerciseLink.exerciseTemplateId
+                });
+                return {
+                  ...exerciseLink,
+                  exercise: exerciseData
+                };
+              })
+            );
+
+            return {
+              id: link.id,
+              workoutComponentTemplate: {
+                ...componentData,
+                exercises: exercisesWithDetails
+              }
+            };
           })
         );
 

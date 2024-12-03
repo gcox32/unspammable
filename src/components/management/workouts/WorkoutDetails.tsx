@@ -3,7 +3,7 @@ import { WorkoutTemplate } from '@/src/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
 import CreateWorkoutForm from './CreateWorkoutForm';
-
+import { WorkoutComponentTemplate } from '@/src/types/schema';
 interface WorkoutDetailsProps {
   workout: WorkoutTemplate;
   onUpdate?: (updatedWorkout: WorkoutTemplate) => void;
@@ -55,13 +55,38 @@ export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutD
         filter: { workoutTemplateId: { eq: workout.id } }
       });
 
-      // Fetch component details
+      // Fetch component details with their exercises
       const componentsWithDetails = await Promise.all(
         componentLinks.map(async (link) => {
           const { data: componentData } = await client.models.WorkoutComponentTemplate.get({ 
             id: link.workoutComponentTemplateId 
           });
-          return componentData;
+
+          // Fetch exercises for this component
+          const { data: exerciseLinks } = await client.models.WorkoutComponentTemplateExercise.list({
+            filter: { workoutComponentTemplateId: { eq: componentData?.id } }
+          });
+
+          // Fetch full exercise details
+          const exercisesWithDetails = await Promise.all(
+            exerciseLinks.map(async (exerciseLink) => {
+              const { data: exerciseData } = await client.models.ExerciseTemplate.get({
+                id: exerciseLink.exerciseTemplateId
+              });
+              return {
+                ...exerciseLink,
+                exercise: exerciseData
+              };
+            })
+          );
+
+          return {
+            id: link.id,
+            workoutComponentTemplate: {
+              ...componentData,
+              exercises: exercisesWithDetails
+            }
+          };
         })
       );
 
@@ -123,14 +148,37 @@ export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutD
         <h4>Components</h4>
         {workout.workoutComponentTemplates && workout.workoutComponentTemplates.length > 0 ? (
           <ul className="components-list">
-            {workout.workoutComponentTemplates.map((component) => (
-              <li key={component.id} className="component-item">
-                <h5>{component.workoutComponentTemplate?.name}</h5>
-                {component.workoutComponentTemplate?.description && (
-                  <p className="component-description">{component.workoutComponentTemplate.description}</p>
-                )}
-              </li>
-            ))}
+            {workout.workoutComponentTemplates.map((componentLink, index) => {
+              const component = componentLink.workoutComponentTemplate;
+              return (
+                <li key={`${componentLink.id}-${index}`} className="component-item">
+                  <h5>{component?.name}</h5>
+                  {component?.description && (
+                    <p className="component-description">{component.description}</p>
+                  )}
+                  {component?.exercises && component.exercises.length > 0 && (
+                    <div className="exercises-list">
+                      {component.exercises.map((exerciseLink) => (
+                        <div key={exerciseLink.id} className="exercise-item">
+                          <span className="exercise-name">{exerciseLink.exercise?.name}</span>
+                          <div className="exercise-measures">
+                            {exerciseLink.reps && <span className="measure">Reps: {exerciseLink.reps}</span>}
+                            {exerciseLink.externalLoadPrimary && 
+                              <span className="measure">Load: {exerciseLink.externalLoadPrimary}kg</span>}
+                            {exerciseLink.distance && 
+                              <span className="measure">Distance: {exerciseLink.distance}m</span>}
+                            {exerciseLink.time && 
+                              <span className="measure">Time: {exerciseLink.time}s</span>}
+                            {exerciseLink.calories && 
+                              <span className="measure">Calories: {exerciseLink.calories}</span>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <p className="no-components">No components added to this workout</p>
