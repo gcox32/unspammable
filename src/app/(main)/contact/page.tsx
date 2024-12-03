@@ -5,8 +5,8 @@ import React from "react";
 export default function ContactPage() {
   return (
     <div className="content">
-      <h1>Contact Us</h1>
-      <p>Direct questions and concerns to wherever.</p>
+      <h3>Contact Us</h3>
+      <p>Want your own account or just looking to get in touch? Send us an email at <a href="mailto:gcoxexcel@gmail.com">gcoxexcel@gmail.com</a></p>
     </div>
   );
 }

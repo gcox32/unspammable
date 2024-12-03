@@ -263,9 +263,15 @@ main {
   padding: 2rem;
 }
 
-.calculator-page h1 {
+.calculator-page h2 {
   text-align: center;
   color: #333;
+  margin-bottom: 2rem;
+}
+
+.calculator-page p {
+  text-align: center;
+  color: #5A5C5E;
   margin-bottom: 2rem;
 }
 
