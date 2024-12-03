@@ -215,6 +215,10 @@ export default function WorkoutsPage() {
       }
     } catch (error) {
       console.error('Outer try-catch error:', error);
+      setSnackbar({ show: true, message: 'Failed to create workout', type: 'error' });
+      setTimeout(() => {
+        setSnackbar({ show: false, message: '', type: 'error' });
+      }, 3000);
       throw new Error('Failed to create workout');
     }
   };

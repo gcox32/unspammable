@@ -4,6 +4,8 @@ import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
 import CreateWorkoutForm from './CreateWorkoutForm';
 import { WorkoutComponentTemplate } from '@/src/types/schema';
+import Snackbar from '@/src/components/Snackbar';
+import type { SnackbarState } from '@/src/types/app';
 interface WorkoutDetailsProps {
   workout: WorkoutTemplate;
   onUpdate?: (updatedWorkout: WorkoutTemplate) => void;
@@ -15,6 +17,11 @@ const client = generateClient<Schema>();
 export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    show: false,
+    message: '',
+    type: 'error'
+  });
 
   const handleUpdate = async (formData: Record<string, any>) => {
     try {
@@ -99,9 +106,25 @@ export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutD
         });
       }
 
+      setSnackbar({
+        show: true,
+        message: 'Workout updated successfully',
+        type: 'success'
+      });
+      setTimeout(() => {
+        setSnackbar(prev => ({ ...prev, show: false }));
+      }, 3000);
       setIsEditing(false);
     } catch (error) {
       console.error('Error updating workout:', error);
+      setSnackbar({
+        show: true,
+        message: 'Failed to update workout',
+        type: 'error'
+      });
+      setTimeout(() => {
+        setSnackbar(prev => ({ ...prev, show: false }));
+      }, 3000);
       throw new Error('Failed to update workout');
     }
   };
@@ -193,6 +216,14 @@ export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutD
             <button onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
           </div>
         </div>
+      )}
+
+      {snackbar.show && (
+        <Snackbar 
+          message={snackbar.message}
+          type="success"
+          visible={snackbar.show}
+        />
       )}
     </div>
   );
