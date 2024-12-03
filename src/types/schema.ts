@@ -4,7 +4,7 @@ export interface Athlete {
     firstName: string;
     lastName: string;
     email: string;
-    birthdate?: Date | null | string;
+    birthdate?: Date | null | string | undefined;
     gender?: 'Male' | 'Female' | null | undefined;
     accessTelehealth?: boolean | null | undefined;
     avatarUrl?: string | null | undefined;

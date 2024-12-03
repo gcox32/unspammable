@@ -2,6 +2,7 @@
 
 import React from "react";
 import "@/src/styles/app.css";
+import Link from "next/link";
 
 export default function AboutPage() {
   return (
@@ -216,18 +217,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="future">
-        <h2>Future Enhancements</h2>
-        <div className="enhancements">
-          <div className="enhancement">
-            <h3>Complex vs General Logic</h3>
-            <p>Incorporate athlete-specific data (e.g., limb length) for exercises that benefit from precise calculations.</p>
-          </div>
-          <div className="enhancement">
-            <h3>Machine Learning</h3>
-            <p>Use historical data to refine distance or calorie approximations for individual athletes.</p>
-          </div>
-        </div>
+      <section className="try-calculator">
+        <h2>Try It Yourself</h2>
+        <p>Ready to calculate your own output scores? Use our interactive calculator to measure and track your performance across different exercises.</p>
+        <Link href="/tools/calculator" className="cta-button">
+          Try the Calculator
+        </Link>
       </section>
 
       <section className="conclusion">

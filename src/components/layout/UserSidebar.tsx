@@ -47,7 +47,7 @@ export default function UserSidebar({ user }: { user: any }) {
             )}
             {athlete.birthdate && (
               <p className="profile-detail">
-                <span className="label">Birthdate:</span> {formatDate(athlete.birthdate)}
+                <span className="label">Birthdate:</span> {formatDate(athlete.birthdate as Date)}
               </p>
             )}
             {athlete.height && (

@@ -550,3 +550,37 @@ body {
     padding-left: 0;
 }
 
+.try-calculator {
+  text-align: center;
+  background: #F7F7F7;
+  padding: 3rem 2rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.try-calculator h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.try-calculator p {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  color: #666;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #F6701B;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.cta-button:hover {
+  background-color: #e05f0f;
+}
+
