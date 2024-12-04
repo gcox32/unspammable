@@ -11,9 +11,16 @@ interface CreateWorkoutFormProps {
     }>;
   }) => Promise<any>;
   initialData?: any;
+  submitButtonText?: string | React.ReactNode;
+  disabled?: boolean;
 }
 
-export default function CreateWorkoutForm({ onSubmit, initialData }: CreateWorkoutFormProps) {
+export default function CreateWorkoutForm({ 
+  onSubmit, 
+  initialData,
+  submitButtonText,
+  disabled 
+}: CreateWorkoutFormProps) {
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
     description: initialData?.description || '',
@@ -59,8 +66,12 @@ export default function CreateWorkoutForm({ onSubmit, initialData }: CreateWorko
         </fieldset>
       </div>
 
-      <button type="submit" className="submit-button">
-        {initialData ? 'Update Workout' : 'Create Workout'}
+      <button 
+        type="submit" 
+        className="submit-button"
+        disabled={disabled}
+      >
+        {submitButtonText || (initialData ? 'Update Workout' : 'Create Workout')}
       </button>
     </form>
   );

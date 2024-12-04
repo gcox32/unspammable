@@ -4,6 +4,7 @@ import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
 import CreateComponentForm from '@/src/components/management/components/CreateComponentForm';
 import Snackbar from '@/src/components/Snackbar';
+import { Spinner } from '@/src/components/Spinner';
 
 interface ComponentDetailsProps {
   component: WorkoutComponentTemplate;
@@ -15,10 +16,12 @@ const client = generateClient<Schema>();
 
 export default function ComponentDetails({ component, onUpdate, onDelete }: ComponentDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
 
   const handleUpdate = async (formData: Record<string, any>) => {
+    setIsUpdating(true);
     try {
       const { exercises, scores, ...componentData } = formData;
 
@@ -119,6 +122,7 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
         });
       }
 
+      setIsUpdating(false);
       setIsEditing(false);
       setShowSuccessSnackbar(true);
       
@@ -126,6 +130,7 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
         setShowSuccessSnackbar(false);
       }, 3000);
     } catch (error) {
+      setIsUpdating(false);
       console.error('Error updating component:', error);
       throw new Error('Failed to update component');
     }
@@ -150,6 +155,7 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
           <button 
             className="cancel-button"
             onClick={() => setIsEditing(false)}
+            disabled={isUpdating}
           >
             Cancel
           </button>
@@ -157,6 +163,8 @@ export default function ComponentDetails({ component, onUpdate, onDelete }: Comp
         <CreateComponentForm
           onSubmit={handleUpdate}
           initialData={component}
+          submitButtonText={isUpdating ? <Spinner /> : "Update Component"}
+          disabled={isUpdating}
         />
       </div>
     );

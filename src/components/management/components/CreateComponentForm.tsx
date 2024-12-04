@@ -35,9 +35,16 @@ interface CreateComponentFormProps {
     }>;
   }) => Promise<void>;
   initialData?: any;
+  submitButtonText?: string | React.ReactNode;
+  disabled?: boolean;
 }
 
-export default function CreateComponentForm({ onSubmit, initialData }: CreateComponentFormProps) {
+export default function CreateComponentForm({ 
+  onSubmit, 
+  initialData,
+  submitButtonText,
+  disabled 
+}: CreateComponentFormProps) {
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
     description: initialData?.description || '',
@@ -131,8 +138,12 @@ export default function CreateComponentForm({ onSubmit, initialData }: CreateCom
         </fieldset>
       </div>
 
-      <button type="submit" className="submit-button">
-        {initialData ? 'Update Component' : 'Create Component'}
+      <button 
+        type="submit" 
+        className="submit-button"
+        disabled={disabled}
+      >
+        {submitButtonText || (initialData ? 'Update Component' : 'Create Component')}
       </button>
     </form>
   );

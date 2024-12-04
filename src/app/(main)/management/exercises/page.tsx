@@ -12,6 +12,7 @@ import { EXERCISE_FIELDS } from '@/src/types/exercise';
 import ExerciseDetails from '@/src/components/management/exercises/ExerciseDetails';
 import Snackbar from '@/src/components/Snackbar';
 import type { SnackbarState } from '@/src/types/app';
+import { Spinner } from '@/src/components/Spinner';
 
 const client = generateClient<Schema>()
 
@@ -19,6 +20,7 @@ export default function ExercisesPage() {
   const [exercises, setExercises] = useState<ExerciseTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     show: false,
     message: '',
@@ -64,6 +66,7 @@ export default function ExercisesPage() {
   };
 
   const handleCreateExercise = async (formData: Record<string, any>) => {
+    setIsCreating(true);
     try {
       const { outputConstants, ...exerciseData } = formData;
       
@@ -99,7 +102,13 @@ export default function ExercisesPage() {
       return newExercise;
     } catch (error) {
       console.error('Error creating exercise:', error);
+      setSnackbar({ show: true, message: 'Failed to create exercise', type: 'error' });
+      setTimeout(() => {
+        setSnackbar({ show: false, message: '', type: 'error' });
+      }, 3000);
       throw new Error('Failed to create exercise');
+    } finally {
+      setIsCreating(false);
     }
   };
 

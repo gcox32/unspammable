@@ -13,6 +13,7 @@ import type { SnackbarState } from '@/src/types/app';
 import { COMPONENT_FIELDS } from '@/src/types/workout';
 import ComponentDetails from '@/src/components/management/components/ComponentDetails';
 import ComponentExerciseForm from '@/src/components/management/components/ComponentExerciseForm';
+import { Spinner } from '@/src/components/Spinner';
 
 const client = generateClient<Schema>()
 
@@ -25,6 +26,7 @@ export default function WorkoutComponentsPage() {
     message: '',
     type: 'error'
   });
+  const [isCreating, setIsCreating] = useState(false);
 
   const fetchComponents = async () => {
     try {
@@ -95,6 +97,7 @@ export default function WorkoutComponentsPage() {
   };
 
   const handleCreateComponent = async (formData: Record<string, any>) => {
+    setIsCreating(true);
     try {
       console.log('Starting component creation with formData:', formData);
       const { exercises, scores, ...componentData } = formData;
@@ -253,6 +256,8 @@ export default function WorkoutComponentsPage() {
     } catch (error) {
       console.error('Outer try-catch error:', error);
       throw new Error('Failed to create component');
+    } finally {
+      setIsCreating(false);
     }
   };
 

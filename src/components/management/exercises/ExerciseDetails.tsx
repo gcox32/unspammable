@@ -5,6 +5,7 @@ import type { Schema } from '@/amplify/data/resource';
 import CreateItemForm from '../CreateItemForm';
 import { EXERCISE_FIELDS } from '@/src/types/exercise';
 import Snackbar from '../../Snackbar';
+import { Spinner } from '../../Spinner';
 
 interface ExerciseDetailsProps {
   exercise: ExerciseTemplate;
@@ -16,10 +17,12 @@ const client = generateClient<Schema>();
 
 export default function ExerciseDetails({ exercise, onUpdate, onDelete }: ExerciseDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
 
   const handleUpdate = async (formData: Record<string, any>) => {
+    setIsUpdating(true);
     try {
       const { outputConstants, ...exerciseData } = formData;
       
@@ -62,13 +65,14 @@ export default function ExerciseDetails({ exercise, onUpdate, onDelete }: Exerci
       setIsEditing(false);
       setShowSuccessSnackbar(true);
       
-      // Hide snackbar after 3 seconds
       setTimeout(() => {
         setShowSuccessSnackbar(false);
       }, 3000);
     } catch (error) {
       console.error('Error updating exercise:', error);
       throw new Error('Failed to update exercise');
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -85,22 +89,14 @@ export default function ExerciseDetails({ exercise, onUpdate, onDelete }: Exerci
   };
 
   if (isEditing) {
-    const initialData = {
-      ...exercise,
-      unilateral: exercise.unilateral ? 'unilateral' : 'bilateral',
-      outputConstants: exercise.outputConstants ? {
-        ...exercise.outputConstants,
-        useCalories: exercise.outputConstants.useCalories ? 'calories' : 'force-distance'
-      } : undefined
-    };
-
     return (
       <div className="exercise-edit-form">
         <div className="edit-header">
-          <h3>Edit Exercise</h3>
+          <h4>Edit Exercise</h4>
           <button 
             className="cancel-button"
             onClick={() => setIsEditing(false)}
+            disabled={isUpdating}
           >
             Cancel
           </button>
@@ -111,7 +107,10 @@ export default function ExerciseDetails({ exercise, onUpdate, onDelete }: Exerci
           onSubmit={handleUpdate}
           title="Update Exercise"
           // @ts-ignore
-          initialData={initialData}
+          initialData={exercise}
+          // @ts-ignore
+          submitButtonText={isUpdating ? <Spinner /> : "Update Exercise"}
+          disabled={isUpdating}
         />
       </div>
     );

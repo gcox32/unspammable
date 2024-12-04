@@ -6,6 +6,8 @@ import CreateWorkoutForm from './CreateWorkoutForm';
 import { WorkoutComponentTemplate } from '@/src/types/schema';
 import Snackbar from '@/src/components/Snackbar';
 import type { SnackbarState } from '@/src/types/app';
+import { Spinner } from '@/src/components/Spinner';
+
 interface WorkoutDetailsProps {
   workout: WorkoutTemplate;
   onUpdate?: (updatedWorkout: WorkoutTemplate) => void;
@@ -16,6 +18,7 @@ const client = generateClient<Schema>();
 
 export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     show: false,
@@ -24,6 +27,7 @@ export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutD
   });
 
   const handleUpdate = async (formData: Record<string, any>) => {
+    setIsUpdating(true);
     try {
       const { components, ...workoutData } = formData;
 
@@ -114,6 +118,7 @@ export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutD
       setTimeout(() => {
         setSnackbar(prev => ({ ...prev, show: false }));
       }, 3000);
+      setIsUpdating(false);
       setIsEditing(false);
     } catch (error) {
       console.error('Error updating workout:', error);
@@ -137,6 +142,7 @@ export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutD
           <button 
             className="cancel-button"
             onClick={() => setIsEditing(false)}
+            disabled={isUpdating}
           >
             Cancel
           </button>
@@ -144,6 +150,8 @@ export default function WorkoutDetails({ workout, onUpdate, onDelete }: WorkoutD
         <CreateWorkoutForm
           onSubmit={handleUpdate}
           initialData={workout}
+          submitButtonText={isUpdating ? <Spinner /> : "Update Workout"}
+          disabled={isUpdating}
         />
       </div>
     );

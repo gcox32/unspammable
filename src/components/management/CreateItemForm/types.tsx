@@ -17,4 +17,6 @@ export interface CreateItemFormProps {
     onSubmit: (formData: Record<string, any>) => Promise<void>;
     title: string;
     initialData?: Record<string, any>;
+    submitButtonText?: string | React.ReactNode;
+    disabled?: boolean;
 }
