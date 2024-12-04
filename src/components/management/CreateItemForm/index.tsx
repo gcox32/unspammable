@@ -37,6 +37,14 @@ export default function CreateItemForm({ fields, onSubmit, title, initialData }:
       
       {fields.map((field) => (
         <div key={field.name} className="form-field">
+          {field.previewComponent && (
+            <div className="field-preview">
+              {field.previewComponent({ 
+                value: formData[field.name], 
+                formData 
+              })}
+            </div>
+          )}
           {field.type === 'section' ? (
             <SectionField
               // @ts-ignore

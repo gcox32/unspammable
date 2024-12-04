@@ -10,6 +10,8 @@ export interface Athlete {
     avatarUrl?: string | null | undefined;
     height?: number | null | undefined;
     weight?: number | null | undefined;
+    armLength?: number | null | undefined;
+    legLength?: number | null | undefined;
     homeGym?: string | null | undefined;
     trackingMetrics?: TrackingMetric[];
     workoutLogs?: WorkoutLog[];

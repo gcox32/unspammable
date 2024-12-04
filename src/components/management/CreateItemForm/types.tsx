@@ -10,6 +10,7 @@ export interface Field {
     step?: number;
     defaultValue?: string;
     description?: string;
+    previewComponent?: (props: { value: any; formData: any }) => React.ReactNode;
 }
 
 export interface CreateItemFormProps {

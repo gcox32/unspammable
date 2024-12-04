@@ -14,32 +14,32 @@ import {
   ExerciseDefinition
 } from '@/src/types/exercise';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { Athlete } from '@/src/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
+import { useAthlete } from '@/src/hooks/useAthlete';
 
 const client = generateClient<Schema>();
 
 export default function CalculatorPage() {
-  const { authStatus, user } = useAuthenticator((context) => [context.authStatus]);
+  const { authStatus, user } = useAuthenticator((context) => [context.authStatus, context.user]);
   const isAuthenticated = authStatus === 'authenticated';
   const athleteId: string | undefined = user?.username;
 
   const [athleteMetrics, setAthleteMetrics] = useState<AthleteMetrics>({
-    weight: 80,
-    height: 180,
+    weight: 176,
+    height: 74,
     armLength: 0,
     legLength: 0
   });
   const [outputScore, setOutputScore] = useState<any>(null);
   const outputRef = useRef<HTMLDivElement>(null);
   const [unitPreferences, setUnitPreferences] = useState<UnitPreferences>({
-    weight: 'metric',
-    height: 'metric',
-    externalLoad: 'metric',
-    distance: 'metric',
-    armLength: 'metric',
-    legLength: 'metric'
+    weight: 'imperial',
+    height: 'imperial',
+    externalLoad: 'imperial',
+    distance: 'imperial',
+    armLength: 'imperial',
+    legLength: 'imperial'
   });
   const [error, setError] = useState<string | null>(null);
   const [exercises, setExercises] = useState<Array<{
@@ -52,14 +52,21 @@ export default function CalculatorPage() {
     measures: {}
   }]);
   const [totalTime, setTotalTime] = useState<number | undefined>(undefined);
-  const [athlete, setAthlete] = useState<Athlete | null>(null);
   const [exerciseOptions, setExerciseOptions] = useState<ExerciseDefinition[]>([]);
 
-  const fetchAthlete = async (athleteId: string) => {
-    const { data: athlete } = await client.models.Athlete.get({ id: athleteId });
-    // @ts-ignore
-    setAthlete(athlete);
-  };
+  const { athlete, loading: athleteLoading } = useAthlete(athleteId);
+
+  useEffect(() => {
+    if (athlete && !athleteLoading) {
+      setAthleteMetrics(prev => ({
+        ...prev,
+        weight: athlete.weight || prev.weight,
+        height: athlete.height || prev.height,
+        armLength: athlete.armLength || prev.armLength,
+        legLength: athlete.legLength || prev.legLength
+      }));
+    }
+  }, [athlete, athleteLoading]);
 
   const getMetricMeasures = (exercises: any[], unitPreferences: UnitPreferences) => {
     return exercises.map(exercise => ({
@@ -337,12 +344,6 @@ export default function CalculatorPage() {
       return exercise;
     }));
   };
-
-  useEffect(() => {
-    if (athleteId) {
-      fetchAthlete(athleteId);
-    }
-  }, [athleteId]);
 
   return (
     <div className="calculator-page content">

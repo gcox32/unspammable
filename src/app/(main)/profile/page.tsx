@@ -10,10 +10,22 @@ import type { SnackbarState } from '@/src/types/app';
 import CreateItemForm from '@/src/components/management/CreateItemForm';
 import '@/src/styles/profile.css';
 import { useAthlete } from '@/src/hooks/useAthlete';
+import AvatarPreview from '@/src/components/profile/AvatarPreview';
 
 const client = generateClient<Schema>();
 
 const ATHLETE_FIELDS = [
+  {
+    name: 'avatarUrl',
+    label: 'Avatar URL',
+    type: 'text' as const,
+    previewComponent: ({ value, formData }: { value: string, formData: any }) => (
+      <AvatarPreview 
+        url={value} 
+        name={`${formData.firstName || ''} ${formData.lastName || ''}`}
+      />
+    )
+  },
   {
     name: 'firstName',
     label: 'First Name',
@@ -54,13 +66,18 @@ const ATHLETE_FIELDS = [
     type: 'number' as const,
   },
   {
-    name: 'homeGym',
-    label: 'Home Gym',
-    type: 'text' as const,
+    name: 'armLength',
+    label: 'Arm Length (in)',
+    type: 'number' as const,
   },
   {
-    name: 'avatarUrl',
-    label: 'Avatar URL',
+    name: 'legLength',
+    label: 'Leg Length (in)',
+    type: 'number' as const,
+  },
+  {
+    name: 'homeGym',
+    label: 'Home Gym',
     type: 'text' as const,
   },
   {

@@ -24,6 +24,14 @@ const schema = a.schema({
       .authorization(allow => [
         allow.groups(["ADMIN", "COACH", "ATHLETE"])
       ]),
+    armLength: a.float()
+      .authorization(allow => [
+        allow.groups(["ADMIN", "COACH", "ATHLETE"])
+      ]),
+    legLength: a.float()
+      .authorization(allow => [
+        allow.groups(["ADMIN", "COACH", "ATHLETE"])
+      ]),
     homeGym: a.string()
       .authorization(allow => [
         allow.groups(["ADMIN", "COACH", "ATHLETE"])
