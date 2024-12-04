@@ -66,9 +66,6 @@ export default function UserSidebar({ user }: { user: any }) {
       <nav className="sidebar-nav">
         <ul>
           <li><Link href="/profile">Edit Profile</Link></li>
-          <li><Link href="/dashboard/biometrics">Dashboard</Link></li>
-          <li><Link href="/dashboard/performance">Performance</Link></li>
-          <li><Link href="/dashboard/tracking">Output Tracking</Link></li>
         </ul>
       </nav>
       <div className="logout-container">

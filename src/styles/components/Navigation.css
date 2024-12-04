@@ -192,6 +192,10 @@ nav {
   margin-bottom: 2rem;
 }
 
+.user-info h2 {
+  margin-bottom: 1rem;
+}
+
 .user-avatar {
   width: 80px;
   height: 80px;

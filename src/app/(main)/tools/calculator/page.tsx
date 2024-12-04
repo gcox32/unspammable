@@ -480,7 +480,7 @@ export default function CalculatorPage() {
       >
         {!athleteMetrics.weight || !athleteMetrics.height
           ? 'Please enter required fields'
-          : 'Calculate Output Score'}
+          : 'Calculate Output'}
       </button>
 
       {error && (

@@ -69,10 +69,6 @@
         width: 550px;
         margin: 1rem 0;
     }
-    .exercise-section, .athlete-section {
-        width: 492px;
-        margin: 1rem 0;
-    }
 }
 
 .management-content h3 {
@@ -103,21 +99,17 @@
     width: 550px;
 }
 
-.exercise-section, .athlete-section {
-    width: 492px;
-}
-
 @media (max-width: 1200px) {
     .management-content {
         justify-content: center;
     }
-    .create-section, .list-section, .exercise-section, .athlete-section {
+    .create-section, .list-section {
         margin: 1rem 0;
     }
 }
 
 @media (max-width: 768px) {
-    .create-section, .list-section, .exercise-section, .athlete-section {
+    .create-section, .list-section {
         width: 315px;
         margin: 1rem -2rem;
     }
