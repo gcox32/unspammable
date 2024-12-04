@@ -369,6 +369,9 @@ main {
 @media (max-width: 768px) {
   .calculator-container {
     grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .calculator-page {
